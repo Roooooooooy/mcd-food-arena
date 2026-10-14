@@ -1,0 +1,2725 @@
+{
+  "contextKey": "demo:snapshot:3330251:2026-10-14T13:26:17.369Z",
+  "mode": "demo",
+  "sourceKind": "official-snapshot",
+  "capturedAt": "2026-10-14T13:26:17.369Z",
+  "loadedAt": "2026-10-14T13:26:13.931Z",
+  "complete": true,
+  "store": {
+    "id": "3330251",
+    "name": "麦当劳杭州下城区-凤起路农贸市场餐厅",
+    "city": "杭州",
+    "address": "杭州建国北路286号"
+  },
+  "items": [
+    {
+      "id": "live:sku:9900016076",
+      "officialCode": "9900016076",
+      "name": "“我就喜欢”鸡薯双全盒",
+      "stageId": "side",
+      "sourceCategory": "人气热卖",
+      "imageUrl": "demo/images/086c3014cabb06b96e4e1738bd9b1aaad5c85ab8261aaf78b8efbae356903d96.png",
+      "referencePriceCents": 1590,
+      "attributes": [
+        "心形薯饼同款比心",
+        "上新"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "人气热卖",
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900016075",
+      "officialCode": "9900016075",
+      "name": "龙焰芝士棒鸡腿堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "人气热卖",
+      "imageUrl": "demo/images/4975b5884dcb7ef40330a9637086020686eea16f21f2b85008a9e93474054686.png",
+      "referencePriceCents": 2990,
+      "attributes": [
+        "浓郁奶香拉丝芝士",
+        "上新"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "人气热卖",
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900016073",
+      "officialCode": "9900016073",
+      "name": "龙焰鸡腿堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "人气热卖",
+      "imageUrl": "demo/images/19dee6b920fed30e61b5bfd05581765cffd3264cc7e7da3757968469034e458b.png",
+      "referencePriceCents": 2690,
+      "attributes": [
+        "韩式辣椒黄油风味",
+        "上新"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "人气热卖",
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900016311",
+      "officialCode": "9900016311",
+      "name": "龙焰美味四件套",
+      "stageId": "combo",
+      "sourceCategory": "人气热卖",
+      "imageUrl": "demo/images/41c45efe9262e251d16333b574b23bda5be746cd6470848741b5e54381e36951.gif",
+      "referencePriceCents": 2900,
+      "attributes": [
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "人气热卖"
+      ]
+    },
+    {
+      "id": "live:sku:521950",
+      "officialCode": "521950",
+      "name": "蓝莓爆爆珠麦旋风",
+      "stageId": "dessert",
+      "sourceCategory": "人气热卖",
+      "imageUrl": "demo/images/8c1672a5a5ef6e2f1b9712ccbf0e3839c19cd6f6d9ca87038437704743f92845.gif",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "蓝莓",
+        "上新"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "人气热卖",
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900004236",
+      "officialCode": "9900004236",
+      "name": "人气超值四件套随心选",
+      "stageId": "combo",
+      "sourceCategory": "精选单人餐",
+      "imageUrl": "demo/images/26d320ad59f9e18de4869db9ba8be3d64a215d0a7679fd7e7cb5e0f674c0ceb4.gif",
+      "referencePriceCents": 2800,
+      "attributes": [
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "精选单人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900010110",
+      "officialCode": "9900010110",
+      "name": "鱼牛汉堡四件套随心选",
+      "stageId": "combo",
+      "sourceCategory": "精选单人餐",
+      "imageUrl": "demo/images/da20126bde7ab7aff653f6cb98da20429735ba420f53c2d38bf6939e4c461414.gif",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "精选单人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900006957",
+      "officialCode": "9900006957",
+      "name": "安格斯厚牛堡四件套随心选",
+      "stageId": "combo",
+      "sourceCategory": "精选单人餐",
+      "imageUrl": "demo/images/375bcfa2888a745c363920ce71f814fe6eeef050fc3b4f03681f2caeeb3fd0fd.png",
+      "referencePriceCents": 3700,
+      "attributes": [
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "精选单人餐"
+      ]
+    },
+    {
+      "id": "live:sku:521953",
+      "officialCode": "521953",
+      "name": "龙焰芝士棒鸡腿堡",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/7f29e64df38632e3adb291123720c1690c00b6dc22ccaa7353013c407c81db18.png",
+      "referencePriceCents": 2700,
+      "attributes": [
+        "上新",
+        "浓郁奶香拉丝芝士"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:521952",
+      "officialCode": "521952",
+      "name": "龙焰鸡腿堡",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/1ed738a4727e3466cb454459cf8427a86fc124d87ea781a2e063ac3a53cdc626.png",
+      "referencePriceCents": 2400,
+      "attributes": [
+        "上新",
+        "韩式辣椒黄油风味"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900016310",
+      "officialCode": "9900016310",
+      "name": "龙焰芝士棒鸡腿堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/10a16f5a254b8394c19a5fad9e1112a57ac9c53effa856a701644043b54bc2e3.png",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900016309",
+      "officialCode": "9900016309",
+      "name": "龙焰鸡腿堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/a197a7a76d30c42c5d621deb3419e59a0ba540a93750ef07c6b6ada8bb69ada1.png",
+      "referencePriceCents": 2900,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900000891",
+      "officialCode": "9900000891",
+      "name": "麦辣鸡腿堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/a937f9a198a0cae29cb75432f52dd2eeed7ad88a42e401dcfbb5fff564bcbd22.png",
+      "referencePriceCents": 2800,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900000890",
+      "officialCode": "9900000890",
+      "name": "板烧鸡腿堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/172a04ec2e8cac3decea955db637daef495e878ff7d6cdaf6ea5f80de356e6db.png",
+      "referencePriceCents": 2800,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900005462",
+      "officialCode": "9900005462",
+      "name": "板烧鸡腿堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/880e608560b35f497395464d2b6ffe2af8d6f3bf3c72e1f7e85137c90ab5d078.png",
+      "referencePriceCents": 3450,
+      "attributes": [
+        "套餐",
+        "新升级",
+        "更多汁"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900005456",
+      "officialCode": "9900005456",
+      "name": "麦辣鸡腿汉堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/5b26674837f8dc09d5626c4e24de51a429840927a9b55d1a00f99758f50ac54a.png",
+      "referencePriceCents": 3350,
+      "attributes": [
+        "套餐",
+        "立省10.5元起"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900005453",
+      "officialCode": "9900005453",
+      "name": "麦香鸡套餐",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/98edfcd06882ceee0bff60148abaa9785444891b105efb2d536c1e9730b91bca.png",
+      "referencePriceCents": 2750,
+      "attributes": [
+        "套餐",
+        "立省10.5元起"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900003537",
+      "officialCode": "9900003537",
+      "name": "学生专享汉堡小食随心选",
+      "stageId": "combo",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/3c75f314313d3e18dbd943848f03b24046d37ef249750f7e67d2cb639a084cd6.gif",
+      "referencePriceCents": 2800,
+      "attributes": [
+        "套餐"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:1440",
+      "officialCode": "1440",
+      "name": "麦辣鸡腿汉堡",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/cfc159c2a668ea3db0746a258b8e8f21249347e3cb185e2fc36cda16000cc7eb.png",
+      "referencePriceCents": 2250,
+      "attributes": [
+        "单品",
+        "人气经典",
+        "外酥里嫩"
+      ],
+      "nutrition": {
+        "kcal": 485,
+        "proteinG": 24,
+        "fatG": 24,
+        "carbsG": 42,
+        "sodiumMg": 1208
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:1406",
+      "officialCode": "1406",
+      "name": "板烧鸡腿堡",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/6354ee78cc215d597a9130d1cc5736b7a69740f31853667eb8b974ef7f449fcc.png",
+      "referencePriceCents": 2350,
+      "attributes": [
+        "单品",
+        "板烧滋滋",
+        "多汁惹味"
+      ],
+      "nutrition": {
+        "kcal": 391,
+        "proteinG": 23,
+        "fatG": 17,
+        "carbsG": 35,
+        "sodiumMg": 1041
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:1450",
+      "officialCode": "1450",
+      "name": "麦香鸡",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/a87c7c4b58f3a83638be25328b4cc06618db803c8a87c8a79aa0900776e9e9e0.png",
+      "referencePriceCents": 1650,
+      "attributes": [
+        "单品"
+      ],
+      "nutrition": {
+        "kcal": 369,
+        "proteinG": 15,
+        "fatG": 17,
+        "carbsG": 39,
+        "sodiumMg": 731
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900008746",
+      "officialCode": "9900008746",
+      "name": "鸡肉堡单品精选",
+      "stageId": "burger",
+      "sourceCategory": "鸡肉汉堡\n/卷",
+      "imageUrl": "demo/images/f7e66789ab202bbafd6268a6c6c18081f1e3d77221689eb20047a177f76657a6.gif",
+      "referencePriceCents": 2350,
+      "attributes": [
+        "单品",
+        "人气"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "鸡肉汉堡\n/卷"
+      ]
+    },
+    {
+      "id": "live:sku:9900006332",
+      "officialCode": "9900006332",
+      "name": "薄皮V翅双拼十翅",
+      "stageId": "side",
+      "sourceCategory": "小食拼盘\n/多人餐",
+      "imageUrl": "demo/images/fe26a9243ac75e767f060212b8516b77d3b61ee76046ac530dbfd3685e51966e.png",
+      "referencePriceCents": 4990,
+      "attributes": [
+        "小食拼盘",
+        "超值"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900015730",
+      "officialCode": "9900015730",
+      "name": "BFF四宫格小食盘",
+      "stageId": "side",
+      "sourceCategory": "小食拼盘\n/多人餐",
+      "imageUrl": "demo/images/5439c60346651c1e6966619a7d36a90385882f5d2bda8aa316b10e38b4d74b4b.gif",
+      "referencePriceCents": 4030,
+      "attributes": [
+        "小食拼盘",
+        "随心拼"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900004066",
+      "officialCode": "9900004066",
+      "name": "堡堡随心拼（7件任选）",
+      "stageId": "combo",
+      "sourceCategory": "小食拼盘\n/多人餐",
+      "imageUrl": "demo/images/4cb79d9170b0aa6d67ec6f601fb40647c41b2fc5362f549cb8437162097521f1.gif",
+      "referencePriceCents": 7250,
+      "attributes": [
+        "小食拼盘",
+        "万种组合"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900011056",
+      "officialCode": "9900011056",
+      "name": "全明星双人分享餐八件套",
+      "stageId": "combo",
+      "sourceCategory": "小食拼盘\n/多人餐",
+      "imageUrl": "demo/images/297bb30f84669ff81722349fc697889a4517343ceadbcc18de64d5a387e31812.gif",
+      "referencePriceCents": 4990,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900005321",
+      "officialCode": "9900005321",
+      "name": "BFF四宫格小食盘双人餐",
+      "stageId": "combo",
+      "sourceCategory": "小食拼盘\n/多人餐",
+      "imageUrl": "demo/images/a10773160432ce2b13a6a2284db670f685f1211244dcaf11bc088d74604d9955.png",
+      "referencePriceCents": 6290,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "小食拼盘\n/多人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900013304",
+      "officialCode": "9900013304",
+      "name": "人气经典随心配",
+      "stageId": "combo",
+      "sourceCategory": "随心配\n1+1",
+      "imageUrl": "demo/images/ac18666ba731f36f6d467b6e927a15676962a6419864e045adcd2f06869b1984.png",
+      "referencePriceCents": 1490,
+      "attributes": [
+        "超值百种组合随心配"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "随心配\n1+1"
+      ]
+    },
+    {
+      "id": "live:sku:9900015568",
+      "officialCode": "9900015568",
+      "name": "精选超值随心配",
+      "stageId": "combo",
+      "sourceCategory": "随心配\n1+1",
+      "imageUrl": "demo/images/786442d8d640352e75e9656f29c4aab87a817c80295a812e76b35621e57e23d4.png",
+      "referencePriceCents": 1390,
+      "attributes": [
+        "超值百种组合随心配"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "随心配\n1+1"
+      ]
+    },
+    {
+      "id": "live:sku:9900015602",
+      "officialCode": "9900015602",
+      "name": "大堡口福三件套",
+      "stageId": "combo",
+      "sourceCategory": "大堡口福\n单人餐",
+      "imageUrl": "demo/images/ea5b4abe407a8fc679fac5200a92aa11abe2021af7b5f0261f8ca177f8d9f915.gif",
+      "referencePriceCents": 2290,
+      "attributes": [
+        "大口吃肉好快乐"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "大堡口福\n单人餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900000888",
+      "officialCode": "9900000888",
+      "name": "巨无霸四件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/8dd736c23595a19852712b8ef76a840a7b7880c573ae33adbf740ca0fade25e5.png",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900000886",
+      "officialCode": "9900000886",
+      "name": "不素之霸双层牛堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/d4807a6b13a916626d419a4a67eeeb69df69eb6d04e1bb16c9591b657d206f1e.png",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900000885",
+      "officialCode": "9900000885",
+      "name": "培根蔬萃双层牛堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/4d4a40c3a38d46e483ee0c072a860a16781769362fc1af85e98bd7827309b44c.png",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900000893",
+      "officialCode": "9900000893",
+      "name": "双层深海鳕鱼堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/2335075153bce64b44909028725cd5373d508f1f52da157359f02d492936a332.png",
+      "referencePriceCents": 3200,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005411",
+      "officialCode": "9900005411",
+      "name": "不素之霸双层牛堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/1b5eedd0fab565e14af25be1ffaae3ded60e1d589ae16c536f2d1b4fbe775880.png",
+      "referencePriceCents": 3750,
+      "attributes": [
+        "套餐",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005466",
+      "officialCode": "9900005466",
+      "name": "巨无霸三件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/e0550a14d6f16c695387f996f6741eb57e60cc270828458a190812f84040dc85.png",
+      "referencePriceCents": 3750,
+      "attributes": [
+        "套餐",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005468",
+      "officialCode": "9900005468",
+      "name": "培根蔬萃双层牛堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/71d818b7a2a97995e9479e075ed3a9c13fee424b0d52b66a1301a6f21bff72ad.png",
+      "referencePriceCents": 3600,
+      "attributes": [
+        "套餐",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005413",
+      "officialCode": "9900005413",
+      "name": "双层深海鳕鱼堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/e59776f601769faa144f0906043f07c5151331ff2e65ab37fddf28cdd2655ce4.png",
+      "referencePriceCents": 3550,
+      "attributes": [
+        "套餐",
+        "麦香鱼系列"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005460",
+      "officialCode": "9900005460",
+      "name": "麦香鱼套餐",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/ad2768fb6302007a026c61998cee0708ca9463fa22d13c76c81940e98b80d572.png",
+      "referencePriceCents": 3400,
+      "attributes": [
+        "套餐",
+        "麦香鱼系列"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005464",
+      "officialCode": "9900005464",
+      "name": "双层吉士汉堡套餐",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/acaa9081d07a6a8d198fdd8f025604e322b6528456eb98c3aa5ac29b8f11f116.png",
+      "referencePriceCents": 3350,
+      "attributes": [
+        "套餐",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005449",
+      "officialCode": "9900005449",
+      "name": "吉士汉堡包套餐",
+      "stageId": "combo",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/2c933e8f73ecdaed7420678e1d4a1759439f569b6ec2ff0cb4e0ec128b42d511.png",
+      "referencePriceCents": 2600,
+      "attributes": [
+        "套餐",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:1100",
+      "officialCode": "1100",
+      "name": "巨无霸",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/6ee532bcce7541c8240d629cefdee9990e07709bae939f63ceae79364414f100.png",
+      "referencePriceCents": 2650,
+      "attributes": [
+        "单品",
+        "100%纯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 513,
+        "proteinG": 27,
+        "fatG": 26,
+        "carbsG": 42,
+        "sodiumMg": 961
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900003586",
+      "officialCode": "9900003586",
+      "name": "双层深海鳕鱼堡",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/d98a6cb890c4a097a35a6fcea3a59ab8c4963869fba1fabc968419773ebb3b9f.png",
+      "referencePriceCents": 2450,
+      "attributes": [
+        "单品",
+        "麦香鱼系列"
+      ],
+      "nutrition": {
+        "kcal": 485,
+        "proteinG": 28,
+        "fatG": 21,
+        "carbsG": 46,
+        "sodiumMg": 917
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:1600",
+      "officialCode": "1600",
+      "name": "麦香鱼",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/d6a3d6f970a1140973c95808e3af79cd8b4b9c3c6702901573b30777b752856a.png",
+      "referencePriceCents": 2300,
+      "attributes": [
+        "单品",
+        "麦香鱼系列"
+      ],
+      "nutrition": {
+        "kcal": 325,
+        "proteinG": 16,
+        "fatG": 13,
+        "carbsG": 35,
+        "sodiumMg": 556
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:4648",
+      "officialCode": "4648",
+      "name": "不素之霸双层牛堡",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/11a0ad4f1d71fc1957438f1518937dbfd25266b201d9722059a7b55a12a232d6.png",
+      "referencePriceCents": 2650,
+      "attributes": [
+        "单品",
+        "100%纯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 493,
+        "proteinG": 28,
+        "fatG": 27,
+        "carbsG": 34,
+        "sodiumMg": 1012
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:1106",
+      "officialCode": "1106",
+      "name": "培根蔬萃双层牛堡",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/751375bbf3b0ef5b66b98856c171929399a4adae25c1dde1caebc28d95183ca8.png",
+      "referencePriceCents": 2500,
+      "attributes": [
+        "单品",
+        "100%纯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 442,
+        "proteinG": 24,
+        "fatG": 23,
+        "carbsG": 34,
+        "sodiumMg": 728
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:1120",
+      "officialCode": "1120",
+      "name": "双层吉士汉堡",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/f97eef5ae8b1a8da81cce972eb1751ebd972c8a29f6e43a5ad6b426447bd2eca.png",
+      "referencePriceCents": 2250,
+      "attributes": [
+        "单品",
+        "100%纯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 429,
+        "proteinG": 27,
+        "fatG": 22,
+        "carbsG": 31,
+        "sodiumMg": 1017
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:521316",
+      "officialCode": "521316",
+      "name": "高达吉士双牛堡",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/ef6fbff8f57b5f2154e07b1858556d3b5968d71a73986a64f5eb2f49f0ac237d.png",
+      "referencePriceCents": 2200,
+      "attributes": [
+        "单品",
+        "100%纯牛肉",
+        "人气"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900008747",
+      "officialCode": "9900008747",
+      "name": "牛肉堡单品精选",
+      "stageId": "burger",
+      "sourceCategory": "巨无霸\n牛鱼肉堡",
+      "imageUrl": "demo/images/8c21d4c2664b226f92b63ac83c8c52a8fddb6837bc78ed70ab4543404f4702b6.gif",
+      "referencePriceCents": 1400,
+      "attributes": [
+        "单品",
+        "100%纯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "巨无霸\n牛鱼肉堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900000881",
+      "officialCode": "9900000881",
+      "name": "培根安格斯厚牛堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/4b985b73dedd0836ade9a1817b8cb187f0a7f207701f33ff4d69258e907a9d63.png",
+      "referencePriceCents": 3700,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900000882",
+      "officialCode": "9900000882",
+      "name": "芝士安格斯厚牛堡四件套",
+      "stageId": "combo",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/a5f9672b267a22fc445093a678fdb2208361c7fd386e095c3953d8aa1df12647.png",
+      "referencePriceCents": 3700,
+      "attributes": [
+        "麦金卡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005428",
+      "officialCode": "9900005428",
+      "name": "培根安格斯厚牛堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/b6eb6c3cb546f0b31dd522b9443126528acf96dd8ae39a46ee7590ec273147f7.png",
+      "referencePriceCents": 4550,
+      "attributes": [
+        "套餐",
+        "100%安格斯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005430",
+      "officialCode": "9900005430",
+      "name": "芝士安格斯厚牛堡三件套",
+      "stageId": "combo",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/ed4b75ed3baadc0e8c12e49aa2e67dcab5952f530f6351573e8770ca71d6d710.png",
+      "referencePriceCents": 4250,
+      "attributes": [
+        "套餐",
+        "100%安格斯牛肉"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:511781",
+      "officialCode": "511781",
+      "name": "培根安格斯厚牛堡",
+      "stageId": "burger",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/9a851c79486c6a8e43864d56cbf97d729994d8c3838f62edf74997bcfa840ac5.png",
+      "referencePriceCents": 3450,
+      "attributes": [
+        "单品",
+        "100%安格斯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 707,
+        "proteinG": 34,
+        "fatG": 44,
+        "carbsG": 43,
+        "sodiumMg": 1037
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:511782",
+      "officialCode": "511782",
+      "name": "芝士安格斯厚牛堡",
+      "stageId": "burger",
+      "sourceCategory": "安格斯MAX\n厚牛堡",
+      "imageUrl": "demo/images/b296509237987981a647122c384fbcdb8849c99aa1c81867a96585bb00f836ef.png",
+      "referencePriceCents": 3150,
+      "attributes": [
+        "单品",
+        "100%安格斯牛肉"
+      ],
+      "nutrition": {
+        "kcal": 696,
+        "proteinG": 32,
+        "fatG": 44,
+        "carbsG": 43,
+        "sodiumMg": 897
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "主食",
+      "sourceCategories": [
+        "安格斯MAX\n厚牛堡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005451",
+      "officialCode": "9900005451",
+      "name": "麦辣鸡翅4块套餐",
+      "stageId": "combo",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/17645e4ffb1dbc48e3dd3dcda0a85e3853698d68ad5f57a25fd8631950b12ae4.png",
+      "referencePriceCents": 3650,
+      "attributes": [
+        "套餐",
+        "立省10.5元起"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:9900004835",
+      "officialCode": "9900004835",
+      "name": "麦乐鸡套餐",
+      "stageId": "combo",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/2ba08f2cb4d7533928e571a0f7fa702e777709e72c6943c5ed388021316a0866.png",
+      "referencePriceCents": 2500,
+      "attributes": [
+        "套餐",
+        "立省10.5元起"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:1700",
+      "officialCode": "1700",
+      "name": "麦辣鸡翅",
+      "stageId": "side",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/f4417d77d8ae3e0d8b0c9c964139da29a0a1a1a3f5f5634957ebe698d51a8b31.png",
+      "referencePriceCents": 1450,
+      "attributes": [
+        "单品",
+        "黄金酥脆",
+        "鲜嫩多汁"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:520445",
+      "officialCode": "520445",
+      "name": "薄皮焦香V翅",
+      "stageId": "side",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/780e50c56c0d57e0db77af564658d538e17b58fef04cfdbd9848f6d5c902dc9b.png",
+      "referencePriceCents": 1550,
+      "attributes": [
+        "单品",
+        "人气"
+      ],
+      "nutrition": {
+        "kcal": 192,
+        "proteinG": 17,
+        "fatG": 11,
+        "carbsG": 6,
+        "sodiumMg": 594
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:1401",
+      "officialCode": "1401",
+      "name": "麦乐鸡",
+      "stageId": "side",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/aa3ec8c338c35ed8c179830b188480009c93a2efe8a63e5da22b6fd7ea8c2cb6.png",
+      "referencePriceCents": 1400,
+      "attributes": [
+        "单品",
+        "人气"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:521156",
+      "officialCode": "521156",
+      "name": "那么大鸡排（椒盐风味）",
+      "stageId": "side",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/3a2a7a7aa88828153a8b8a125922253980b4bf520f6e375aa9f16d3adf3f91c8.png",
+      "referencePriceCents": 1400,
+      "attributes": [
+        "单品"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:9900005432",
+      "officialCode": "9900005432",
+      "name": "麦麦脆汁鸡1块",
+      "stageId": "side",
+      "sourceCategory": "炸鸡",
+      "imageUrl": "demo/images/eaa5c05e707f987f1b8018bd60fed1cf4da3522808d82a41949370b47294bf69.png",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "单品"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "炸鸡"
+      ]
+    },
+    {
+      "id": "live:sku:521986",
+      "officialCode": "521986",
+      "name": "马苏里拉拉丝芝士条",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/553e929750206ee829388bc415dbaf893117f6ca2eeabf4c4c21d6da4ec097be.png",
+      "referencePriceCents": 1100,
+      "attributes": [
+        "上新",
+        "趁热拉丝",
+        "奶香醇厚"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900016082",
+      "officialCode": "9900016082",
+      "name": "心形薯饼5块",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/36348c9735c5b325b8d8e4114e5d7a7ecea420b2386ab9e9d3d160ed1cdc1810.png",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "上新",
+        "口口酥脆",
+        "含一份蘸酱"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521951",
+      "officialCode": "521951",
+      "name": "灰焰圆筒",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/141c9a43d4dfd15ce85e7b5b619fe5a6dc14b3f6c472e263b002820343f40d11.gif",
+      "referencePriceCents": 500,
+      "attributes": [
+        "上新",
+        "灰焰"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521946",
+      "officialCode": "521946",
+      "name": "旋旋星愿贴",
+      "stageId": "other",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/2920716136327545f06a63417d3afb7df9d9ff7a1f4115be8ce5ddc397624565.png",
+      "referencePriceCents": 390,
+      "attributes": [
+        "上新",
+        "汪苏泷限量周边"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "其他",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521914",
+      "officialCode": "521914",
+      "name": "“葱不求人“按摩捶痒痒挠",
+      "stageId": "other",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/56dce9506983fb26cccb1510b26aa7719950a87489880dcb3d882faaaf89bff6.png",
+      "referencePriceCents": 1490,
+      "attributes": [
+        "上新",
+        "既可捶背",
+        "又可挠痒"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "其他",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521901",
+      "officialCode": "521901",
+      "name": "月下相思扭扭薯",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/edf08f9b5f516de1e3bef7985e0ed42aee4ca2cfe93c568360e4bd7826a7840e.png",
+      "referencePriceCents": 1550,
+      "attributes": [
+        "上新",
+        "口口酥脆",
+        "薯香十足"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521917",
+      "officialCode": "521917",
+      "name": "泷愿成真麦旋风——大米风味",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/b9cadfe82a7bdf260846fb370a67c16efeb71ddc6e61bd60277a7437aef4237d.gif",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "上新",
+        "快乐旋开吃"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521836",
+      "officialCode": "521836",
+      "name": "柠檬脆脆麦旋风",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/8778fec49f8c412cee499f4f801af67c76e11355f12337026034d97019aba6d6.gif",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "上新",
+        "一口柠香"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:4810",
+      "officialCode": "4810",
+      "name": "薯条",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/affeae85b5a90a38908d3a43788dab601f1bba9cc8f167431505edefe78c51cf.png",
+      "referencePriceCents": 1400,
+      "attributes": [
+        "小食"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:4437",
+      "officialCode": "4437",
+      "name": "玉米杯",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/fb28e3dd98fc7aafedbb3b5bbe47053867189b9bab90a6e9cd7addb65c587664.png",
+      "referencePriceCents": 1300,
+      "attributes": [
+        "小食"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:6102",
+      "officialCode": "6102",
+      "name": "苹果片",
+      "stageId": "side",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/f0c735fe192fb3e272297e8411bf7a3b8703aa2e2db5b0cbb2cbdd37738414e0.png",
+      "referencePriceCents": 700,
+      "attributes": [
+        "小食"
+      ],
+      "nutrition": {
+        "kcal": 32,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 7,
+        "sodiumMg": 0
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "小食",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:521750",
+      "officialCode": "521750",
+      "name": "泷盐星星麦旋风",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/adc0cfd8ef3b9bab0bac69df711f4c9350b24758a088f6524e00d3d3eb2d82a0.gif",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "冰淇淋",
+        "素龙饼干"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900008754",
+      "officialCode": "9900008754",
+      "name": "经典麦旋风",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/979df94c1d4591469d8e45e1bc2c427901e1fae2420245d4a94131db541441c9.gif",
+      "referencePriceCents": 1400,
+      "attributes": [
+        "冰淇淋"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900008745",
+      "officialCode": "9900008745",
+      "name": "新地",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/b976ac24e2863471f87711ec2ae85155749c54993b265a3766d358b73ad5ab05.gif",
+      "referencePriceCents": 1200,
+      "attributes": [
+        "冰淇淋"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:515837",
+      "officialCode": "515837",
+      "name": "圆筒冰淇淋",
+      "stageId": "dessert",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/a256413af2039a23d1f85f9284006a0d311f1c6273fea9b71f7a4c439105c3b6.png",
+      "referencePriceCents": 500,
+      "attributes": [
+        "冰淇淋"
+      ],
+      "nutrition": {
+        "kcal": 93,
+        "proteinG": 2,
+        "fatG": 3,
+        "carbsG": 14,
+        "sodiumMg": 36
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900008752",
+      "officialCode": "9900008752",
+      "name": "派",
+      "stageId": "pie",
+      "sourceCategory": "小食甜品\n/其他",
+      "imageUrl": "demo/images/1f1f155464758bd2e3051b345f68b7bc876827687cf1c8ad618510747dda82ab.gif",
+      "referencePriceCents": 800,
+      "attributes": [
+        "派",
+        "第二份优惠"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "派",
+      "sourceCategories": [
+        "小食甜品\n/其他"
+      ]
+    },
+    {
+      "id": "live:sku:9900016057",
+      "officialCode": "9900016057",
+      "name": "汉堡开心乐园餐",
+      "stageId": "combo",
+      "sourceCategory": "开心乐园",
+      "imageUrl": "demo/images/814ed95358eaf0de5f58902aced78acea1ec68175a059df0ae2d86828baff8e6.png",
+      "referencePriceCents": 2350,
+      "attributes": [
+        "开心乐园餐",
+        "童年童款"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "开心乐园"
+      ]
+    },
+    {
+      "id": "live:sku:9900016058",
+      "officialCode": "9900016058",
+      "name": "鱼排堡开心乐园餐",
+      "stageId": "combo",
+      "sourceCategory": "开心乐园",
+      "imageUrl": "demo/images/bb4accaa8b334ffd3b0d1e2a33a1f4d9749acef960c950f9b1758b4476bc9621.png",
+      "referencePriceCents": 2400,
+      "attributes": [
+        "开心乐园餐",
+        "童年童款"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "开心乐园"
+      ]
+    },
+    {
+      "id": "live:sku:9900016056",
+      "officialCode": "9900016056",
+      "name": "麦乐鸡开心乐园餐",
+      "stageId": "combo",
+      "sourceCategory": "开心乐园",
+      "imageUrl": "demo/images/8be183bfe911dbd817b6c2be2200b1a9a4d49592ae57aac4bceb3f2af04fd427.png",
+      "referencePriceCents": 2500,
+      "attributes": [
+        "开心乐园餐",
+        "童年童款"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "开心乐园"
+      ]
+    },
+    {
+      "id": "live:sku:9900016055",
+      "officialCode": "9900016055",
+      "name": "开心亲子双人餐",
+      "stageId": "combo",
+      "sourceCategory": "开心乐园",
+      "imageUrl": "demo/images/40338f6e7bc72dfbf865fb4f544d40df21c8ca74b1638e5de2395b9a1ebb65d4.png",
+      "referencePriceCents": 5950,
+      "attributes": [
+        "开心亲子餐",
+        "童年童款"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "开心乐园"
+      ]
+    },
+    {
+      "id": "live:sku:515946",
+      "officialCode": "515946",
+      "name": "冰浓浓黑巧",
+      "stageId": "drink",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/25fd772ccc343287e847c29190f41f84da9bc5b68b61ebde8d0319caab5b2967.gif",
+      "referencePriceCents": 1390,
+      "attributes": [
+        "限定特惠"
+      ],
+      "nutrition": {
+        "kcal": 135,
+        "proteinG": 8,
+        "fatG": 6,
+        "carbsG": 12,
+        "sodiumMg": 77
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:515946",
+          "officialCode": "515946",
+          "name": "冰浓浓黑巧中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1390,
+          "nutrition": {
+            "kcal": 135,
+            "proteinG": 8,
+            "fatG": 6,
+            "carbsG": 12,
+            "sodiumMg": 77
+          },
+          "imageUrl": "demo/images/25fd772ccc343287e847c29190f41f84da9bc5b68b61ebde8d0319caab5b2967.gif",
+          "menuCode": "515946"
+        }
+      ],
+      "defaultVariantId": "live:sku:515946"
+    },
+    {
+      "id": "live:sku:515955",
+      "officialCode": "515955",
+      "name": "冰浓浓燕麦黑巧",
+      "stageId": "drink",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/2c9ffa14ae9ac6c3964a02ba6881394d4fd9beb6ec7f51e1b3db426959f2b2d3.gif",
+      "referencePriceCents": 1590,
+      "attributes": [
+        "限定特惠"
+      ],
+      "nutrition": {
+        "kcal": 120,
+        "proteinG": 2,
+        "fatG": 5,
+        "carbsG": 16,
+        "sodiumMg": 87
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:515955",
+          "officialCode": "515955",
+          "name": "冰浓浓燕麦黑巧中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1590,
+          "nutrition": {
+            "kcal": 120,
+            "proteinG": 2,
+            "fatG": 5,
+            "carbsG": 16,
+            "sodiumMg": 87
+          },
+          "imageUrl": "demo/images/2c9ffa14ae9ac6c3964a02ba6881394d4fd9beb6ec7f51e1b3db426959f2b2d3.gif",
+          "menuCode": "515955"
+        }
+      ],
+      "defaultVariantId": "live:sku:515955"
+    },
+    {
+      "id": "live:sku:507411",
+      "officialCode": "507411",
+      "name": "麦咖啡™冰美式",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/1128b8769076e4985e47f6aee78a40e444f121bd00523461e32e3fabf9ccf536.gif",
+      "referencePriceCents": 1190,
+      "attributes": [
+        "限定特惠"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:507411",
+          "officialCode": "507411",
+          "name": "麦咖啡™冰美式中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1190,
+          "nutrition": {},
+          "imageUrl": "demo/images/1128b8769076e4985e47f6aee78a40e444f121bd00523461e32e3fabf9ccf536.gif",
+          "menuCode": "507411"
+        }
+      ],
+      "defaultVariantId": "live:sku:507411"
+    },
+    {
+      "id": "live:sku:507409",
+      "officialCode": "507409",
+      "name": "麦咖啡™冰奶铁",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/d80c4393210c1020480859eafa653b3635fedc488a2919c634412eb5a1e3678e.gif",
+      "referencePriceCents": 1390,
+      "attributes": [
+        "限定特惠",
+        "更奶更浓"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:507409",
+          "officialCode": "507409",
+          "name": "麦咖啡™冰奶铁中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1390,
+          "nutrition": {},
+          "imageUrl": "demo/images/d80c4393210c1020480859eafa653b3635fedc488a2919c634412eb5a1e3678e.gif",
+          "menuCode": "507409"
+        }
+      ],
+      "defaultVariantId": "live:sku:507409"
+    },
+    {
+      "id": "live:sku:510479",
+      "officialCode": "510479",
+      "name": "冰燕麦奶铁",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/81107faf1fb1f5be43ebc4f607b3b89c9d696f7de77b2ddc829df2082f877f3a.png",
+      "referencePriceCents": 990,
+      "attributes": [
+        "麦咖啡™咖啡",
+        "随单购条件价，核价为准"
+      ],
+      "nutrition": {
+        "kcal": 132,
+        "proteinG": 3,
+        "fatG": 5,
+        "carbsG": 17,
+        "sodiumMg": 87
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:510479",
+          "officialCode": "510479",
+          "name": "冰燕麦奶铁中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 990,
+          "nutrition": {
+            "kcal": 132,
+            "proteinG": 3,
+            "fatG": 5,
+            "carbsG": 17,
+            "sodiumMg": 87
+          },
+          "imageUrl": "demo/images/81107faf1fb1f5be43ebc4f607b3b89c9d696f7de77b2ddc829df2082f877f3a.png",
+          "menuCode": "510479"
+        }
+      ],
+      "defaultVariantId": "live:sku:510479"
+    },
+    {
+      "id": "live:sku:507387",
+      "officialCode": "507387",
+      "name": "卡布奇诺",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/830ffcb328f1caf4915f3785f4d74051d94cdfe5177abf78f93fbbc8b82952d1.png",
+      "referencePriceCents": 2100,
+      "attributes": [
+        "麦咖啡™咖啡"
+      ],
+      "nutrition": {
+        "kcal": 167,
+        "proteinG": 9,
+        "fatG": 7,
+        "carbsG": 15,
+        "sodiumMg": 88
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:507387",
+          "officialCode": "507387",
+          "name": "卡布奇诺中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 2100,
+          "nutrition": {
+            "kcal": 167,
+            "proteinG": 9,
+            "fatG": 7,
+            "carbsG": 15,
+            "sodiumMg": 88
+          },
+          "imageUrl": "demo/images/830ffcb328f1caf4915f3785f4d74051d94cdfe5177abf78f93fbbc8b82952d1.png",
+          "menuCode": "507387"
+        }
+      ],
+      "defaultVariantId": "live:sku:507387"
+    },
+    {
+      "id": "live:sku:514851",
+      "officialCode": "514851",
+      "name": "咖啡阿芙佳朵",
+      "stageId": "dessert",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/9bcdb0938d5b4fa9cf68851c557c283c637dd64bde4ab2b05f9d0ab44183a2ac.png",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "麦咖啡™咖啡"
+      ],
+      "nutrition": {
+        "kcal": 139,
+        "proteinG": 4,
+        "fatG": 4,
+        "carbsG": 21,
+        "sodiumMg": 49
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "麦咖啡™"
+      ]
+    },
+    {
+      "id": "live:sku:520689",
+      "officialCode": "520689",
+      "name": "鲜萃咖啡",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/955b90b0612c84a9fb400f2c9bec4ff2f8f2dfee80b5201e13458d12927779bf.gif",
+      "referencePriceCents": 950,
+      "attributes": [
+        "麦咖啡™咖啡",
+        "鲜萃咖啡",
+        "热饮"
+      ],
+      "nutrition": {
+        "kcal": 15,
+        "proteinG": 1,
+        "fatG": 0,
+        "carbsG": 3,
+        "sodiumMg": 2
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™",
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:520689",
+          "officialCode": "520689",
+          "name": "小杯鲜萃咖啡",
+          "sizeLabel": "小杯",
+          "referencePriceCents": 950,
+          "nutrition": {
+            "kcal": 15,
+            "proteinG": 1,
+            "fatG": 0,
+            "carbsG": 3,
+            "sodiumMg": 2
+          },
+          "imageUrl": "demo/images/955b90b0612c84a9fb400f2c9bec4ff2f8f2dfee80b5201e13458d12927779bf.gif",
+          "menuCode": "520689"
+        }
+      ],
+      "defaultVariantId": "live:sku:520689"
+    },
+    {
+      "id": "live:sku:507389",
+      "officialCode": "507389",
+      "name": "浓缩咖啡",
+      "stageId": "coffee",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/e1ac7631bf1fec7a1e0ee565a6e99c1cd69834b3bb3566c7f6eb86a810ab3ad3.png",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "麦咖啡™咖啡"
+      ],
+      "nutrition": {
+        "kcal": 13,
+        "proteinG": 1,
+        "fatG": 0,
+        "carbsG": 2,
+        "sodiumMg": 0
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "咖啡",
+      "sourceCategories": [
+        "麦咖啡™"
+      ]
+    },
+    {
+      "id": "live:sku:514850",
+      "officialCode": "514850",
+      "name": "抹茶阿芙佳朵",
+      "stageId": "dessert",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/95cdc3613b814794051ff3d36e347ecafa08280e3f3e3a42cb6931539b8bbf42.png",
+      "referencePriceCents": 1500,
+      "attributes": [
+        "其他"
+      ],
+      "nutrition": {
+        "kcal": 147,
+        "proteinG": 3,
+        "fatG": 4,
+        "carbsG": 23,
+        "sodiumMg": 50
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "甜品",
+      "sourceCategories": [
+        "麦咖啡™"
+      ]
+    },
+    {
+      "id": "live:sku:507394",
+      "officialCode": "507394",
+      "name": "热牛奶",
+      "stageId": "drink",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/02e078651ac736cb57b1e818bf13c14c773498de495e08c705102619b1f6bf51.png",
+      "referencePriceCents": 1900,
+      "attributes": [
+        "其他"
+      ],
+      "nutrition": {
+        "kcal": 176,
+        "proteinG": 10,
+        "fatG": 8,
+        "carbsG": 15,
+        "sodiumMg": 101
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:507394",
+          "officialCode": "507394",
+          "name": "热牛奶中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1900,
+          "nutrition": {
+            "kcal": 176,
+            "proteinG": 10,
+            "fatG": 8,
+            "carbsG": 15,
+            "sodiumMg": 101
+          },
+          "imageUrl": "demo/images/02e078651ac736cb57b1e818bf13c14c773498de495e08c705102619b1f6bf51.png",
+          "menuCode": "507394"
+        }
+      ],
+      "defaultVariantId": "live:sku:507394"
+    },
+    {
+      "id": "live:sku:510488",
+      "officialCode": "510488",
+      "name": "热燕麦奶",
+      "stageId": "drink",
+      "sourceCategory": "麦咖啡™",
+      "imageUrl": "demo/images/1b99960e98dc747bde0ea499b80c63e8be62a29d3496c88565b8d913e8e43502.png",
+      "referencePriceCents": 2100,
+      "attributes": [
+        "其他"
+      ],
+      "nutrition": {
+        "kcal": 157,
+        "proteinG": 3,
+        "fatG": 6,
+        "carbsG": 21,
+        "sodiumMg": 114
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "麦咖啡™"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:510488",
+          "officialCode": "510488",
+          "name": "热燕麦奶中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 2100,
+          "nutrition": {
+            "kcal": 157,
+            "proteinG": 3,
+            "fatG": 6,
+            "carbsG": 21,
+            "sodiumMg": 114
+          },
+          "imageUrl": "demo/images/1b99960e98dc747bde0ea499b80c63e8be62a29d3496c88565b8d913e8e43502.png",
+          "menuCode": "510488"
+        }
+      ],
+      "defaultVariantId": "live:sku:510488"
+    },
+    {
+      "id": "live:sku:9900011128",
+      "officialCode": "9900011128",
+      "name": "“堡”你欢乐套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/9005de2541998679964e1ab34a17f5ae0127f69b30e04bbe0e1bbc184b292260.png",
+      "referencePriceCents": 2800,
+      "attributes": [
+        "粉丝之选"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900011121",
+      "officialCode": "9900011121",
+      "name": "“苹”水相“鱼”套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/ab8602e2971fe3c28feb9483fa79da15633832f5dffab6203a414cbca6b4f47c.png",
+      "referencePriceCents": 3600,
+      "attributes": [
+        "粉丝之选"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900011126",
+      "officialCode": "9900011126",
+      "name": "酥脆无双套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/c16c09e456a79d3a7b2064a9cb1976f1227f3118dfa2ae8d0b988e74f2b3c045.png",
+      "referencePriceCents": 2000,
+      "attributes": [],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900011123",
+      "officialCode": "9900011123",
+      "name": "“辣”么快乐套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/aabe427af28f37ba2c5e931b207be5574b35aa552100b0c04874e8a2b1386252.png",
+      "referencePriceCents": 2400,
+      "attributes": [],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900009245",
+      "officialCode": "9900009245",
+      "name": "牛气满满套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/12912ccf88e1a05d6e7d790cf0c0e2bb185de6b949ade2e5cda63bb4aa176046.png",
+      "referencePriceCents": 3500,
+      "attributes": [],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:9900009242",
+      "officialCode": "9900009242",
+      "name": "“苹板”支撑Pro套餐",
+      "stageId": "combo",
+      "sourceCategory": "500\n大卡套餐",
+      "imageUrl": "demo/images/2947e7da62de2d8b46ad3a0088af1d634c663a7be5183faddbea8c294022ae07.png",
+      "referencePriceCents": 3950,
+      "attributes": [],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "套餐",
+      "sourceCategories": [
+        "500\n大卡套餐"
+      ]
+    },
+    {
+      "id": "live:sku:521817",
+      "officialCode": "521817",
+      "name": "【美汁源】“多汁柠柠”",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/e4035bf2de9b68afb20d576029f69d6a808e1b6474b81b7f1039241047df7a7b.png",
+      "referencePriceCents": 1200,
+      "attributes": [
+        "上新",
+        "清爽上新"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:9900008751",
+      "officialCode": null,
+      "name": "可乐",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+      "referencePriceCents": null,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:9900008751:3000",
+          "officialCode": "3000",
+          "name": "可乐小杯",
+          "sizeLabel": "小杯",
+          "referencePriceCents": 950,
+          "nutrition": {
+            "kcal": 107,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 26,
+            "sodiumMg": 0
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        },
+        {
+          "id": "live:sku:9900008751:3050",
+          "officialCode": "3050",
+          "name": "可乐中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1000,
+          "nutrition": {
+            "kcal": 147,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 36,
+            "sodiumMg": 0
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        },
+        {
+          "id": "live:sku:9900008751:3100",
+          "officialCode": "3100",
+          "name": "可乐大杯",
+          "sizeLabel": "大杯",
+          "referencePriceCents": 1200,
+          "nutrition": {
+            "kcal": 224,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 55,
+            "sodiumMg": 0
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        }
+      ],
+      "defaultVariantId": "live:sku:9900008751:3000"
+    },
+    {
+      "id": "live:family:9900008751:%E6%97%A0%E7%B3%96%E5%8F%AF%E5%8F%A3%E5%8F%AF%E4%B9%90",
+      "officialCode": null,
+      "name": "无糖可口可乐",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+      "referencePriceCents": null,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:9900008751:3021",
+          "officialCode": "3021",
+          "name": "无糖可口可乐小杯",
+          "sizeLabel": "小杯",
+          "referencePriceCents": 950,
+          "nutrition": {
+            "kcal": 0,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 0,
+            "sodiumMg": 25
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        },
+        {
+          "id": "live:sku:9900008751:3071",
+          "officialCode": "3071",
+          "name": "无糖可口可乐中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1000,
+          "nutrition": {
+            "kcal": 0,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 1,
+            "sodiumMg": 35
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        },
+        {
+          "id": "live:sku:9900008751:3111",
+          "officialCode": "3111",
+          "name": "无糖可口可乐大杯",
+          "sizeLabel": "大杯",
+          "referencePriceCents": 1200,
+          "nutrition": {
+            "kcal": 0,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 1,
+            "sodiumMg": 53
+          },
+          "imageUrl": "demo/images/bcaa932414d09ec7c258254ef8d760c523a4863da19f1632e4996c0ca7913648.gif",
+          "menuCode": "9900008751",
+          "roundId": 1
+        }
+      ],
+      "defaultVariantId": "live:sku:9900008751:3021"
+    },
+    {
+      "id": "live:sku:3010",
+      "officialCode": "3010",
+      "name": "雪碧",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/23eea7ff60441fac180a3c2b1806c8109163357746208efa9e2822926471e9e8.png",
+      "referencePriceCents": 950,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {
+        "kcal": 76,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 19,
+        "sodiumMg": 21
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:3010",
+          "officialCode": "3010",
+          "name": "雪碧（小杯）",
+          "sizeLabel": "小杯",
+          "referencePriceCents": 950,
+          "nutrition": {
+            "kcal": 76,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 19,
+            "sodiumMg": 21
+          },
+          "imageUrl": "demo/images/23eea7ff60441fac180a3c2b1806c8109163357746208efa9e2822926471e9e8.png",
+          "menuCode": "3010"
+        }
+      ],
+      "defaultVariantId": "live:sku:3010"
+    },
+    {
+      "id": "live:sku:515520",
+      "officialCode": "515520",
+      "name": "怡泉+C",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/e1cab1b547cffc3a4495d9bc12575f76fc29e5ecb13d3768fcfd2cc8dbd85507.png",
+      "referencePriceCents": 1150,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {
+        "kcal": 110,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 27,
+        "sodiumMg": 0
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:515520",
+          "officialCode": "515520",
+          "name": "中杯怡泉+C",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1150,
+          "nutrition": {
+            "kcal": 110,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 27,
+            "sodiumMg": 0
+          },
+          "imageUrl": "demo/images/e1cab1b547cffc3a4495d9bc12575f76fc29e5ecb13d3768fcfd2cc8dbd85507.png",
+          "menuCode": "515520"
+        }
+      ],
+      "defaultVariantId": "live:sku:515520"
+    },
+    {
+      "id": "live:sku:2430",
+      "officialCode": "2430",
+      "name": "【美汁源】“黄金橙橙”",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/80ffd6a28cd50c01ee5be3aa075f76493def88b177e4c9181f401a5d9fa8d8dc.png",
+      "referencePriceCents": 1300,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {
+        "kcal": 165,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 41,
+        "sodiumMg": 53
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:515281",
+      "officialCode": "515281",
+      "name": "阳光柠檬红茶",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/4f71a565d721a71118d2d3de1af04d9df6d36526da69736ed840f6799e65dcbd.png",
+      "referencePriceCents": 1000,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {
+        "kcal": 117,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 29,
+        "sodiumMg": 17
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ],
+      "variants": [
+        {
+          "id": "live:sku:515281",
+          "officialCode": "515281",
+          "name": "阳光柠檬红茶中杯",
+          "sizeLabel": "中杯",
+          "referencePriceCents": 1000,
+          "nutrition": {
+            "kcal": 117,
+            "proteinG": 0,
+            "fatG": 0,
+            "carbsG": 29,
+            "sodiumMg": 17
+          },
+          "imageUrl": "demo/images/4f71a565d721a71118d2d3de1af04d9df6d36526da69736ed840f6799e65dcbd.png",
+          "menuCode": "515281"
+        }
+      ],
+      "defaultVariantId": "live:sku:515281"
+    },
+    {
+      "id": "live:sku:6352",
+      "officialCode": "6352",
+      "name": "阳光橙麦炫酷",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/9351f4b32478d0e70eddbf7e013fb4c69e4e431a9705739713ed94cb5f9bc201.png",
+      "referencePriceCents": 1300,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:3755",
+      "officialCode": "3755",
+      "name": "纯牛奶(盒装)",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/f786999d71f598d73ff5945d97bd399cf51ef79b5d7e95a98f4c96cb57ca1080.png",
+      "referencePriceCents": 1100,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {
+        "kcal": 129,
+        "proteinG": 7,
+        "fatG": 7,
+        "carbsG": 10,
+        "sodiumMg": 73
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:6362",
+      "officialCode": "6362",
+      "name": "100% 苹果汁(盒装)",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/976267bf5cb32d7cce84f15afe9372233cfe02765a101bfedd520218c701035d.png",
+      "referencePriceCents": 1200,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:9900003538",
+      "officialCode": "9900003538",
+      "name": "学生专享饮品随心选",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/f57e159e082cf759f94e976bcb29438b19f6f1905d7d749731037d879402df7e.gif",
+      "referencePriceCents": 1000,
+      "attributes": [
+        "冷饮"
+      ],
+      "nutrition": {},
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    },
+    {
+      "id": "live:sku:3505",
+      "officialCode": "3505",
+      "name": "锡兰红茶",
+      "stageId": "drink",
+      "sourceCategory": "饮品",
+      "imageUrl": "demo/images/f0b32ba8d4b0142640d4847d577f0133a898b251566c99555e624b9707166385.png",
+      "referencePriceCents": 1100,
+      "attributes": [
+        "热饮"
+      ],
+      "nutrition": {
+        "kcal": 2,
+        "proteinG": 0,
+        "fatG": 0,
+        "carbsG": 0,
+        "sodiumMg": 0
+      },
+      "mode": "demo",
+      "sourceKind": "official-snapshot",
+      "stageLabel": "饮料",
+      "sourceCategories": [
+        "饮品"
+      ]
+    }
+  ],
+  "rawSkuCount": 111
+}
