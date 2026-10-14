@@ -1,0 +1,192 @@
+{
+  "2430": {
+    "code": "2430",
+    "name": "【美汁源】“黄金橙橙”",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20240904/product/MS_2430_600.png",
+    "rounds": []
+  },
+  "3010": {
+    "code": "3010",
+    "name": "雪碧（小杯）",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_3010_600.png",
+    "rounds": []
+  },
+  "3505": {
+    "code": "3505",
+    "name": "锡兰红茶",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_3505_600.png",
+    "rounds": []
+  },
+  "3755": {
+    "code": "3755",
+    "name": "纯牛奶(盒装)",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20240731/product/MS_3755_600.png",
+    "rounds": []
+  },
+  "6352": {
+    "code": "6352",
+    "name": "阳光橙麦炫酷",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_6352_600.png",
+    "rounds": []
+  },
+  "6362": {
+    "code": "6362",
+    "name": "100% 苹果汁(盒装)",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250430/product/MS_6362_600_1745552990018.png",
+    "rounds": []
+  },
+  "507387": {
+    "code": "507387",
+    "name": "卡布奇诺中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_507387_600.png",
+    "rounds": []
+  },
+  "507389": {
+    "code": "507389",
+    "name": "浓缩咖啡",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_507389_600.png",
+    "rounds": []
+  },
+  "507394": {
+    "code": "507394",
+    "name": "热牛奶中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_507394_600.png",
+    "rounds": []
+  },
+  "507409": {
+    "code": "507409",
+    "name": "麦咖啡™冰奶铁中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_507409_600.png",
+    "rounds": []
+  },
+  "507411": {
+    "code": "507411",
+    "name": "麦咖啡™冰美式中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250804/product/MS_507411_600.png",
+    "rounds": []
+  },
+  "510479": {
+    "code": "510479",
+    "name": "冰燕麦奶铁中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_510479_600.png",
+    "rounds": []
+  },
+  "510488": {
+    "code": "510488",
+    "name": "热燕麦奶中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_510488_600.png",
+    "rounds": []
+  },
+  "514850": {
+    "code": "514850",
+    "name": "抹茶阿芙佳朵",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_514850_600.png",
+    "rounds": []
+  },
+  "514851": {
+    "code": "514851",
+    "name": "咖啡阿芙佳朵",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_514851_600.png",
+    "rounds": []
+  },
+  "515281": {
+    "code": "515281",
+    "name": "阳光柠檬红茶中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_515281_600.png",
+    "rounds": []
+  },
+  "515520": {
+    "code": "515520",
+    "name": "中杯怡泉+C",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_515520_600.png",
+    "rounds": []
+  },
+  "515946": {
+    "code": "515946",
+    "name": "冰浓浓黑巧中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250611/product/MS_515946_600.png",
+    "rounds": []
+  },
+  "515955": {
+    "code": "515955",
+    "name": "冰浓浓燕麦黑巧中杯",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20250611/product/MS_515955_600.png",
+    "rounds": []
+  },
+  "520689": {
+    "code": "520689",
+    "name": "小杯鲜萃咖啡",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_520689_600.png",
+    "rounds": []
+  },
+  "521817": {
+    "code": "521817",
+    "name": "【美汁源】“多汁柠柠”",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/20260807/product/MS_521817_600.png",
+    "rounds": []
+  },
+  "9900008751": {
+    "code": "9900008751",
+    "name": "可乐",
+    "image": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008751_600.png",
+    "rounds": [
+      {
+        "id": 1,
+        "name": "选择饮料",
+        "quantity": 1,
+        "minQuantity": 1,
+        "maxQuantity": 1,
+        "choices": [
+          {
+            "code": "3000",
+            "name": "可乐小杯",
+            "quantity": 1,
+            "maxQuantity": -1,
+            "isDefault": 1,
+            "diffPrice": "+ ¥0"
+          },
+          {
+            "code": "3021",
+            "name": "无糖可口可乐小杯",
+            "quantity": 0,
+            "maxQuantity": -1,
+            "isDefault": 0,
+            "diffPrice": "+ ¥0"
+          },
+          {
+            "code": "3050",
+            "name": "可乐中杯",
+            "quantity": 0,
+            "maxQuantity": -1,
+            "isDefault": 0,
+            "diffPrice": "+ ¥0.5"
+          },
+          {
+            "code": "3071",
+            "name": "无糖可口可乐中杯",
+            "quantity": 0,
+            "maxQuantity": -1,
+            "isDefault": 0,
+            "diffPrice": "+ ¥0.5"
+          },
+          {
+            "code": "3100",
+            "name": "可乐大杯",
+            "quantity": 0,
+            "maxQuantity": -1,
+            "isDefault": 0,
+            "diffPrice": "+ ¥2.5"
+          },
+          {
+            "code": "3111",
+            "name": "无糖可口可乐大杯",
+            "quantity": 0,
+            "maxQuantity": -1,
+            "isDefault": 0,
+            "diffPrice": "+ ¥2.5"
+          }
+        ]
+      }
+    ]
+  }
+}
