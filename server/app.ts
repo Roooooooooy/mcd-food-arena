@@ -29,7 +29,7 @@ const quoteBody = {
     cartRevision: { type: 'integer', minimum: 0, maximum: Number.MAX_SAFE_INTEGER },
     basket: { type: 'array', minItems: 1, maxItems: 50, items: {
       type: 'object', additionalProperties: false, required: ['candidateId', 'quantity', 'optionIds'],
-      properties: { candidateId: text, quantity: { type: 'integer', minimum: 1, maximum: 99 }, optionIds: { type: 'array', maxItems: 30, uniqueItems: true, items: text } },
+      properties: { candidateId: text, quantity: { type: 'integer', minimum: 1, maximum: 99 }, optionIds: { type: 'array', maxItems: 600, uniqueItems: true, items: text } },
     } },
   },
 };
