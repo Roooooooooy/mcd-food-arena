@@ -31,6 +31,8 @@ jobs:
         env:
           VITE_PUBLIC_DEMO: 'true'
           VITE_PUBLIC_COMMERCE: 'false'
+      - name: Check public source and build
+        run: npm run check:public -- --ci
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
