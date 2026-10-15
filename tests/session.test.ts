@@ -119,3 +119,10 @@ test('存储写入失败时优先恢复较新的内存暂存，包括当时抽�
   assert.deepEqual(getMatch(fromDisk), { leftId: burgerIds[4], rightId: burgerIds[0], revision: 0 });
   assert.equal(resumeSession(snapshot, null, null), null);
 });
+
+test('actual current-pair replacement pauses/resumes without protocol changes or fake decisions',()=>{
+ let arena=choose(createArena(drinkIds,'personal','drink',edges),'right',0,edges);
+ arena={...arena,pair:[drinkIds[1],drinkIds[2]],revision:arena.revision+1};
+ const restored=resumeSession(snapshot,serializeSession(snapshot,[arena],0),null)!.arenas[0];
+ assert.deepEqual(restored.pair,arena.pair);assert.deepEqual(restored.remainingIds,arena.remainingIds);assert.deepEqual(restored.history,arena.history);assert.notEqual(restored.arenaId,arena.arenaId);assert.equal(restored.revision,1);
+});
