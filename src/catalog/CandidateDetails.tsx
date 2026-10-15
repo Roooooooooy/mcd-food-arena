@@ -6,7 +6,7 @@ export function nutritionText(nutrition: Candidate['nutrition']): string {
 }
 
 export function CandidateDetails({ item, showPrices = true, showNutrition = true }: { item: Candidate; showPrices?: boolean; showNutrition?: boolean }) {
-  const variants = item.variants;
+  const variants = item.variants?.length===1&&item.variants[0].sizeLabel==='固定口味'?undefined:item.variants;
   const label = item.sourceKind === 'official-snapshot' ? '采集时营养' : item.mode === 'demo' ? '样例营养' : '菜单营养';
   return <div className="candidate-details">
     {variants && showPrices && <div className="variant-price-list" aria-label={`${item.name}各规格参考价`}>
@@ -18,7 +18,7 @@ export function CandidateDetails({ item, showPrices = true, showNutrition = true
       <summary aria-label={`${item.name}营养详情`}>营养详情{!variants && <span>{item.nutrition.kcal === undefined ? '未知' : `${item.nutrition.kcal} kcal`}</span>}</summary>
       <div className="nutrition-content">
         {variants ? variants.map(variant => <div className="nutrition-variant" key={variant.id}><strong>{variant.sizeLabel} · {variant.name}</strong><p>{nutritionText(variant.nutrition)}</p></div>) : <p>{nutritionText(item.nutrition)}</p>}
-        <p className="nutrition-source">{label}数据，仅供参考</p>
+        <p className="nutrition-source">{label}数据，默认配方参考</p>
       </div>
     </details>}
   </div>;
