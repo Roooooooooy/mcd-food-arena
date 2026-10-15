@@ -38,7 +38,9 @@ export default function App() {
     let active = true;
     void loadFrozenDemo().then(catalog => {
       if (!active) return;
-      setFrozenDemo(catalog); setSnapshot(catalog); setSelection(defaultSelection(catalog)); setSaved(readSaved(catalog)); setLoading(false);
+      const previous=readSaved(catalog);
+      setFrozenDemo(catalog); setSnapshot(catalog); setSelection(defaultSelection(catalog)); setSaved(previous); setLoading(false);
+      try { if(previous===null&&localStorage.getItem(storageKey(catalog)))setMessage('菜单或分类已更新，上次记录无法继续，请重新挑选。'); } catch { /* Storage may be unavailable. */ }
     }, error => { if (active) { setLoading(false); setMessage(error instanceof Error ? error.message : '门店快照无法加载，请刷新页面重试。'); } });
     return () => { active = false; };
   }, []);

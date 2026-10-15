@@ -1,6 +1,7 @@
+import { normalizeModification, normalizeRounds, optionScope, signedYuanDelta, exactOneRound } from './option-metadata.ts';
 import type { CatalogSnapshot, StoreOption, Candidate, Variant } from '../shared/contracts.ts';
 
-export const stageLabels: Record<string,string> = {burger:'主食',side:'小食',drink:'饮料',coffee:'咖啡',dessert:'甜品',pie:'派',combo:'套餐',breakfast:'早餐',other:'其他'};
+export const stageLabels: Record<string,string> = {burger:'主食',side:'小食',drink:'饮料',coffee:'咖啡',dessert:'甜品',combo:'套餐',breakfast:'早餐',other:'其他'};
 export function stageName(item: Candidate): string { return item.stageLabel ?? item.sourceCategory; }
 export function isRecord(value:unknown):value is Record<string,unknown>{return !!value&&typeof value==='object'&&!Array.isArray(value);}
 function text(value:unknown):string{return typeof value==='string'?value.trim():'';}
@@ -48,11 +49,12 @@ export function classifyMeal(name:string,categories:string[],tags:string[]):stri
  if(/套餐|[二三四五六七八九十\d]+件套|单人餐|双人餐|多人餐|分享餐|亲子.*餐|乐园餐|随心配|随心拼/.test(name)||tags.includes('套餐'))return 'combo';
  if(/早餐|早安|麦满分|热松饼|粥/.test(name)||/早餐/.test(category))return 'breakfast';
  if(/麦旋风|新地|圣代|冰淇淋|圆筒|阿芙佳朵/.test(name)||/冰淇淋/.test(evidence))return 'dessert';
- if(name==='派'||/派$/.test(name)||tags.includes('派'))return 'pie';
+ if(name==='派'||/派$/.test(name)||tags.includes('派'))return 'dessert';
  if(/汉堡|牛堡|鸡腿堡|鳕鱼堡|鸡肉堡|牛肉堡|麦香鸡|麦香鱼|巨无霸|卷$/.test(name))return 'burger';
  if(/薯|鸡翅|鸡排|麦乐鸡|V翅|脆汁鸡|鸡球|玉米杯|苹果片|芝士条|小食盘/.test(name)||tags.includes('小食'))return 'side';
  if(/咖啡|美式|奶铁|拿铁|卡布奇诺|玛奇朵/.test(name))return 'coffee';
  if(/麦咖啡/.test(category)||/饮品/.test(category))return 'drink';
+ if(/星愿贴|贴纸|按摩[捶锤]|痒痒挠|玩具|徽章|钥匙扣/.test(name)||tags.some(tag=>/周边|玩具/.test(tag)))return 'other';
  return 'other';
 }
 export function explicitSize(name:string):{base:string;size:string}|null {
@@ -86,22 +88,30 @@ export function normalizeCatalog(raw:unknown,context:Context):CatalogSnapshot{
   const stageId=classifyMeal(String(meal.name),sourceCategories,attributes);
   const detail=details[code];const actualName=isRecord(detail)&&text(detail.name)&&['drink','coffee'].includes(stageId)?text(detail.name):text(meal.name);
   const base:Candidate={id:`live:sku:${code}`,officialCode:code,name:actualName,stageId,stageLabel:stageLabels[stageId],sourceCategory:sourceCategories[0],sourceCategories,imageUrl:image(meal.image),referencePriceCents:yuanToCents(meal.currentPrice),attributes:[...attributes,...(meal.canWithOrder===true?['随单购条件价，核价为准']:[])],nutrition:nutrition.get(nameKey(actualName))??{},mode:'live'};
+  if(isRecord(detail)){base.modificationGroups=normalizeModification(detail.modification,optionScope(code),detail.supportModify);base.comboRounds=normalizeRounds(detail.rounds,code);base.optionsStatus='ready';}
+  const makeVariant=(c:Record<string,unknown>,roundId:number,sizeLabel:string):Variant=>{const diff=signedYuanDelta(c.diffPrice);const child=details[text(c.code)];return {id:variantId(code,text(c.code)),officialCode:text(c.code),name:text(c.name),sizeLabel,referencePriceCents:base.referencePriceCents!==null&&diff!==null&&base.referencePriceCents+diff>=0?base.referencePriceCents+diff:null,nutrition:nutrition.get(nameKey(text(c.name)))??{},imageUrl:isRecord(child)?image(child.image)??base.imageUrl:base.imageUrl,menuCode:code,roundId,modificationGroups:normalizeModification(c.modification,optionScope(code,roundId,text(c.code)),c.supportModify),optionsStatus:'ready'};};
+  if(!['drink','coffee','combo'].includes(stageId)&&isRecord(detail)&&Array.isArray(detail.rounds)&&detail.rounds.length===1){
+   const round=detail.rounds[0];
+   if(exactOneRound(round)&&round.choices.length>1){
+    for(const c of round.choices){const variant=makeVariant(c as Record<string,unknown>,round.id as number,'固定口味');candidates.push({...base,id:variant.id,officialCode:null,name:variant.name,referencePriceCents:variant.referencePriceCents,nutrition:variant.nutrition,imageUrl:variant.imageUrl,variants:[variant],defaultVariantId:variant.id,comboRounds:[]});}
+    continue;
+   }
+  }
   if(['drink','coffee'].includes(stageId)&&isRecord(detail)&&Array.isArray(detail.rounds)&&detail.rounds.length===1){
    const round=detail.rounds[0];
-   if(isRecord(round)&&round.quantity===1&&round.minQuantity===1&&round.maxQuantity===1&&Number.isInteger(round.id)&&Array.isArray(round.choices)&&round.choices.length>0&&round.choices.every(c=>isRecord(c)&&text(c.code)&&explicitSize(text(c.name)))){
+   if(exactOneRound(round)&&round.choices.every(c=>explicitSize(text(c.name)))){
     const families=new Map<string,Variant[]>();
     for(const choice of round.choices){
      const c=choice as Record<string,unknown>;const named=explicitSize(text(c.name))!;const key=nameKey(named.base);
-     const difference=/^\+\s*¥\s*(\d+(?:\.\d{1,2})?)$/.exec(text(c.diffPrice));const diff=difference?yuanToCents(difference[1]):null;
-     const v:Variant={id:variantId(code,text(c.code)),officialCode:text(c.code),name:text(c.name),sizeLabel:named.size,referencePriceCents:base.referencePriceCents!==null&&diff!==null?base.referencePriceCents+diff:null,nutrition:nutrition.get(nameKey(text(c.name)))??{},imageUrl:base.imageUrl,menuCode:code,roundId:round.id as number};
+     const v=makeVariant(c,round.id as number,named.size);
      families.set(key,[...(families.get(key)??[]),v]);
     }
-    let index=0;for(const variants of families.values()){const named=explicitSize(variants[0].name)!;candidates.push({...base,id:index++===0?base.id:`live:family:${code}:${encodeURIComponent(named.base)}`,officialCode:null,name:named.base,referencePriceCents:null,nutrition:{},variants,defaultVariantId:variants[0].id});}
+    let index=0;for(const variants of families.values()){const named=explicitSize(variants[0].name)!;candidates.push({...base,id:index++===0?base.id:`live:family:${code}:${encodeURIComponent(named.base)}`,officialCode:null,name:named.base,referencePriceCents:null,nutrition:{},variants,defaultVariantId:variants[0].id,comboRounds:[]});}
     continue;
    }
   }
   const size=explicitSize(actualName);
-  if(['drink','coffee'].includes(stageId)&&size){base.variants=[{id:base.id,officialCode:code,name:actualName,sizeLabel:size.size,referencePriceCents:base.referencePriceCents,nutrition:base.nutrition,imageUrl:base.imageUrl,menuCode:code}];base.defaultVariantId=base.id;base.name=size.base;}
+  if(['drink','coffee'].includes(stageId)&&size){base.variants=[{id:base.id,officialCode:code,name:actualName,sizeLabel:size.size,referencePriceCents:base.referencePriceCents,nutrition:base.nutrition,imageUrl:base.imageUrl,menuCode:code,modificationGroups:base.modificationGroups,optionsStatus:base.optionsStatus}];base.defaultVariantId=base.id;base.name=size.base;base.modificationGroups=[];}
   candidates.push(base);
  }
  // Only explicitly sized beverage identities enter a family; unrelated tastes and temperatures retain their names.

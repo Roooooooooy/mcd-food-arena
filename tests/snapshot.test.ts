@@ -4,6 +4,35 @@ import { demoCatalog } from '../src/demo/menu.ts';
 import { sampleQuote, basketText } from '../src/cart/model.ts';
 import * as sources from '../src/catalog/source.ts';
 import * as api from '../src/api.ts';
+import { readFileSync } from 'node:fs';
+
+test('已归档菜单显示七类：派合并甜品、周边保留，商品与规格证据不改',async()=>{
+  const archived=JSON.parse(readFileSync(new URL('../public/demo/catalog.json',import.meta.url),'utf8'));
+  const before=structuredClone(archived);
+  const result=await sources.loadFrozenDemo('/',async()=>new Response(JSON.stringify(archived)));
+  assert.equal(result.items.length,archived.items.length);
+  assert.deepEqual([...new Set(result.items.map(item=>item.stageId))].sort(),['burger','coffee','combo','dessert','drink','other','side']);
+  assert.equal(result.items.filter(item=>item.stageId==='dessert').length,archived.items.filter((item:{stageId:string})=>item.stageId==='dessert'||item.stageId==='pie').length);
+  const pie=result.items.find(item=>item.name==='派');
+  if(pie){assert.equal(pie.stageId,'dessert');assert.equal(pie.stageLabel,'甜品');}
+  if(archived.items.some((item:{stageId:string})=>item.stageId==='pie'||item.stageId==='chicken'))assert.notEqual(result.contextKey,archived.contextKey);
+  else assert.equal(result.contextKey,archived.contextKey);
+  assert.equal(result.capturedAt,archived.capturedAt);assert.equal(result.rawSkuCount,111);
+  for(const item of result.items){
+    const original=archived.items.find((candidate:{id:string})=>candidate.id===item.id);
+    assert.equal(item.name,original.name);assert.equal(item.officialCode,original.officialCode);
+    assert.equal(item.referencePriceCents,original.referencePriceCents);assert.deepEqual(item.nutrition,original.nutrition);
+    assert.deepEqual(item.variants?.map(v=>[v.id,v.officialCode,v.referencePriceCents,v.nutrition]),original.variants?.map((v:{id:string;officialCode:string;referencePriceCents:number|null;nutrition:unknown})=>[v.id,v.officialCode,v.referencePriceCents,v.nutrition]));
+  }
+  assert.deepEqual(archived,before);
+});
+
+test('historical pie classification migrates to dessert while merchandise stays selectable',async()=>{
+ const archived=JSON.parse(readFileSync(new URL('../public/demo/catalog.json',import.meta.url),'utf8'));
+ const old={...archived,items:[{...archived.items[0],id:'old-pie',stageId:'pie',stageLabel:'派',name:'派'},{...archived.items[0],id:'old-other',stageId:'other',stageLabel:'其他',name:'真实周边贴纸'}]};
+ const result=await sources.loadFrozenDemo('/',async()=>new Response(JSON.stringify(old)));
+ assert.deepEqual(result.items.map(c=>[c.id,c.stageId,c.name]),[['old-pie','dessert','派'],['old-other','other','真实周边贴纸']]);assert.notEqual(result.contextKey,old.contextKey);
+});
 
 test('frozen exports allowlist public fields, keep identities and variants, and separate the live context', async () => {
   const { freezeSnapshot } = await import('../src/demo/snapshot.ts');

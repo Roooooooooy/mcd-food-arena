@@ -1,4 +1,4 @@
-import type { Candidate, CatalogSnapshot, Variant } from '../shared/contracts.ts';
+import type { Candidate, CatalogSnapshot, Variant, ModificationGroup, ComboRound } from '../shared/contracts.ts';
 
 function record(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('INVALID_SNAPSHOT');
@@ -17,6 +17,33 @@ function price(value: unknown): number | null {
   if (value === null) return null;
   if (!Number.isSafeInteger(value) || (value as number) < 0) throw new Error('INVALID_SNAPSHOT_PRICE');
   return value as number;
+}
+function nullableInteger(value:unknown):number|null {
+ if(value===null)return null;
+ if(!Number.isSafeInteger(value))throw new Error('INVALID_SNAPSHOT_OPTIONS');
+ return value as number;
+}
+function groups(value:unknown):ModificationGroup[]{
+ if(!Array.isArray(value))throw new Error('INVALID_SNAPSHOT_OPTIONS');
+ return value.map(group=>{
+  const g=record(group);if(!['single','toggles','unavailable'].includes(String(g.kind))||!Array.isArray(g.values))throw new Error('INVALID_SNAPSHOT_OPTIONS');
+  return {id:text(g.id),kind:g.kind as ModificationGroup['kind'],minValues:nullableInteger(g.minValues),maxValues:nullableInteger(g.maxValues),values:g.values.map(value=>{
+   const v=record(value);return {id:text(v.id),code:text(v.code),name:text(v.name),minQuantity:nullableInteger(v.minQuantity),maxQuantity:nullableInteger(v.maxQuantity),defaultQuantity:nullableInteger(v.defaultQuantity),selectedKey:text(v.selectedKey),...(v.unselectedKey===undefined?{}:{unselectedKey:text(v.unselectedKey)}),referenceDeltaCents:nullableInteger(v.referenceDeltaCents)};
+  })};
+ });
+}
+function rounds(value:unknown):ComboRound[]{
+ if(!Array.isArray(value))throw new Error('INVALID_SNAPSHOT_OPTIONS');
+ return value.map(value=>{
+  const r=record(value);if(!Array.isArray(r.choices))throw new Error('INVALID_SNAPSHOT_OPTIONS');
+  return {id:text(r.id),roundId:nullableInteger(r.roundId),name:text(r.name),minQuantity:nullableInteger(r.minQuantity),maxQuantity:nullableInteger(r.maxQuantity),defaultQuantity:nullableInteger(r.defaultQuantity),choices:r.choices.map(value=>{
+   const c=record(value);return {id:text(c.id),officialCode:text(c.officialCode),name:text(c.name),maxQuantity:nullableInteger(c.maxQuantity),defaultQuantity:nullableInteger(c.defaultQuantity),referenceDeltaCents:nullableInteger(c.referenceDeltaCents),modificationGroups:groups(c.modificationGroups)};
+  })};
+ });
+}
+function optionFields(input:Record<string,unknown>){
+ if(input.optionsStatus!==undefined&&input.optionsStatus!=='ready'&&input.optionsStatus!=='unavailable')throw new Error('INVALID_SNAPSHOT_OPTIONS');
+ return {...(input.optionsStatus===undefined?{}:{optionsStatus:input.optionsStatus as 'ready'|'unavailable'}),...(input.modificationGroups===undefined?{}:{modificationGroups:groups(input.modificationGroups)})};
 }
 function strings(value: unknown): string[] {
   if (!Array.isArray(value)) throw new Error('INVALID_SNAPSHOT');
@@ -44,6 +71,7 @@ function variant(value: unknown): Variant {
     referencePriceCents: price(input.referencePriceCents), nutrition: nutrition(input.nutrition), imageUrl: publicImageUrl(input.imageUrl),
     ...(input.menuCode === undefined ? {} : { menuCode: text(input.menuCode) }),
     ...(Number.isSafeInteger(input.roundId) && (input.roundId as number) >= 0 ? { roundId: input.roundId as number } : {}),
+    ...optionFields(input),
   };
 }
 function candidate(value: unknown): Candidate {
@@ -59,6 +87,7 @@ function candidate(value: unknown): Candidate {
     ...(input.stageLabel === undefined ? {} : { stageLabel: text(input.stageLabel) }),
     ...(input.sourceCategories === undefined ? {} : { sourceCategories: strings(input.sourceCategories) }),
     ...(variants ? { variants } : {}), ...(defaultVariantId ? { defaultVariantId } : {}),
+    ...optionFields(input), ...(input.comboRounds===undefined?{}:{comboRounds:rounds(input.comboRounds)}),
   };
 }
 /** Export only the normalized public catalog contract, never raw MCP objects. */

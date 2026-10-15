@@ -103,3 +103,11 @@ test('selection accepts only normalized current-basket requests behind identical
   const response=await app.inject({method:'POST',url:'/api/selection',headers,payload});assert.equal(response.statusCode,200);assert.deepEqual(response.json(),[{candidateId:'cola',components:[{name:'可乐中杯',quantity:1}],requiresSelection:false}]);assert.equal(calls,1);
  }finally{await app.close();}
 });
+test('option transport permits a complete large combo selection while preserving item and byte bounds',async()=>{
+ const app=createApp({stores:async()=>[],catalog:async()=>demoCatalog(),quote:async()=>{throw new Error('unexpected');},selection:async input=>input.basket.map(line=>({candidateId:line.candidateId,components:[{name:'收到完整选项',quantity:line.optionIds.length}],requiresSelection:false}))});
+ try{
+  const payload={contextKey:'context',cartRevision:0,basket:[{candidateId:'large-combo',quantity:1,optionIds:Array.from({length:31},(_,i)=>`round:official-choice-${i}:1`)}]};
+  const response=await app.inject({method:'POST',url:'/api/selection',headers:{host:'127.0.0.1:8787',origin:'http://127.0.0.1:5173'},payload});
+  assert.equal(response.statusCode,200);assert.equal(response.json()[0].components[0].quantity,31);
+ }finally{await app.close();}
+});

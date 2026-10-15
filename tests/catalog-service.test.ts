@@ -10,7 +10,7 @@ test('catalog service preserves exact store, all menu ids, variant mapping and c
  const context=service.getContext(snapshot.contextKey)!;assert.equal(context.orderType,1);assert.equal(context.beType,1);assert.equal(context.store.id,'3330251');assert.equal(context.rawMeals.size,109);
  const cola=snapshot.items.find(i=>i.name==='可乐')!;const variant=cola.variants![1];assert.equal(context.variants.get(variant.id)?.officialCode,'3050');assert.equal(context.candidates.get(cola.id)?.id,cola.id);
  const before=f.count();await service.getDetail(snapshot.contextKey,'9900008751');await service.getDetail(snapshot.contextKey,'9900008751');assert.equal(f.count(),before);
- await service.getDetail(snapshot.contextKey,'1100');await service.getDetail(snapshot.contextKey,'1100');assert.equal(f.count(),before+1);
+ await service.getDetail(snapshot.contextKey,'1100');await service.getDetail(snapshot.contextKey,'1100');assert.equal(f.count(),before);
  assert.equal(f.calls.some(c=>c.name==='calculate-price'),false);assert.ok(f.calls.filter(c=>c.name.startsWith('query-meal')).every(c=>c.args.beType===1&&c.args.orderType===1&&!('beCode'in c.args)));
  const refresh=await service.loadCatalog({storeId:'3330251',diningMode:'pickup'});assert.equal(refresh.contextKey,snapshot.contextKey);
 });
