@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { mcdMemes, MemeSources } from './copy/MemeSources.tsx';
+import { mcdMemes } from './copy/MemeSources.tsx';
 import { loadFrozenDemo, publicDemoOnly, defaultSelection } from './catalog/source.ts';
 import { StorePicker } from './setup/StorePicker.tsx';
 import { loadCatalog, searchStores } from './api.ts';
@@ -158,5 +158,5 @@ export default function App() {
       {page === 'setup' && snapshot && <SetupPage snapshot={snapshot} selection={selection} onSelectionChange={setSelection} onStart={start} onResume={resume} hasSaved={saved !== null} message={message}/>}
       {page === 'arena' && snapshot && arenas[activeIndex] && <ArenaPage state={arenas[activeIndex]} snapshot={snapshot} arenas={arenas} activeIndex={activeIndex} onChoose={resolveChoice} onUndo={() => updateActive(undo)} onSkip={() => updateActive(skip)} onPause={pause} onNext={next} onStageSelect={setActiveIndex}/>}
       {page === 'result' && snapshot && <CartPage key={snapshot.contextKey} snapshot={snapshot} basket={cart.basket} onBasketChange={basket => setCart(current => ({...current,basket}))} arenas={arenas} totalDecisions={totalDecisions} onReview={index => { const arena = arenas[index]; if (!arena) return; setArenas(current => current.map((value, i) => i === index ? createArena(value.orderedIds, value.arenaId, value.stageId) : value)); setActiveIndex(index); setPage('arena'); }} onRestart={start} onSetup={() => { setMessage(null); setPage('setup'); }}/> }
-    </main><footer className="site-footer"><p><span className="footer-star" aria-hidden="true">✦</span> {mcdMemes.eternal.text}</p><p>{mode === 'demo' ? `官方门店菜单快照 · 采集时间：${frozenDemo ? new Date(frozenDemo.capturedAt ?? frozenDemo.loadedAt).toLocaleString('zh-CN') : '加载中'}。价格、规格和营养来自采集时的菜单，仅供参考。条件价不保证适用，不是实时官方报价。` : '菜单和已匹配的营养来自官方。参考价可能有适用条件，金额以本次官方核价为准。'}</p><MemeSources/></footer></div>;
+    </main><footer className="site-footer"><p><span className="footer-star" aria-hidden="true">✦</span> {mcdMemes.eternal.text}</p><p>{mode === 'demo' ? `官方门店菜单快照 · 采集时间：${frozenDemo ? new Date(frozenDemo.capturedAt ?? frozenDemo.loadedAt).toLocaleString('zh-CN') : '加载中'}。价格、规格和营养来自采集时的菜单，仅供参考。条件价不保证适用，不是实时官方报价。` : '菜单和已匹配的营养来自官方。参考价可能有适用条件，金额以本次官方核价为准。'}</p></footer></div>;
 }
