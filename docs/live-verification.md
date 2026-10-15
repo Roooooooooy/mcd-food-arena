@@ -108,3 +108,7 @@ Task 5 同日实际官方记录另确认：可乐中杯1000分、大杯1200分�
 - [官方整餐报价手机](screenshots/task6-live-result-mobile.png)
 
 30–60秒传播演示录像为可选项，本轮未录制。正式报名尚未执行。
+
+## 正式报名记录
+
+2026-10-16 用户核对四行正文并确认阅读、同意官方活动规则后，由 Roooooooooy 提交 [Issue #772](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772)。申请正文与已检查的 submission.md 字节一致，首次读取时为 Open、无官方评论；这表示已提交，不代表已通过官方校验。官方后续回复以 Issue 页面为准。本次报名没有调用麦当劳订单或支付接口。
