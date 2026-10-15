@@ -34,7 +34,7 @@ test('identical live semantic content restores a paused game across reloads and 
   const f = upstream(); const service = createCatalogService(f.g);
   const first = await service.loadCatalog(input);
   const [initial] = startSession(first, selection);
-  const paused = choose(initial, 'right', initial.revision);
+  const paused = choose(initial, getMatch(initial)!.leftId === 'live:sku:b' ? 'left' : 'right', initial.revision);
   const saved = serializeSession(first, [paused], 0);
   await new Promise(resolve => setTimeout(resolve, 3));
   f.menu.traceId = 'second-request'; f.menu.loadedAt = 'upstream-second'; f.menu.credential = 'different-private-marker';
