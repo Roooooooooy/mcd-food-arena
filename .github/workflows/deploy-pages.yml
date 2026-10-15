@@ -30,6 +30,7 @@ jobs:
         run: npm run build -- --base="/${{ github.event.repository.name }}/"
         env:
           VITE_PUBLIC_DEMO: 'true'
+          VITE_PUBLIC_COMMERCE: 'false'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
