@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { mcdMemes, MemeSources } from './copy/MemeSources.tsx';
 import { loadFrozenDemo, publicDemoOnly, defaultSelection } from './catalog/source.ts';
 import { StorePicker } from './setup/StorePicker.tsx';
 import { loadCatalog, searchStores } from './api.ts';
@@ -46,7 +47,7 @@ export default function App() {
     if (!snapshot || arenas.length === 0) return;
     const serialized = serializeSession(snapshot, arenas, activeIndex);
     setSaved(serialized);
-    try { localStorage.setItem(storageKey(snapshot), serialized); } catch { setMessage('浏览器未允许暂存，请保持此页面打开。'); }
+    try { localStorage.setItem(storageKey(snapshot), serialized); } catch { setMessage('浏览器没能保存记录，请保持页面打开。'); }
   }, [snapshot, arenas, activeIndex]);
 
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [page]);
@@ -72,7 +73,7 @@ export default function App() {
       const found = await searchStores(input);
       if (version !== requestVersion.current) return;
       setStores([store, ...found.filter(value => value.id !== store.id)]);
-      if (found.length === 0) setMessage('没有找到周边门店，请更换地址关键词。');
+      if (found.length === 0) setMessage('没找到符合条件的门店，请换个地址关键词。');
     } catch (error) { if (version === requestVersion.current) setMessage(error instanceof Error ? error.message : '门店搜索失败，请重试。'); }
     finally { if (version === requestVersion.current) setLoading(false); }
   }
@@ -83,7 +84,7 @@ export default function App() {
       const catalog = await loadCatalog({ storeId: store.id, diningMode: 'pickup' });
       if (version !== requestVersion.current) return;
       setSnapshot(catalog); setSelection(defaultSelection(catalog)); setSaved(readSaved(catalog));
-      if (!catalog.complete) setMessage('菜单未确认完整，开始挑选已暂停。请刷新重试。');
+      if (!catalog.complete) setMessage('菜单还没确认完整，暂时不能开始挑选。请刷新重试。');
     } catch (error) { if (version === requestVersion.current) setMessage(error instanceof Error ? error.message : '真实菜单加载失败，请重试。'); }
     finally { if (version === requestVersion.current) setLoading(false); }
   }
@@ -96,7 +97,7 @@ export default function App() {
       setActiveIndex(0);
       setMessage(null);
       setPage('arena');
-    } catch (error) { setMessage(error instanceof Error ? error.message : '无法开始挑选，请检查候选。'); }
+    } catch (error) { setMessage(error instanceof Error ? error.message : '暂时无法开始，请检查所选餐品。'); }
   }
   function resume() {
     if (!snapshot) return;
@@ -142,9 +143,9 @@ export default function App() {
     setSaved(serialized);
     try {
       localStorage.setItem(storageKey(snapshot), serialized);
-      setMessage('挑选记录已暂存。想回来时，点“继续上次挑选记录”就好。');
+      setMessage('记录已保存，回来点“接着选”就能继续。');
     } catch {
-      setMessage('当前挑选记录已暂停，但浏览器未允许写入暂存。请保持页面打开，再点“继续上次挑选记录”。');
+      setMessage('已暂停，但浏览器没能保存记录。请保持页面打开，再点“接着选”。');
     }
     setPage('setup');
   }
@@ -153,9 +154,9 @@ export default function App() {
 
   return <div className="app-shell ui-enhanced"><header className="site-header"><a className="brand" href="#" onClick={event => { event.preventDefault(); if (page !== 'setup') pause(); }} aria-label="麦麦二选一首页"><span className="brand-mark" aria-hidden="true">✦</span><span>麦麦二选一</span><small>PICK ONE</small></a><div className="demo-status"><span className="status-dot"/>{mode === 'demo' ? <>菜单快照</> : <>真实菜单 <span className="demo-token">到店自提</span></>}</div></header>
     <main className="main-container">{page === 'setup' && <StorePicker mode={mode} store={store} stores={stores} busy={loading} publicOnly={publicDemoOnly} snapshot={frozenDemo} onModeChange={changeMode} onStoreChange={changeStore} onSearch={findStores} onLoad={refreshCatalog} loaded={snapshot?.mode === 'live'}/>}
-      {page === 'setup' && !snapshot && <section className="catalog-empty" aria-busy={loading}><p className="eyebrow">{mode === 'demo' ? '门店快照 / 免 Token' : '真实菜单 / 按需加载'}</p><h1>{mode === 'demo' ? loading ? '正在读取门店快照…' : '门店快照暂时无法加载。' : loading ? '正在读取官方菜单…' : '选好门店，开始挑选真实餐品。'}</h1><p>{mode === 'demo' ? '公开菜单和餐品图片保存在本站，加载后即可开始挑选。' : loading ? '门店菜单、真实规格和营养正在装载，请稍候。' : '点击“加载真实菜单”，装载全部餐品后再开始挑选。'}</p>{message && <p role="status" className="notice">{message}</p>}</section>}
+      {page === 'setup' && !snapshot && <section className="catalog-empty" aria-busy={loading}><p className="eyebrow">{mode === 'demo' ? '门店菜单快照' : '读取真实菜单'}</p><h1>{mode === 'demo' ? loading ? '正在加载门店快照…' : '门店快照暂时无法加载。' : loading ? '正在读取官方菜单…' : '先选门店，再加载菜单'}</h1><p>{mode === 'demo' ? '菜单和餐品图片已保存在本站，加载完成后就能开始挑选。' : loading ? '正在加载门店菜单、规格和营养，请稍等。' : '点“加载真实菜单”，餐品加载齐后再开始挑选。'}</p>{message && <p role="status" className="notice">{message}</p>}</section>}
       {page === 'setup' && snapshot && <SetupPage snapshot={snapshot} selection={selection} onSelectionChange={setSelection} onStart={start} onResume={resume} hasSaved={saved !== null} message={message}/>}
       {page === 'arena' && snapshot && arenas[activeIndex] && <ArenaPage state={arenas[activeIndex]} snapshot={snapshot} arenas={arenas} activeIndex={activeIndex} onChoose={resolveChoice} onUndo={() => updateActive(undo)} onSkip={() => updateActive(skip)} onPause={pause} onNext={next} onStageSelect={setActiveIndex}/>}
       {page === 'result' && snapshot && <CartPage key={snapshot.contextKey} snapshot={snapshot} basket={cart.basket} onBasketChange={basket => setCart(current => ({...current,basket}))} arenas={arenas} totalDecisions={totalDecisions} onReview={index => { const arena = arenas[index]; if (!arena) return; setArenas(current => current.map((value, i) => i === index ? createArena(value.orderedIds, value.arenaId, value.stageId) : value)); setActiveIndex(index); setPage('arena'); }} onRestart={start} onSetup={() => { setMessage(null); setPage('setup'); }}/> }
-    </main><footer className="site-footer"><p><span className="footer-star" aria-hidden="true">✦</span> 先选心动，再想开饭。</p><p>{mode === 'demo' ? `官方门店菜单快照 · 采集于 ${frozenDemo ? new Date(frozenDemo.capturedAt ?? frozenDemo.loadedAt).toLocaleString('zh-CN') : '加载中'}。价格、规格、营养仅参考当时数据，条件价不保证适用，非实时官方报价。` : '官方菜单与已匹配营养；参考价可能含条件，最终以官方核价为准。'}</p></footer></div>;
+    </main><footer className="site-footer"><p><span className="footer-star" aria-hidden="true">✦</span> {mcdMemes.eternal.text}</p><p>{mode === 'demo' ? `官方门店菜单快照 · 采集时间：${frozenDemo ? new Date(frozenDemo.capturedAt ?? frozenDemo.loadedAt).toLocaleString('zh-CN') : '加载中'}。价格、规格和营养来自采集时的菜单，仅供参考。条件价不保证适用，不是实时官方报价。` : '菜单和已匹配的营养来自官方。参考价可能有适用条件，金额以本次官方核价为准。'}</p><MemeSources/></footer></div>;
 }
