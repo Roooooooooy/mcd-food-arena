@@ -320,3 +320,16 @@
   .ui-enhanced .setup-workspace .lineup-disclosure { grid-column: 1; grid-row: 2; }
   .ui-enhanced .setup-workspace .start-panel { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
 }
+/* Attested phrases are quoted as decoration, never as product promises. */
+.ui-enhanced .meme-food-tag { margin-left: auto; font-size: 11px; line-height: 1.5; padding: 3px 5px; border-radius: 6px; background: #fff2c4; color: var(--ink); }
+.ui-enhanced .card-role { flex-wrap: wrap; }
+.ui-enhanced .site-footer { flex-wrap: wrap; }
+.ui-enhanced .meme-sources { flex-basis: 100%; min-width: 0; width: 100%; padding-top: 12px; border-top: 1px solid var(--border); }
+.ui-enhanced .meme-sources > summary { min-height: 44px; display: flex; align-items: center; font-size: 14px; color: var(--ink); cursor: pointer; }
+.ui-enhanced .meme-sources > ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px 24px; }
+.ui-enhanced .meme-sources li { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; font-size: 13px; }
+.ui-enhanced .meme-sources li strong { color: var(--ink); }
+.ui-enhanced .meme-sources li span { color: var(--muted); }
+.ui-enhanced .meme-sources li a { color: var(--mcd-red); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+.ui-enhanced .meme-sources > p { font-size: 12px; line-height: 1.8; color: var(--muted); }
+@media (max-width:760px) { .ui-enhanced .meme-sources > ul { grid-template-columns: minmax(0,1fr); } }

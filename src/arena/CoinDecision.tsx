@@ -92,7 +92,7 @@ export function CoinDecision(props: Props) {
   }
 
   return <div className="coin-control" data-coin-phase={phase} data-final-side={finalSide ?? ''}>
-    <button className={`button button-primary coin-button ${phase === 'spinning' ? 'coin-spinning' : ''}`} disabled={props.disabled} onClick={toss} aria-label="抛硬币帮我选"><span className="coin-icon" aria-hidden="true"><span>✦</span></span>{phase === 'spinning' ? '硬币正在帮你选…' : phase === 'revealed' ? `就选${finalSide === 'left' ? '左边' : '右边'}！` : '抛硬币帮我选'}</button>
-    <p className="coin-caption" aria-live="polite">{phase === 'revealed' ? `硬币选中了${finalSide === 'left' ? '左侧餐品' : '右侧餐品'}` : '真的纠结？让一枚硬币替你做决定。'}</p>
+    <button className={`button button-primary coin-button ${phase === 'spinning' ? 'coin-spinning' : ''}`} disabled={props.disabled} onClick={toss} aria-label="抛硬币选一份"><span className="coin-icon" aria-hidden="true"><span>✦</span></span>{phase === 'spinning' ? '硬币正在选…' : phase === 'revealed' ? `就选${finalSide === 'left' ? '左边' : '右边'}！` : '抛硬币选一份'}</button>
+    <p className="coin-caption" aria-live="polite">{phase === 'revealed' ? `硬币选中了${finalSide === 'left' ? '左侧餐品' : '右侧餐品'}` : '拿不定主意？抛硬币随机选一边。'}</p>
   </div>;
 }

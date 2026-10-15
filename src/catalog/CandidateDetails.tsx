@@ -12,13 +12,13 @@ export function CandidateDetails({ item, showPrices = true }: { item: Candidate;
     {variants && showPrices && <div className="variant-price-list" aria-label={`${item.name}各规格参考价`}>
       <p className="variant-price-caption">{item.sourceKind === 'official-snapshot' ? '快照参考价' : item.mode === 'demo' ? '样例参考价' : '菜单参考价'}</p>
       {variants.map(variant => <div className="variant-price-row" key={variant.id}><span>{variant.sizeLabel}</span><strong>{variant.referencePriceCents === null ? '价格未知' : `¥${(variant.referencePriceCents / 100).toFixed(2)}`}</strong></div>)}
-      <p className="variant-note">{variants.length} 种规格 · 餐单里选</p>
+      <p className="variant-note">{variants.length} 种规格 · 最后再选</p>
     </div>}
     <details className="nutrition-disclosure">
       <summary aria-label={`${item.name}营养详情`}>营养详情{!variants && <span>{item.nutrition.kcal === undefined ? '未知' : `${item.nutrition.kcal} kcal`}</span>}</summary>
       <div className="nutrition-content">
         {variants ? variants.map(variant => <div className="nutrition-variant" key={variant.id}><strong>{variant.sizeLabel} · {variant.name}</strong><p>{nutritionText(variant.nutrition)}</p></div>) : <p>{nutritionText(item.nutrition)}</p>}
-        <p className="nutrition-source">{label}，仅供参考</p>
+        <p className="nutrition-source">{label}数据，仅供参考</p>
       </div>
     </details>
   </div>;

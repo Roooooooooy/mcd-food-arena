@@ -1,7 +1,7 @@
 import type {CatalogSnapshot,StoreOption} from './shared/contracts.ts';
 import { publicDemoOnly } from './catalog/source.ts';
 export function createLiveApi(publicOnly: boolean, fetcher: typeof fetch = fetch) {
-function allowLive() { if (publicOnly) throw new Error('真实菜单请在本机运行；公开页面提供门店快照试玩。'); }
+function allowLive() { if (publicOnly) throw new Error('公开页面只能试玩门店快照。要读取真实菜单，请在本机运行。'); }
 async function get<T>(path:string,input:Record<string,string>):Promise<T>{
  allowLive();
  try {
@@ -20,9 +20,9 @@ const quoteMessages:Record<string,string>={
  CATALOG_CONTEXT_MISSING:'菜单或门店已变化，请重新加载菜单后核价。',
  PRODUCT_NOT_IN_CONTEXT:'餐品不在当前菜单，请返回分类重新选择。',
  OPTION_NOT_IN_CONTEXT:'规格已失效，请重新选择实际杯型。',
- SELECTION_REQUIRED:'套餐缺少可确认的默认选择，请调整餐盘或在官方渠道完成选配。',
+ SELECTION_REQUIRED:'套餐缺少可确认的默认选择，请调整餐单，或到官方渠道完成选配。',
  QUOTE_INVALID_AMOUNT:'官方响应未提供有效金额，未取得报价。',
- QUOTE_UNAVAILABLE:'官方暂未确认这份餐盘金额，未取得报价。',
+ QUOTE_UNAVAILABLE:'官方暂未确认这份餐单金额，未取得报价。',
  MCP_UNAUTHORIZED:'本机 Token 无效或已过期，请检查服务端配置。',
  MCP_TOKEN_MISSING:'本机尚未配置 Token，请检查服务端配置。',
  MCP_RATE_LIMITED:'官方服务暂时限流，请稍后重试。',
