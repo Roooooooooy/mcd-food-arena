@@ -338,3 +338,43 @@
   .ui-enhanced:has(.setup-page) .site-footer { padding-bottom: calc(124px + env(safe-area-inset-bottom)); }
   .ui-enhanced:has(.setup-page) .meme-sources :is(summary, a) { scroll-margin-bottom: 112px; }
 }
+/* One native button owns each entire card face. Details sit in a separate row. */
+.ui-enhanced .whole-card-board { grid-template-rows: auto auto; gap: 12px 24px; }
+.ui-enhanced .choice-column { display: contents; }
+.ui-enhanced [data-choice-side="left"] .whole-card-choice { grid-column: 1; grid-row: 1; }
+.ui-enhanced [data-choice-side="right"] .whole-card-choice { grid-column: 2; grid-row: 1; }
+.ui-enhanced [data-choice-side="left"] .card-info { grid-column: 1; grid-row: 2; }
+.ui-enhanced [data-choice-side="right"] .card-info { grid-column: 2; grid-row: 2; }
+.ui-enhanced .whole-card-choice { position: relative; border-radius: 24px; padding: 24px; border-color: #d8cfc3; transition: background .16s, box-shadow .16s, transform .16s; }
+.ui-enhanced .card-content { position: relative; z-index: 1; display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.ui-enhanced .card-choice-target { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
+.ui-enhanced .card-choice-target:focus-visible { outline: 3px solid var(--mcd-red); outline-offset: 4px; }
+.ui-enhanced .whole-card-choice:has(.card-choice-target:focus-visible) { box-shadow: inset 0 0 0 1px var(--mcd-red); }
+.ui-enhanced .whole-card-choice:has(.card-choice-target:active:not(:disabled)) { background: #fff1bd; box-shadow: inset 0 0 0 2px var(--mcd-yellow); transform: scale(.987); }
+.ui-enhanced .whole-card-choice:has(.card-choice-target:disabled) .card-content { opacity: .6; }
+.ui-enhanced .whole-card-choice.coin-selected .card-content { opacity: 1; }
+.ui-enhanced .card-choice-target:disabled { cursor: default; }
+.ui-enhanced .card-choice-hint { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--mcd-red); font-size: 17px; font-weight: 800; }
+.ui-enhanced .card-choice-arrow { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: var(--mcd-yellow); color: var(--ink); font-size: 20px; }
+.ui-enhanced .card-info { min-width: 0; align-self: start; padding: 0 14px; }
+.ui-enhanced .card-info .candidate-details { margin: 0; }
+.ui-enhanced .card-info .nutrition-disclosure { border: 0; margin: 0; }
+.ui-enhanced .card-info .nutrition-disclosure > summary { padding: 2px 0; min-height: 44px; }
+.ui-enhanced .card-info .nutrition-content { padding: 8px 0; }
+.ui-enhanced .whole-card-board .vs-badge { top: 170px; pointer-events: none; animation: none; transform: translate(-50%, -50%); }
+@media (hover: hover) {
+  .ui-enhanced .whole-card-choice:has(.card-choice-target:hover:not(:disabled)) { background: #fff9e8; box-shadow: inset 0 0 0 2px var(--mcd-red), 0 8px 26px #db000710; transform: translateY(-2px); }
+}
+@media (max-width: 760px) {
+  .ui-enhanced .whole-card-board { gap: 8px 12px; }
+  .ui-enhanced .whole-card-choice { padding: 14px 12px; border-radius: 18px; }
+  .ui-enhanced .card-choice-hint { font-size: 15px; margin-top: 14px; padding-top: 12px; gap: 8px; }
+  .ui-enhanced .card-choice-arrow { width: 30px; height: 30px; font-size: 18px; }
+  .ui-enhanced .card-info { padding: 0 8px; }
+  .ui-enhanced .whole-card-board .vs-badge { top: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-enhanced .whole-card-choice:has(.card-choice-target:hover), .ui-enhanced .whole-card-choice:has(.card-choice-target:active) { transform: none; }
+}
+/* A 320px viewport can lose 15px to a scrollbar; let the content use its client width. */
+body:has(.ui-enhanced) { min-width: 0; }
