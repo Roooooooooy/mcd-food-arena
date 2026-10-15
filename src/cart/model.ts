@@ -5,7 +5,7 @@ export function buildBasket(winners: string[]): BasketLine[] {
   return [...new Set(winners)].map(candidateId => ({ candidateId, quantity: 1, optionIds: [] }));
 }
 export function basketKey(lines: BasketLine[]): string {
-  return JSON.stringify(lines.map(line => ({ candidateId: line.candidateId, quantity: line.quantity, optionIds: [...line.optionIds].sort() })).sort((a,b) => a.candidateId.localeCompare(b.candidateId) || JSON.stringify(a).localeCompare(JSON.stringify(b))));
+  return JSON.stringify(lines.map(line => ({ candidateId: line.candidateId, quantity: line.quantity, ...(line.couponKey !== undefined ? {couponKey:line.couponKey} : {}), optionIds: [...line.optionIds].sort() })).sort((a,b) => a.candidateId.localeCompare(b.candidateId) || JSON.stringify(a).localeCompare(JSON.stringify(b))));
 }
 export function quoteIsCurrent(quote: QuoteResult, request: QuoteRequest): boolean {
   return quote.contextKey === request.contextKey && quote.basketKey === basketKey(request.basket) && quote.cartRevision === request.cartRevision;
@@ -49,7 +49,7 @@ export function buildWinnerBasket(winners:string[],snapshot:import('../shared/co
 }
 export function sampleQuote(request:QuoteRequest,snapshot:import('../shared/contracts.ts').CatalogSnapshot):QuoteResult{
  const label=snapshot.sourceKind==='official-snapshot'?'快照':'样例';
- if(snapshot.mode!=='demo'||request.contextKey!==snapshot.contextKey||!request.basket.length)throw new Error(`${label}餐单不可用。`);
+ if(request.basket.some(line=>line.couponKey!==undefined)||snapshot.mode!=='demo'||request.contextKey!==snapshot.contextKey||!request.basket.length)throw new Error(`${label}餐单不可用。`);
  let totalCents=0;
  const seen=new Set<string>();
  for(const line of request.basket){
@@ -63,11 +63,11 @@ export function sampleQuote(request:QuoteRequest,snapshot:import('../shared/cont
  if(!Number.isSafeInteger(totalCents))throw new Error(`${label}金额不可用。`);
  return {contextKey:request.contextKey,basketKey:basketKey(request.basket),cartRevision:request.cartRevision,totalCents,currency:'CNY',quotedAt:new Date().toISOString(),mode:'demo',evidence:snapshot.sourceKind==='official-snapshot'?'snapshot':'sample',fees:[]};
 }
-export function basketText(request:QuoteRequest,snapshot:import('../shared/contracts.ts').CatalogSnapshot,selections:import('../shared/contracts.ts').BasketSelection[],quote:QuoteResult|null):string{
+export function basketText(request:QuoteRequest,snapshot:import('../shared/contracts.ts').CatalogSnapshot,selections:import('../shared/contracts.ts').BasketSelection[],quote:QuoteResult|null,commerce?:{products:import('../shared/contracts.ts').Candidate[];order:import('../commerce/contracts.ts').PersonalOrder|null;unknown:boolean}):string{
  const current=quote&&quoteIsCurrent(quote,request)?quote:null;
  const frozen=snapshot.sourceKind==='official-snapshot';
  const lines=request.basket.map(line=>{
-  const item=snapshot.items.find(i=>i.id===line.candidateId);if(!item)return '失效商品';
+  const item=[...snapshot.items,...(commerce?.products??[])].find(i=>i.id===line.candidateId);if(!item)return '失效商品';
   const selection=selections.find(s=>s.candidateId===line.candidateId);
   try {
    const selected=resolveOptions(item,line.optionIds);
@@ -77,7 +77,7 @@ export function basketText(request:QuoteRequest,snapshot:import('../shared/contr
    return `${item.name} × ${line.quantity}${composition?`；实际选配：${composition}`:''}${selected.summary.length?`；定制：${selected.summary.join('、')}`:'；沿用官方默认'}${frozen&&condition?`；${condition}`:''}`;
   }catch{return `${item.name} × ${line.quantity}；选配待确认`;}
  });
- return ['麦麦二选一 · 餐单',`来源：${frozen?'官方菜单（门店快照）':snapshot.mode==='live'?'官方菜单':'虚构样例'}`,`门店：${snapshot.store?.name??'样例门店'}`,...(frozen?[`快照采集时间：${snapshot.capturedAt??snapshot.loadedAt}`,'价格、规格和营养来自采集时的菜单，仅供参考。条件价不保证适用，未取得实时官方报价。']:[]),...lines,'营养仅为官方默认配方参考，未计算定制后的营养。',current?`${current.evidence==='official'?'官方整单金额':current.evidence==='snapshot'?'快照参考合计':'样例合计'}：¥${(current.totalCents/100).toFixed(2)}`:frozen?'快照参考合计：未计算或参考价未知':'官方整单金额：未取得报价',`${frozen?'计算':'核价'}时间：${current?.quotedAt??'未计算'}`,'本页只生成餐单，未创建订单。',mcdMemes.eternal.text].join('\n');
+ return ['麦麦二选一 · 餐单',`来源：${frozen?'官方菜单（门店快照）':snapshot.mode==='live'?'官方菜单':'虚构样例'}`,`门店：${snapshot.store?.name??'样例门店'}`,...(frozen?[`快照采集时间：${snapshot.capturedAt??snapshot.loadedAt}`,'价格、规格和营养来自采集时的菜单，仅供参考。条件价不保证适用，未取得实时官方报价。']:[]),...lines,'营养仅为官方默认配方参考，未计算定制后的营养。',current?`${current.evidence==='official'?'官方整单金额':current.evidence==='snapshot'?'快照参考合计':'样例合计'}：¥${(current.totalCents/100).toFixed(2)}`:frozen?'快照参考合计：未计算或参考价未知':'官方整单金额：未取得报价',`${frozen?'计算':'核价'}时间：${current?.quotedAt??'未计算'}`,commerce?.order?`已创建订单：${commerce.order.statusLabel}；请以官方订单状态为准。`:commerce?.unknown?'订单结果暂时无法确认，请到官方 App 查看，避免重复下单。':'本页只生成餐单，未创建订单。',mcdMemes.eternal.text].join('\n');
 }
 export function reconcileBasket(previous:BasketLine[],previousWinners:string[],winners:string[],snapshot:import('../shared/contracts.ts').CatalogSnapshot):BasketLine[]{
  const kept=previous.filter(line=>winners.includes(line.candidateId));

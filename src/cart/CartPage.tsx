@@ -1,23 +1,31 @@
-import { useEffect, useState } from 'react';
+import { isSelectable, isVariantSelectable, type AvailabilityResult } from '../commerce/availability-contracts.ts';
+import { AvailabilityNotice } from '../commerce/AvailabilityNotice.tsx';
+import { createAcceptedQuoteTracker } from '../commerce/state.ts';
+import { useEffect, useRef, useState } from 'react';
 import { mcdMemes } from '../copy/MemeSources.tsx';
 import type { ArenaState, BasketLine, BasketSelection, CatalogSnapshot } from '../shared/contracts.ts';
-import { loadBasketSelection, quoteBasket } from '../api.ts';
+import { CouponArt, CouponRecommendations } from '../coupons/CouponRecommendations.tsx';
+import type { CouponProposal } from '../coupons/recommend.ts';
+import type { CommerceApi } from '../commerce/api.ts';
+import type { CommerceQuote, CouponCollection, PersonalOrder } from '../commerce/contracts.ts';
 import { FoodArt } from '../arena/FoodArt.tsx';
 import { referencePrice } from '../arena/ArenaPage.tsx';
 import { CandidateDetails } from '../catalog/CandidateDetails.tsx';
 import { stageName } from '../catalog/normalize.ts';
 import { OptionsEditor } from './OptionsEditor.tsx';
 import { inspectOptions, resolveOptions, setVariant } from './options.ts';
-import { basketKey, basketText, createQuoteTracker, moneyToCents, sampleQuote, type QuoteState } from './model.ts';
+import { basketKey, basketText, moneyToCents, sampleQuote, type QuoteState } from './model.ts';
 
-interface Props {snapshot:CatalogSnapshot;basket:BasketLine[];onBasketChange:(lines:BasketLine[])=>void;arenas:ArenaState[];totalDecisions:number;onReview:(index:number)=>void;onRestart:()=>void;onSetup:()=>void}
-export function CartPage({snapshot,basket,onBasketChange,arenas,totalDecisions,onReview,onRestart,onSetup}:Props){
+interface Props {quoteGeneration?:number;availability?:AvailabilityResult|null;coveredQuantities?:Record<string,number>;coupons?:CouponCollection|null;commerceClient?:CommerceApi;cartRevision?:number;onOfficialQuote?:(quote:CommerceQuote,request:import('../shared/contracts.ts').QuoteRequest,eligibilityGeneration:number)=>void;onApplyCoupon?:(p:CouponProposal)=>void;onRefreshCoupons?:()=>void;onUndoCoupon?:()=>void;canUndoCoupon?:boolean;commerceBusy?:boolean;order?:PersonalOrder|null;orderUnknown?:boolean;snapshot:CatalogSnapshot;basket:BasketLine[];onBasketChange:(lines:BasketLine[])=>void;arenas:ArenaState[];totalDecisions:number;onReview:(index:number)=>void;onRestart:()=>void;onSetup:()=>void}
+export function CartPage({quoteGeneration=0,availability,snapshot,basket,onBasketChange,arenas,totalDecisions,onReview,onRestart,onSetup,coveredQuantities={},coupons,commerceClient,cartRevision=0,onOfficialQuote,onApplyCoupon,onRefreshCoupons,onUndoCoupon,canUndoCoupon=false,commerceBusy=false,order=null,orderUnknown=false}:Props){
+ const products=[...snapshot.items,...(coupons?.products??[])];
  const frozen=snapshot.sourceKind==='official-snapshot';
  const hasOther=basket.some(line=>snapshot.items.find(item=>item.id===line.candidateId)?.stageId==='other');
  const conditional=basket.some(line=>snapshot.items.find(item=>item.id===line.candidateId)?.attributes.some(a=>a.includes('条件价')));
- const initial={contextKey:snapshot.contextKey,basket,cartRevision:0};
+ const initial={contextKey:snapshot.contextKey,basket,cartRevision};
  const [state,setState]=useState<QuoteState>({request:initial,status:'idle',quote:null,error:null});
- const [tracker]=useState(()=>createQuoteTracker(initial,setState));
+ const latestOfficialQuote=useRef(onOfficialQuote);latestOfficialQuote.current=onOfficialQuote;
+ const [tracker]=useState(()=>createAcceptedQuoteTracker(initial,setState,(quote,request,generation)=>latestOfficialQuote.current?.(quote,request,generation)));
  const [selections,setSelections]=useState<BasketSelection[]>([]);
  const [selectionStatus,setSelectionStatus]=useState<'idle'|'loading'|'ready'|'error'>('idle');
  const [selectionError,setSelectionError]=useState<string|null>(null);
@@ -26,51 +34,60 @@ export function CartPage({snapshot,basket,onBasketChange,arenas,totalDecisions,o
  const [notice,setNotice]=useState<string|null>(null);
  const key=basketKey(state.request.basket);
  useEffect(()=>()=>tracker.cancel(),[tracker]);
+ useEffect(()=>{if(commerceBusy||order||orderUnknown)tracker.replace({contextKey:snapshot.contextKey,basket,cartRevision});},[commerceBusy,order?.key,orderUnknown,tracker]);
+ useEffect(()=>{const current=tracker.getState().request;if(basketKey(current.basket)!==basketKey(basket)||current.cartRevision!==cartRevision)tracker.replace({contextKey:snapshot.contextKey,basket,cartRevision});},[basket,cartRevision,snapshot.contextKey,tracker]);
  useEffect(()=>{
   let active=true;
   setSelections([]);setSelectionError(null);
   if(snapshot.mode==='demo'||state.request.basket.length===0){setSelectionStatus('ready');return;}
+  if(!commerceClient){setSelectionStatus('error');setSelectionError('请先连接本人账号，再核对选配。');return;}
   setSelectionStatus('loading');
-  void loadBasketSelection(state.request).then(result=>{if(active){setSelections(result);setSelectionStatus('ready');}},error=>{if(active){setSelectionStatus('error');setSelectionError(error instanceof Error?error.message:'选配读取失败，请重试。');}});
+  void commerceClient.selection(state.request).then(result=>{if(active){setSelections(result);setSelectionStatus('ready');}},error=>{if(active){setSelectionStatus('error');setSelectionError(error instanceof Error?error.message:'选配读取失败，请重试。');}});
   return()=>{active=false;};
- },[key,snapshot.contextKey,snapshot.mode,selectionRetry]);
+ },[key,snapshot.contextKey,snapshot.mode,selectionRetry,commerceClient]);
  function change(lines:BasketLine[]){onBasketChange(lines);tracker.replace({...state.request,basket:lines,cartRevision:state.request.cartRevision+1});setNotice(null);}
  function update(id:string,values:Partial<BasketLine>){change(state.request.basket.map(line=>line.candidateId===id?{...line,...values}:line));}
- const text=basketText(state.request,snapshot,selections,state.quote);
+ const text=basketText(state.request,snapshot,selections,state.quote,{products:coupons?.products??[],order,unknown:orderUnknown||commerceBusy});
  async function copy(){try{await navigator.clipboard.writeText(text);setNotice('餐单已复制。');}catch{setNotice('浏览器未允许复制，可下载餐单。');}}
  function download(){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='麦麦二选一餐单.txt';link.click();URL.revokeObjectURL(url);setNotice('餐单已下载。');}
  let budgetCents:number|null=null;let budgetError=false;
  if(budget){try{budgetCents=moneyToCents(budget,'yuan');}catch{budgetError=true;}}
  const over=state.quote&&budgetCents!==null?Math.max(0,state.quote.totalCents-budgetCents):0;
- const needsSelection=selections.some(s=>s.requiresSelection)||state.request.basket.some(line=>{try{const item=snapshot.items.find(i=>i.id===line.candidateId);if(!item)return true;resolveOptions(item,line.optionIds);return false;}catch{return true;}});
- const canQuote=state.request.basket.length>0&&selectionStatus==='ready'&&!needsSelection&&state.status!=='loading';
+ const needsSelection=selections.some(s=>s.requiresSelection)||state.request.basket.some(line=>{try{const item=products.find(i=>i.id===line.candidateId);if(!item)return true;resolveOptions(item,line.optionIds);return false;}catch{return true;}});
+ const unavailable=state.request.basket.some(line=>!isSelectable(availability?.items.find(i=>i.candidateId===line.candidateId)));
+ useEffect(()=>{tracker.replace({contextKey:snapshot.contextKey,basket,cartRevision});},[availability,quoteGeneration,tracker]);
+ const canQuote=!unavailable&&(snapshot.mode==='demo'||!!commerceClient)&&!commerceBusy&&!orderUnknown&&!order&&state.request.basket.length>0&&selectionStatus==='ready'&&!needsSelection&&state.status!=='loading';
  return <section className="result-page cart-page" data-page="result"><div className="result-celebration" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span></div><p className="eyebrow">{mcdMemes.daily.text}</p><h1>{hasOther?'这次，就选这些。':'这顿，就吃这些。'}</h1><p className="result-description">选好规格和数量，{frozen?'再计算参考合计':'再核对整单金额'}。</p><div className="result-stats"><span>{arenas.length} 类餐品</span><span>{totalDecisions} 次决定</span><span>{state.request.basket.length} 种商品</span></div>
   <div className="champion-grid">{state.request.basket.map(line=>{
-   const item=snapshot.items.find(i=>i.id===line.candidateId);
+   const item=products.find(i=>i.id===line.candidateId);
    if(!item)return <article className="result-card" key={line.candidateId}><h2>这份餐品已失效</h2><button className="button button-outline" onClick={()=>change(state.request.basket.filter(l=>l.candidateId!==line.candidateId))}>移出餐单</button></article>;
+   const itemAvailability=availability?.items.find(i=>i.candidateId===item.id);
+   const blocked=!isSelectable(itemAvailability);
+   const covered=coveredQuantities[item.id]??0;
    const arenaIndex=arenas.findIndex(a=>a.championId===item.id);
    let selected;try{selected=inspectOptions(item,line.optionIds).variant;}catch{/* Stale options remain visible as invalid. */}
    const fixed=selected?.sizeLabel==='固定口味';
    let localSelection;try{localSelection=resolveOptions(item,line.optionIds);}catch{/* Required quantity is shown by the editor. */}
    const selection=selections.find(s=>s.candidateId===item.id);
-   return <article className="result-card cart-card" key={item.id}><div className="result-card-top"><span>{stageName(item)}分类</span><span>已选商品</span></div><div className="cart-item-main"><FoodArt item={selected?{...item,imageUrl:selected.imageUrl??item.imageUrl}:item}/><div className="cart-item-copy"><h2>{item.name}</h2>{item.stageId==='side'&&item.name.includes('薯条')&&<p className="cart-food-meme">{mcdMemes.friesEnough.text}</p>}
-    {item.variants&&item.variants.length>1&&<label className="cart-field">规格<select aria-label={`${item.name}规格`} value={selected?.id??''} onChange={e=>update(item.id,{optionIds:setVariant(item,line.optionIds,e.target.value)})}>{!selected&&<option value="" disabled>请选择规格</option>}{item.variants.map(v=><option key={v.id} value={v.id}>{v.sizeLabel} · {v.name}</option>)}</select></label>}
+   return <article className="result-card cart-card" key={item.id} data-coupon-product={line.couponKey?item.id:undefined}><div className="result-card-top"><span>{line.couponKey?'本人优惠券':stageName(item)+'分类'}</span><span>已选商品</span></div><div className="cart-item-main"><div className={blocked?"availability-image-unavailable":undefined}>{line.couponKey?<CouponArt imageUrl={item.imageUrl} name={item.name}/>:<FoodArt item={selected?{...item,imageUrl:selected.imageUrl??item.imageUrl}:item}/>}</div><div className="cart-item-copy"><h2>{item.name}</h2>{item.stageId==='side'&&item.name.includes('薯条')&&<p className="cart-food-meme">{mcdMemes.friesEnough.text}</p>}
+    {item.variants&&item.variants.length>1&&<label className="cart-field">规格<select aria-label={`${item.name}规格`} value={selected?.id??''} disabled={covered>0||commerceBusy} onChange={e=>{if(isVariantSelectable(itemAvailability,e.target.value))update(item.id,{optionIds:setVariant(item,line.optionIds,e.target.value)});}}>{!selected&&<option value="" disabled>请选择规格</option>}{item.variants.map(v=><option key={v.id} value={v.id} disabled={!isVariantSelectable(itemAvailability,v.id)}>{v.sizeLabel} · {v.name}{!isVariantSelectable(itemAvailability,v.id)?' · 当前未返回':''}</option>)}</select></label>}
     {selected&&!fixed&&<p className="selected-variant"><strong>已选：{selected.name}</strong></p>}
-    <p className="cart-item-price"><strong>{selected?selected.referencePriceCents===null?'参考价未知':`¥${(selected.referencePriceCents/100).toFixed(2)}`:referencePrice(item)}</strong><span> {frozen?'快照参考':snapshot.mode==='demo'?'样例参考':'菜单参考'}</span></p></div></div><CandidateDetails item={selected?{...item,nutrition:selected.nutrition}:item} showPrices={false} showNutrition={item.stageId!=='other'}/><OptionsEditor item={item} optionIds={line.optionIds} onChange={optionIds=>update(item.id,{optionIds})}/>{frozen&&item.attributes.some(a=>a.includes('条件价'))&&<p className="notice">{item.attributes.filter(a=>a.includes('条件价')).join(' · ')}；这份快照不保证条件价适用。</p>}
+    <p className="cart-item-price"><strong>{selected?selected.referencePriceCents===null?'参考价未知':`¥${(selected.referencePriceCents/100).toFixed(2)}`:referencePrice(item)}</strong><span> {frozen?'快照参考':snapshot.mode==='demo'?'样例参考':'菜单参考'}</span></p></div></div><AvailabilityNotice item={itemAvailability} replace/><CandidateDetails availability={itemAvailability} item={selected?{...item,nutrition:selected.nutrition}:item} showPrices={false} showNutrition={item.stageId!=='other'}/><fieldset className="cart-customization-guard" disabled={covered>0||commerceBusy}><OptionsEditor availability={itemAvailability} item={item} optionIds={line.optionIds} onChange={optionIds=>update(item.id,{optionIds})}/></fieldset>{covered>0&&<p className="notice">这份餐品有 {covered} 份已被券覆盖。修改原规格或定制前，请先移出券恢复餐品；其他餐品仍可调整。</p>}{frozen&&item.attributes.some(a=>a.includes('条件价'))&&<p className="notice">{item.attributes.filter(a=>a.includes('条件价')).join(' · ')}；这份快照不保证条件价适用。</p>}
     {snapshot.mode==='live'&&selectionStatus==='loading'&&<p className="cart-composition">正在核对默认选配…</p>}
     {(localSelection?.components.length??selection?.components.length??0)>0&&<div className="cart-composition"><strong>{fixed?'实际口味':item.variants?'已选规格':'实际选配'}</strong><ul>{(localSelection?.components??selection?.components??[]).map((c,index)=><li key={index}>{c.name} × {c.quantity}</li>)}</ul></div>}
     {selection?.requiresSelection&&<p className="notice">请完成这份商品的实际选配后再核价。</p>}
-    <div className="cart-line-actions"><label className="cart-field">数量<select aria-label={`${item.name}数量`} value={line.quantity} onChange={e=>update(item.id,{quantity:Number(e.target.value)})}>{Array.from({length:99},(_,i)=>i+1).map(n=><option key={n} value={n}>{n} 份</option>)}</select></label><button className="cart-remove" onClick={()=>change(state.request.basket.filter(l=>l.candidateId!==item.id))}>移出餐单</button></div><button className="result-review" onClick={()=>{tracker.cancel();onReview(arenaIndex);}}>重选这一类 <span aria-hidden="true">↗</span></button>
+    <div className="cart-line-actions"><label className="cart-field">数量<select aria-label={`${item.name}数量`} value={line.quantity} disabled={!!line.couponKey||commerceBusy} onChange={e=>update(item.id,{quantity:Number(e.target.value)})}>{Array.from({length:99-covered},(_,i)=>i+1).map(n=><option key={n} value={n}>{n} 份</option>)}</select></label><button className="cart-remove" onClick={()=>change(state.request.basket.filter(l=>l.candidateId!==item.id))}>移出餐单</button></div>{arenaIndex>=0&&<button className="result-review" onClick={()=>{tracker.cancel();onReview(arenaIndex);}}>重选这一类 <span aria-hidden="true">↗</span></button>}
    </article>;
   })}</div>
   {state.request.basket.length===0&&<p className="notice">餐单是空的。返回分类，重新选几份餐品吧。</p>}
-  <section className="cart-quote" aria-label={frozen?'快照参考合计':'整单核价'} aria-busy={state.status==='loading'}><div><p className="eyebrow">{frozen?'快照参考合计 / 采集时数据':snapshot.mode==='live'?'官方整单核价':'样例合计 / 非官方报价'}</p><h2>{state.quote?`¥${(state.quote.totalCents/100).toFixed(2)}`:state.status==='loading'?frozen?'正在计算…':'正在核价…':frozen?'尚未计算参考合计':'未取得报价'}</h2><p>{snapshot.store?.name??'虚构样例门店'} · 到店自提</p><p>{frozen?'按采集时菜单参考价及已确认的选项差价计算，不含实时费用和优惠。':'参考价用来比较，整单金额以本次官方报价为准。'}</p>{frozen&&conditional&&<p className="notice">餐单含随单购条件价，只有满足对应条件时，参考合计才适用。这不是购买报价。</p>}</div>
-   <div className="cart-quote-controls"><label className="cart-field">我的预算（元，可选）<input type="number" min="0" step="0.01" placeholder="不限预算" value={budget} onChange={e=>setBudget(e.target.value)}/></label>{budgetError&&<p role="status">预算请填有效金额，最多两位小数。</p>}<button className="button button-primary" disabled={!canQuote} onClick={()=>void tracker.run(snapshot.mode==='live'?quoteBasket:req=>Promise.resolve(sampleQuote(req,snapshot)))}>{state.status==='loading'?frozen?'正在计算…':'正在核价…':frozen?'计算快照参考合计':snapshot.mode==='live'?'获取官方整单报价':'计算样例合计'} <span aria-hidden="true">→</span></button></div>
+  <section className="cart-quote" aria-label={frozen?'快照参考合计':'整单核价'} aria-busy={state.status==='loading'}><div><p className="eyebrow">{frozen?'快照参考合计 / 采集时数据':snapshot.mode==='live'?'官方整单核价':'样例合计 / 非官方报价'}</p><h2>{state.quote?`¥${(state.quote.totalCents/100).toFixed(2)}`:state.status==='loading'?frozen?'正在计算…':'正在核价…':frozen?'尚未计算参考合计':'未取得报价'}</h2><p>{snapshot.store?.name??'虚构样例门店'} · {snapshot.mode==='live'?'取餐方式以官方报价为准':'菜单快照'}</p><p>{frozen?'按采集时菜单参考价及已确认的选项差价计算，不含实时费用和优惠。':'参考价用来比较，整单金额以本次官方报价为准。'}</p>{frozen&&conditional&&<p className="notice">餐单含随单购条件价，只有满足对应条件时，参考合计才适用。这不是购买报价。</p>}</div>
+   <div className="cart-quote-controls"><label className="cart-field">我的预算（元，可选）<input type="number" min="0" step="0.01" placeholder="不限预算" value={budget} onChange={e=>setBudget(e.target.value)}/></label>{budgetError&&<p role="status">预算请填有效金额，最多两位小数。</p>}<button className="button button-primary" disabled={!canQuote} onClick={()=>void tracker.run(snapshot.mode==='live'?async req=>{if(!commerceClient)throw new Error('请先连接本人账号，再取得官方报价。');return commerceClient.quote(req);}:req=>Promise.resolve(sampleQuote(req,snapshot)),quoteGeneration)}>{state.status==='loading'?frozen?'正在计算…':'正在核价…':frozen?'计算快照参考合计':snapshot.mode==='live'?'获取官方整单报价':'计算样例合计'} <span aria-hidden="true">→</span></button></div>
    {selectionStatus==='error'&&<p className="notice" role="status">{selectionError} <button className="cart-remove" onClick={()=>setSelectionRetry(v=>v+1)}>重试选配</button></p>}
    {state.error&&<p className="notice" role="status">{frozen?'未取得参考合计。':'未取得报价。'}{state.error}</p>}
    {state.quote&&<div className="quote-evidence" role="status"><p>{state.quote.evidence==='official'?'来源：本次官方整单报价':state.quote.evidence==='snapshot'?'来源：已保存的官方门店菜单参考价合计，不是实时官方报价':'来源：虚构样例参考价合计，非官方报价'}</p>{frozen&&<p>快照采集时间：{new Date(snapshot.capturedAt??snapshot.loadedAt).toLocaleString('zh-CN')}</p>}<p>{frozen?'计算':'核价'}时间：{new Date(state.quote.quotedAt).toLocaleString('zh-CN')}</p>{state.quote.fees.length?state.quote.fees.map(f=><p key={f.label}>{f.label} ¥{(f.amountCents/100).toFixed(2)}（官方返回，已包含于整单金额）</p>):<p>{frozen?'快照不含实时费用明细。':snapshot.mode==='live'?'本次官方报价没有单独列出费用明细。':'样例不提供真实费用明细。'}</p>}{over>0&&<p className="notice">超出预算 ¥{(over/100).toFixed(2)}，可调整数量、移出餐品或重选分类后{frozen?'重新计算':'再核价'}。</p>}</div>}
   </section>
-  <p className="result-note">改了数量、规格、定制或商品后，旧{frozen?'参考合计':'报价'}立即失效，需要{frozen?'重新计算':'重新核价'}。本页只生成餐单和{frozen?'快照参考合计':'核价'}，没有创建订单。</p><div className="result-actions"><button className="button button-outline" onClick={copy} disabled={!state.request.basket.length}>复制餐单</button><button className="button button-outline" onClick={download} disabled={!state.request.basket.length}>下载餐单</button></div>{notice&&<p role="status" className="notice">{notice}</p>}
+  {coupons&&commerceClient&&onApplyCoupon&&<CouponRecommendations eligibilityGeneration={quoteGeneration} snapshot={snapshot} basket={state.request.basket} collection={coupons} client={commerceClient} revision={state.request.cartRevision} onApply={onApplyCoupon} onRefresh={onRefreshCoupons??(()=>{})} onUndo={onUndoCoupon??(()=>{})} canUndo={canUndoCoupon} busy={commerceBusy||!!order||orderUnknown}/>}
+  <p className="result-note">改了数量、规格、定制或商品后，旧{frozen?'参考合计':'报价'}立即失效，需要{frozen?'重新计算':'重新核价'}。{frozen?'本页生成餐单和快照参考合计。':'创建订单需要另行确认当前官方金额，订单状态在下方显示。'}</p><div className="result-actions"><button className="button button-outline" onClick={copy} disabled={!state.request.basket.length}>复制餐单</button><button className="button button-outline" onClick={download} disabled={!state.request.basket.length}>下载餐单</button></div>{notice&&<p role="status" className="notice">{notice}</p>}
   <div className="cart-stage-links">{arenas.map((arena,index)=>{const item=snapshot.items.find(i=>i.stageId===arena.stageId);return <button className="cart-remove" key={arena.arenaId} onClick={()=>{tracker.cancel();onReview(index);}}>重选{item?stageName(item):'当前'}分类</button>;})}</div><div className="result-actions"><button className="button button-outline" onClick={onRestart}>重新挑选 <span aria-hidden="true">↻</span></button><button className="button button-outline" onClick={onSetup}>调整分类 <span aria-hidden="true">→</span></button></div>
  </section>;
 }
