@@ -36,4 +36,4 @@ npm --userconfig=/dev/null run build
 
 GitHub Pages 静态构建使用 `VITE_PUBLIC_DEMO=true npm --userconfig=/dev/null run build -- --base=/mcd-food-arena/`，只开放快照试玩，真实菜单须在本机运行。
 
-来源与边界见 [快照说明](docs/demo.md)，真实接口、注入测试和浏览器验收分别记录于 [验证记录](docs/live-verification.md)。构建成功与公开部署分别验证；本项目不会自动报名或创建订单。
+界面与手机验收见 [UI 验证](docs/ui-verification.md)。来源与边界见 [快照说明](docs/demo.md)，真实接口、注入测试和浏览器验收分别记录于 [验证记录](docs/live-verification.md)。构建成功与公开部署分别验证；本项目不会自动报名或创建订单。

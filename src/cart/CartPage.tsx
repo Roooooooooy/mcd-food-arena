@@ -3,7 +3,7 @@ import type { ArenaState, BasketLine, BasketSelection, CatalogSnapshot } from '.
 import { loadBasketSelection, quoteBasket } from '../api.ts';
 import { FoodArt } from '../arena/FoodArt.tsx';
 import { referencePrice } from '../arena/ArenaPage.tsx';
-import { CandidateDetails, nutritionText } from '../catalog/CandidateDetails.tsx';
+import { CandidateDetails } from '../catalog/CandidateDetails.tsx';
 import { stageName } from '../catalog/normalize.ts';
 import { basketKey, basketText, createQuoteTracker, moneyToCents, sampleQuote, type QuoteState } from './model.ts';
 
@@ -40,17 +40,17 @@ export function CartPage({snapshot,basket,onBasketChange,arenas,totalDecisions,o
  const over=state.quote&&budgetCents!==null?Math.max(0,state.quote.totalCents-budgetCents):0;
  const needsSelection=selections.some(s=>s.requiresSelection);
  const canQuote=state.request.basket.length>0&&selectionStatus==='ready'&&!needsSelection&&state.status!=='loading';
- return <section className="result-page cart-page" data-page="result"><div className="result-celebration" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span></div><p className="eyebrow">每一轮，都是你的口味</p><h1>今天想吃的，<br/><span>都选好了。</span></h1><p className="result-description">经过 {totalDecisions} 次选择，餐盘由你最后拍板。选好{frozen?'快照中的规格':'实际杯型'}和数量，再{frozen?'计算参考合计':'核对整单金额'}。</p><div className="result-stats"><span>{arenas.length} 类餐品</span><span>{totalDecisions} 次决定</span><span>{state.request.basket.length} 种餐品</span></div>
+ return <section className="result-page cart-page" data-page="result"><div className="result-celebration" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span></div><p className="eyebrow">每一轮，都是你的口味</p><h1>今天，就吃这些。</h1><p className="result-description">选好规格和数量，{frozen?'再计算参考合计':'再核对整单金额'}。</p><div className="result-stats"><span>{arenas.length} 类餐品</span><span>{totalDecisions} 次决定</span><span>{state.request.basket.length} 种餐品</span></div>
   <div className="champion-grid">{state.request.basket.map(line=>{
    const item=snapshot.items.find(i=>i.id===line.candidateId);
    if(!item)return <article className="result-card" key={line.candidateId}><h2>餐品已失效</h2><button className="button button-outline" onClick={()=>change(state.request.basket.filter(l=>l.candidateId!==line.candidateId))}>移出餐盘</button></article>;
    const arenaIndex=arenas.findIndex(a=>a.championId===item.id);
    const selected=item.variants?.find(v=>'variant:'+v.id===line.optionIds[0]);
    const selection=selections.find(s=>s.candidateId===item.id);
-   return <article className="result-card cart-card" key={item.id}><div className="result-card-top"><span>{stageName(item)}分类</span><span>心动选择 ✦</span></div><FoodArt item={selected?{...item,imageUrl:selected.imageUrl??item.imageUrl}:item}/><h2>{item.name}</h2>
-    {item.variants&&<label className="cart-field">实际规格<select value={selected?.id??''} onChange={e=>update(item.id,{optionIds:['variant:'+e.target.value]})}>{!selected&&<option value="" disabled>请选择规格</option>}{item.variants.map(v=><option key={v.id} value={v.id}>{v.sizeLabel} · {v.name}</option>)}</select></label>}
-    {selected&&<p className="selected-variant"><strong>已选：{selected.name}</strong><br/>{nutritionText(selected.nutrition)}</p>}
-    <p><strong>{selected?selected.referencePriceCents===null?'参考价未知':`¥${(selected.referencePriceCents/100).toFixed(2)}`:referencePrice(item)}</strong><span> {frozen?'快照参考':snapshot.mode==='demo'?'样例参考':'菜单参考'}</span></p><CandidateDetails item={item}/>{frozen&&item.attributes.some(a=>a.includes('条件价'))&&<p className="notice">{item.attributes.filter(a=>a.includes('条件价')).join(' · ')}；快照不保证满足适用条件。</p>}
+   return <article className="result-card cart-card" key={item.id}><div className="result-card-top"><span>{stageName(item)}分类</span><span>心动选择 ✦</span></div><div className="cart-item-main"><FoodArt item={selected?{...item,imageUrl:selected.imageUrl??item.imageUrl}:item}/><div className="cart-item-copy"><h2>{item.name}</h2>
+    {item.variants&&<label className="cart-field">实际规格<select aria-label={`${item.name}规格`} value={selected?.id??''} onChange={e=>update(item.id,{optionIds:['variant:'+e.target.value]})}>{!selected&&<option value="" disabled>请选择规格</option>}{item.variants.map(v=><option key={v.id} value={v.id}>{v.sizeLabel} · {v.name}</option>)}</select></label>}
+    {selected&&<p className="selected-variant"><strong>已选：{selected.name}</strong></p>}
+    <p className="cart-item-price"><strong>{selected?selected.referencePriceCents===null?'参考价未知':`¥${(selected.referencePriceCents/100).toFixed(2)}`:referencePrice(item)}</strong><span> {frozen?'快照参考':snapshot.mode==='demo'?'样例参考':'菜单参考'}</span></p></div></div><CandidateDetails item={item} showPrices={false}/>{frozen&&item.attributes.some(a=>a.includes('条件价'))&&<p className="notice">{item.attributes.filter(a=>a.includes('条件价')).join(' · ')}；快照不保证满足适用条件。</p>}
     {snapshot.mode==='live'&&selectionStatus==='loading'&&<p className="cart-composition">正在确认实际默认选配…</p>}
     {selection&&selection.components.length>0&&<div className="cart-composition"><strong>{item.variants?'实际规格':'官方默认套餐内容'}</strong><ul>{selection.components.map((c,index)=><li key={index}>{c.name} × {c.quantity}</li>)}</ul></div>}
     {selection?.requiresSelection&&<p className="notice">此套餐暂无可确认的默认选配，不能核价。请重选餐品或到官方渠道完成选配。</p>}
@@ -65,6 +65,6 @@ export function CartPage({snapshot,basket,onBasketChange,arenas,totalDecisions,o
    {state.quote&&<div className="quote-evidence" role="status"><p>{state.quote.evidence==='official'?'来源：官方 calculate-price 整单结果':state.quote.evidence==='snapshot'?'来源：保存的官方门店菜单参考价合计，非实时官方报价':'来源：虚构样例参考价合计，非官方报价'}</p>{frozen&&<p>快照采集时间：{new Date(snapshot.capturedAt??snapshot.loadedAt).toLocaleString('zh-CN')}</p>}<p>{frozen?'计算':'核价'}时间：{new Date(state.quote.quotedAt).toLocaleString('zh-CN')}</p>{state.quote.fees.length?state.quote.fees.map(f=><p key={f.label}>{f.label} ¥{(f.amountCents/100).toFixed(2)}（官方返回，已包含于整单金额）</p>):<p>{frozen?'快照未包含实时费用明细。':snapshot.mode==='live'?'本次官方响应未提供单独费用明细。':'样例不提供真实费用明细。'}</p>}{over>0&&<p className="notice">超出预算 ¥{(over/100).toFixed(2)}，可调整数量、移出餐品或重选分类后{frozen?'重新计算':'再核价'}。</p>}</div>}
   </section>
   <p className="result-note">数量、规格或餐盘变化后，{frozen?'参考合计':'报价'}立即失效。此处生成餐单与{frozen?'快照参考合计':'核价'}，未创建订单。</p><div className="result-actions"><button className="button button-outline" onClick={copy} disabled={!state.request.basket.length}>复制餐单</button><button className="button button-outline" onClick={download} disabled={!state.request.basket.length}>下载餐单</button></div>{notice&&<p role="status" className="notice">{notice}</p>}
-  <div className="cart-stage-links">{arenas.map((arena,index)=>{const item=snapshot.items.find(i=>i.stageId===arena.stageId);return <button className="cart-remove" key={arena.arenaId} onClick={()=>{tracker.cancel();onReview(index);}}>重选{item?stageName(item):'当前'}分类</button>;})}</div><div className="result-actions"><button className="button button-primary" onClick={onRestart}>重新挑选 <span aria-hidden="true">↻</span></button><button className="button button-outline" onClick={onSetup}>调整分类 <span aria-hidden="true">→</span></button></div>
+  <div className="cart-stage-links">{arenas.map((arena,index)=>{const item=snapshot.items.find(i=>i.stageId===arena.stageId);return <button className="cart-remove" key={arena.arenaId} onClick={()=>{tracker.cancel();onReview(index);}}>重选{item?stageName(item):'当前'}分类</button>;})}</div><div className="result-actions"><button className="button button-outline" onClick={onRestart}>重新挑选 <span aria-hidden="true">↻</span></button><button className="button button-outline" onClick={onSetup}>调整分类 <span aria-hidden="true">→</span></button></div>
  </section>;
 }
