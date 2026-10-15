@@ -37,7 +37,7 @@ function canonical(value:unknown):string {
 function semanticContextKey(snapshot:CatalogSnapshot,store:StoreOption):string {
  // Only the normalized public catalog enters the seed, never raw upstream metadata or credentials.
  const items=snapshot.items.map(item=>({...item,attributes:[...item.attributes].sort(),sourceCategories:item.sourceCategories?[...item.sourceCategories].sort():undefined,variants:item.variants?[...item.variants].sort((a,b)=>a.id.localeCompare(b.id)):undefined})).sort((a,b)=>a.id.localeCompare(b.id));
- const content={version:1,store,diningMode:'pickup',orderType:1,beType:1,mode:snapshot.mode,complete:snapshot.complete,rawSkuCount:snapshot.rawSkuCount,items};
+ const content={version:2,store,diningMode:'pickup',orderType:1,beType:1,mode:snapshot.mode,complete:snapshot.complete,rawSkuCount:snapshot.rawSkuCount,items};
  return `live:${store.id}:pickup:${createHash('sha256').update(canonical(content)).digest('hex')}`;
 }
 export function createCatalogService(source:McpGateway|(()=>Promise<McpGateway>)):CatalogService {
@@ -62,12 +62,20 @@ export function createCatalogService(source:McpGateway|(()=>Promise<McpGateway>)
    const raw=domain(await g.call('query-meals',args));if(!isRecord(raw))throw new ApiError('CATALOG_INVALID_RESPONSE',502);
    const nutrition=domain(await g.call('list-nutrition-foods',{}));
    const context={contextKey:'pending',store,loadedAt:new Date().toISOString(),complete:true};
-   const base=normalizeCatalog({...raw,nutrition},context);
    const details:Record<string,Record<string,unknown>>={};
    const cache=new Map<string,Promise<Record<string,unknown>>>();
-   const beverageCodes = new Set(base.items.filter(candidate => ['drink','coffee'].includes(candidate.stageId)).flatMap(candidate => [candidate.officialCode, ...(candidate.variants ?? []).map(v => v.menuCode ?? v.officialCode)]).filter((code):code is string => code !== null));
-   for(const code of beverageCodes){
+   // All menu parents carry authoritative final options, not only beverage sizes.
+   const menuCodes=isRecord(raw.meals)?Object.keys(raw.meals):[];
+   for(const code of menuCodes){
     const detail=verifyDetail(domain(await g.call('query-meal-detail',{...args,code})),code);details[code]=detail;cache.set(code,Promise.resolve(detail));
+   }
+   // Child lookups are image-only enrichment for standalone fixed food flavors.
+   const interim=normalizeCatalog({...raw,nutrition,details},context);
+   const childCodes=new Set(interim.items.filter(item=>!['drink','coffee','combo'].includes(item.stageId)&&item.variants?.length===1&&item.variants[0].roundId!==undefined).flatMap(item=>item.variants!.map(v=>v.officialCode)));
+   for(const code of childCodes){
+    if(details[code])continue;
+    try {const detail=verifyDetail(domain(await g.call('query-meal-detail',{...args,code})),code);details[code]=detail;cache.set(code,Promise.resolve(detail));}
+    catch { /* Independent official images are optional; retain the parent image. */ }
    }
    const snapshot=normalizeCatalog({...raw,nutrition,details},context);
    const contextKey=semanticContextKey(snapshot,store);snapshot.contextKey=contextKey;
