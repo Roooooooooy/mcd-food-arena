@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { normalizeCatalog, parseNutrition } from '../src/catalog/normalize.ts';
+import { classifyMeal, normalizeCatalog, parseNutrition } from '../src/catalog/normalize.ts';
 import { filterCandidates } from '../src/catalog/filter.ts';
 import { demoCatalog } from '../src/demo/menu.ts';
 const fixture=JSON.parse(readFileSync(new URL('./fixtures/catalog.json',import.meta.url),'utf8'));
@@ -9,7 +9,7 @@ const context={contextKey:'live:3330251:pickup:test',store:{id:'3330251',name:'�
 const normalized=()=>normalizeCatalog(fixture,context);
 const identities=(items:ReturnType<typeof normalized>['items'])=>new Set(items.flatMap(item=>[item.officialCode,...(item.variants??[]).map(v=>v.officialCode)]).filter(Boolean));
 
-test('all 109 official menu identities survive overlaps and classification',()=>{
+test('全部菜单身份保留，周边仍可在其他分类选择',()=>{
  const snapshot=normalized();
  assert.equal(snapshot.complete,true);
  assert.equal(snapshot.rawSkuCount,109);
@@ -17,6 +17,9 @@ test('all 109 official menu identities survive overlaps and classification',()=>
  assert.equal(new Set(snapshot.items.map(i=>i.id)).size,snapshot.items.length);
  assert.equal(snapshot.items.filter(i=>i.officialCode==='521950').length,1);
  assert.deepEqual(snapshot.items.find(i=>i.officialCode==='521950')?.sourceCategories,['人气热卖','小食甜品\n/其他']);
+ assert.equal(snapshot.items.filter(i=>i.officialCode==='521914').length,1);
+ assert.equal(snapshot.items.filter(i=>i.officialCode==='521946').length,1);
+ assert.ok(fixture.meals['521950']);
 });
 test('unknown price remains null and actual zero stays zero without modifying evidence',()=>{
  const raw=structuredClone(fixture);delete raw.meals['1100'].currentPrice;raw.meals['1406'].currentPrice='0';raw.meals['1450'].currentPrice='not money';
@@ -39,14 +42,19 @@ test('nutrition parser checks TOON count and quotes, preserves zero, missing and
  assert.equal(normalized().items.find(i=>i.officialCode==='1100')?.nutrition.kcal,513);
  assert.deepEqual(normalized().items.find(i=>i.officialCode==='9900005466')?.nutrition,{});
 });
-test('actual classification removes chicken category, separates sides, burgers, dessert, pie and other',()=>{
+test('真实分类不单列鸡肉或派，派归入甜品、周边保留其他分类',()=>{
  const items=normalized().items;assert.ok(!items.some(i=>i.stageId==='chicken'));
  for(const code of ['1401','1700','520445'])assert.equal(items.find(i=>i.officialCode===code)?.stageId,'side');
  assert.equal(items.find(i=>i.officialCode==='1440')?.stageId,'burger');
  assert.equal(items.find(i=>i.officialCode==='9900005466')?.stageId,'combo');
  assert.equal(items.find(i=>i.officialCode==='515837')?.stageId,'dessert');
- assert.equal(items.find(i=>i.officialCode==='9900008752')?.stageId,'pie');
+ assert.equal(items.find(i=>i.officialCode==='9900008752')?.stageId,'dessert');
  assert.equal(items.find(i=>i.officialCode==='521946')?.stageId,'other');
+});
+test('不同口味的派属于甜品，含派的套餐仍为套餐，未知商品保持可见',()=>{
+ for(const name of ['派','苹果派','香芋派','菠萝派'])assert.equal(classifyMeal(name,['小食甜品'],[]),'dessert');
+ assert.equal(classifyMeal('苹果派三件套',['套餐'],[]),'combo');
+ assert.equal(classifyMeal('未知新餐品',['其他'],[]),'other');
 });
 test('manual selection retains 100 candidates in observed order without Top-N',()=>{
  const snapshot=demoCatalog();snapshot.items=Array.from({length:100},(_,i)=>({...snapshot.items[0],id:`demo:${i}`,stageId:'burger'}));
@@ -71,9 +79,11 @@ test('live drink details expose separate regular/no-sugar families with all veri
  assert.equal(cola.variants?.[1].menuCode,'9900008751');assert.equal(cola.variants?.[1].roundId,1);
  assert.equal(snapshot.items.find(i=>i.officialCode==='3010')?.variants?.length,1);
 });
-test('sample display groups chicken into sides without dropping any sample identity',async()=>{
+test('合成样例鸡肉归小食、派归甜品，所有餐品身份保留',async()=>{
  const {demoForDisplay}=await import('../src/catalog/source.ts');const sample=demoForDisplay();assert.equal(sample.items.length,40);assert.equal(sample.items.filter(i=>i.stageId==='side').length,10);assert.ok(!sample.items.some(i=>i.stageId==='chicken'));assert.notEqual(sample.contextKey,demoCatalog().contextKey);
  assert.deepEqual(new Set(sample.items.map(i=>i.id)),new Set(demoCatalog().items.map(i=>i.id)));
+ assert.ok(!sample.items.some(i=>i.stageId==='pie'));
+ assert.equal(sample.items.filter(i=>i.stageId==='dessert').length,10);
 });
 test('an incomplete live snapshot cannot start an arena',async()=>{
  const {startSession}=await import('../src/setup/session.ts');const snapshot=normalized();snapshot.complete=false;assert.throws(()=>startSession(snapshot,[{id:'burger',candidateIds:snapshot.items.filter(i=>i.stageId==='burger').map(i=>i.id)}]),/菜单.*完整/);

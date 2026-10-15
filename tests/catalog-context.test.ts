@@ -12,20 +12,21 @@ function upstream() {
     traceId: 'first-request', loadedAt: 'upstream-first', credential: 'synthetic-private-marker',
   };
   const detail = { code: 'cola', name: '可乐', rounds: [{ id: 1, quantity: 1, minQuantity: 1, maxQuantity: 1, choices: [
-    { code: 'small', name: '可乐小杯', diffPrice: '+ ¥0' }, { code: 'large', name: '可乐大杯', diffPrice: '+ ¥2' },
+    { code: 'small', name: '可乐小杯', quantity:1, maxQuantity:-1, diffPrice: '+ ¥0' }, { code: 'large', name: '可乐大杯', quantity:0, maxQuantity:-1, diffPrice: '+ ¥2' },
   ] }] };
   let nutrition = '[1]{productName,energyKcal}:\n芝士牛肉堡,300';
+  const modification={items:[{minValues:0,maxValues:1,values:[{code:'100202',name:'酸黄瓜',price:0,minQuantity:0,maxQuantity:1,selectedQuantity:1,selectedKey:'0-1',unselectedKey:'0-0'}]}]};
   const g: McpGateway = {
     listTools: async () => [], close: async () => {},
     call: async (name, args) => {
       if (name === 'query-meals') return { data: menu, traceId: menu.traceId };
       if (name === 'list-nutrition-foods') return { data: nutrition };
-      if (name === 'query-meal-detail') return { data: detail };
+      if (name === 'query-meal-detail') return { data: args.code==='cola'?detail:{code:args.code,name:menu.meals[args.code as 'a'|'b']?.name??'测试商品',rounds:[],...(args.code==='a'?{modification}:{})} };
       if (name === 'query-nearby-stores') return { data: [{ storeCode: 'another', storeName: '另一测试门店', address: '测试地址' }] };
       throw new Error(`Unexpected read ${name}: ${String(args.code)}`);
     },
   };
-  return { g, menu, detail, nutrition: (value: string) => { nutrition = value; } };
+  return { g, menu, detail, modification, nutrition: (value: string) => { nutrition = value; } };
 }
 const selection = [{ id: 'burger', candidateIds: ['live:sku:a', 'live:sku:b'] }];
 const input = { storeId: '3330251', diningMode: 'pickup' };
@@ -59,6 +60,9 @@ for (const [name, mutate] of [
   ['variant price', (f: ReturnType<typeof upstream>) => { f.detail.rounds[0].choices[1].diffPrice = '+ ¥3'; }],
   ['classification', (f: ReturnType<typeof upstream>) => { f.menu.categories[0].name = '早餐'; }],
   ['nutrition', (f: ReturnType<typeof upstream>) => { f.nutrition('[1]{productName,energyKcal}:\n芝士牛肉堡,301'); }],
+  ['modification default', (f: ReturnType<typeof upstream>) => { f.modification.items[0].values[0].selectedQuantity=0; }],
+  ['modification key', (f: ReturnType<typeof upstream>) => { f.modification.items[0].values[0].selectedKey='changed-key'; }],
+  ['modification constraint', (f: ReturnType<typeof upstream>) => { f.modification.items[0].maxValues=2; }],
 ] as const) {
   test(`changed ${name} invalidates the old saved game`, async () => {
     const f = upstream(); const service = createCatalogService(f.g); const first = await service.loadCatalog(input);
