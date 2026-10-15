@@ -87,6 +87,19 @@
 .ui-enhanced .reorder-controls { gap: 6px; }
 .ui-enhanced .icon-button { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 10px; font-size: 17px; background: var(--surface); }
 .ui-enhanced .picker-toggle { font-size: 13px; min-height: 44px; padding: 10px 12px; color: var(--mcd-red); }
+.ui-enhanced .lineup-drag-hint { padding: 0 16px 12px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.ui-enhanced .sortable-stage .stage-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto auto; gap: 12px; }
+.ui-enhanced .stage-drag-handle { width: 48px; height: 48px; padding: 0; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--muted); cursor: grab; touch-action: none; user-select: none; }
+.ui-enhanced .stage-drag-handle:hover:not(:disabled) { color: var(--mcd-red); border-color: var(--mcd-red); background: var(--cream); }
+.ui-enhanced .stage-drag-handle:active:not(:disabled) { cursor: grabbing; background: #fff2c4; }
+.ui-enhanced .stage-drag-handle:focus-visible { outline: 3px solid var(--mcd-red); outline-offset: 3px; }
+.ui-enhanced .stage-drag-handle:disabled { cursor: default; opacity: .4; }
+.ui-enhanced .stage-row-copy h3 .lineup-number { color: var(--mcd-red); font-size: 12px; font-variant-numeric: tabular-nums; }
+.ui-enhanced .stage-is-dragging { opacity: .35; border-style: dashed; }
+.ui-enhanced .drag-stage-overlay { display: flex; align-items: center; gap: 14px; min-height: 82px; padding: 14px 18px; border: 2px solid var(--mcd-yellow); border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: 0 12px 28px #2d2d2d26; pointer-events: none; }
+.ui-enhanced .drag-stage-overlay > svg { flex-shrink: 0; color: var(--mcd-red); }
+.ui-enhanced .drag-stage-overlay strong { display: block; font-size: 16px; }
+.ui-enhanced .drag-stage-overlay span { display: block; margin-top: 5px; font-size: 12px; color: var(--muted); }
 .ui-enhanced .candidate-option { background: var(--surface); border-color: var(--border); }
 .ui-enhanced .candidate-option > span { font-size: 13px; color: var(--ink); line-height: 1.5; overflow-wrap: anywhere; }
 .ui-enhanced .candidate-option input { accent-color: var(--mcd-red); }
@@ -240,6 +253,11 @@
   .ui-enhanced .stage-row-copy { flex-basis: calc(100% - 40px); }
   .ui-enhanced .reorder-controls { margin-left: 30px; }
   .ui-enhanced .picker-toggle { width: auto; margin-left: auto; padding: 10px; }
+  .ui-enhanced .sortable-stage .stage-row { grid-template-columns: 48px minmax(0, 1fr); gap: 8px 10px; }
+  .ui-enhanced .sortable-stage .stage-row-copy { grid-column: 2; grid-row: 1; flex-basis: auto; }
+  .ui-enhanced .sortable-stage .reorder-controls { grid-column: 1 / 3; grid-row: 2; justify-self: start; margin-left: 0; }
+  .ui-enhanced .sortable-stage .picker-toggle { grid-column: 1 / 3; grid-row: 2; justify-self: end; margin: 0; }
+  .ui-enhanced .lineup-drag-hint { padding-left: 14px; padding-right: 14px; }
   .ui-enhanced .candidate-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; gap: 8px; }
   .ui-enhanced .candidate-option input { width: 18px; height: 18px; }
   .ui-enhanced .start-panel { position: fixed; top: auto; bottom: 0; left: 0; right: 0; z-index: 40; width: auto; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); border-radius: 18px 18px 0 0; border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; box-shadow: 0 -6px 24px #2d2d2d0c; }
