@@ -107,7 +107,7 @@ export function ArenaPage(props: Props) {
       <article className={`food-card whole-card-choice ${highlight === side ? 'coin-selected' : ''}`} data-food-card={side} data-candidate-id={item.id} data-highlighted={highlight === side}>
         <button type="button" className="card-choice-target" data-choice-button={side} disabled={busy} onClick={() => manualChoose(side)} aria-label={`${mcdMemes.like.text}：${isLeft ? '左边' : '右边'}的${item.name}`}/>
         <div className="card-content">
-          <div className="card-role"><span className="role-dot"/><span>{isLeft ? '左侧餐品' : '右侧餐品'}</span>{item.name === '麦乐鸡' && <span className="meme-food-tag" title="麦当劳相关用语，出处见页尾">{mcdMemes.nugget.text}</span>}</div>
+          <div className="card-role"><span className="role-dot"/><span>{isLeft ? '左侧餐品' : '右侧餐品'}</span>{item.name === '麦乐鸡' && <span className="meme-food-tag">{mcdMemes.nugget.text}</span>}</div>
           <div className="meal-art-wrap"><div className="meal-halo"/><FoodArt item={item} priority/></div>
           <div className="meal-copy"><p className="meal-attributes">{item.attributes.join(' · ') || '口味信息未知'}</p><h2>{item.name}</h2>{!item.variants && <p className="meal-price"><strong>{referencePrice(item)}</strong><span>{snapshot.sourceKind === 'official-snapshot' ? '快照参考' : snapshot.mode === 'demo' ? '样例参考' : '菜单参考'}</span></p>}<CandidateDetails item={item} showNutrition={false}/></div>
           <div className="card-choice-hint" aria-hidden="true"><span>{mcdMemes.like.text}</span><span className="card-choice-arrow">{isLeft ? '←' : '→'}</span></div>
