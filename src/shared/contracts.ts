@@ -116,6 +116,7 @@ export interface ArenaMatch {
 }
 
 export interface BasketLine {
+  couponKey?: string;
   candidateId: string;
   quantity: number;
   optionIds: string[];
