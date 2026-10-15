@@ -29,7 +29,7 @@ function drawMatch(ids: string[], draw: DrawPair): [string, string] | null {
   if (ids.length < 2) return null;
   const pair = draw([...ids]);
   if (!Array.isArray(pair) || pair.length !== 2 || pair[0] === pair[1] || !pair.every(id => ids.includes(id))) {
-    throw new Error('抽签对阵无效，请重新开局。');
+    throw new Error('抽签对阵无效，请重新开始。');
   }
   return [pair[0], pair[1]];
 }
