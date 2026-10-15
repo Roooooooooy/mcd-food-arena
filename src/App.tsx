@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { loadFrozenDemo, publicDemoOnly, defaultSelection } from './catalog/source.ts';
 import { StorePicker } from './setup/StorePicker.tsx';
 import { loadCatalog, searchStores } from './api.ts';
-import { choose, createArena, skip, undo } from './arena/engine.ts';
+import { completedChoices, choose, createArena, skip, undo } from './arena/engine.ts';
 import { ArenaPage } from './arena/ArenaPage.tsx';
 import { CartPage } from './cart/CartPage.tsx';
 import { reconcileBasket } from './cart/model.ts';
@@ -149,7 +149,7 @@ export default function App() {
     setPage('setup');
   }
 
-  const totalDecisions = arenas.reduce((sum, arena) => sum + Math.max(0, Math.min(arena.orderedIds.length - 1, arena.challengerIndex - 1)), 0);
+  const totalDecisions = arenas.reduce((sum, arena) => sum + completedChoices(arena), 0);
 
   return <div className="app-shell"><header className="site-header"><a className="brand" href="#" onClick={event => { event.preventDefault(); if (page !== 'setup') pause(); }} aria-label="麦麦擂台首页"><span className="brand-mark" aria-hidden="true">✦</span><span>麦麦擂台</span><small>FOOD ARENA</small></a><div className="demo-status"><span className="status-dot"/>{mode === 'demo' ? <>门店快照试玩 <span className="demo-token">免 Token</span></> : <>真实菜单 <span className="demo-token">到店自提</span></>}</div></header>
     <main className="main-container">{page === 'setup' && <StorePicker mode={mode} store={store} stores={stores} busy={loading} publicOnly={publicDemoOnly} snapshot={frozenDemo} onModeChange={changeMode} onStoreChange={changeStore} onSearch={findStores} onLoad={refreshCatalog} loaded={snapshot?.mode === 'live'}/>}
