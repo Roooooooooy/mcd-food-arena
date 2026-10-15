@@ -54,7 +54,8 @@ export interface CatalogSnapshot {
 
 export interface ArenaFrame {
   championId: string | null;
-  challengerIndex: number;
+  remainingIds: string[];
+  pair: [string, string] | null;
   status: ArenaStatus;
 }
 
