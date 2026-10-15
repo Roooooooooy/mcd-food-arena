@@ -8,7 +8,7 @@ export async function loadFrozenDemo(baseUrl: string = import.meta.env?.BASE_URL
  const response = await fetcher(`${baseUrl.replace(/\/?$/, '/')}demo/catalog.json`);
  if (!response.ok) throw new Error('门店快照暂时无法加载，请刷新页面重试。');
  const snapshot = await response.json() as CatalogSnapshot;
- if (snapshot.mode !== 'demo' || snapshot.sourceKind !== 'official-snapshot' || !snapshot.complete || !Array.isArray(snapshot.items)) throw new Error('门店快照格式无效。');
+ if (snapshot.mode !== 'demo' || snapshot.sourceKind !== 'official-snapshot' || !snapshot.complete || !Array.isArray(snapshot.items)) throw new Error('门店快照的格式不对，暂时无法使用。');
  return {...snapshot, items: snapshot.items.map(item => ({...item, mode:'demo', sourceKind:'official-snapshot', imageUrl:archiveAssetUrl(item.imageUrl, baseUrl), ...(item.variants ? {variants:item.variants.map(v=>({...v,imageUrl:archiveAssetUrl(v.imageUrl,baseUrl)}))} : {})}))};
 }
 export function demoForDisplay():CatalogSnapshot {
