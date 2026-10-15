@@ -3,12 +3,11 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { freezeSnapshot, publicImageUrl } from '../src/demo/snapshot.ts';
 import { readPublicImage } from './demo-images.ts';
+import { loadCaptureInput } from './capture-input.ts';
 
 // Local normalized public API only. This script never loads authentication files.
 const root = new URL('../', import.meta.url);
-const response = await fetch('http://127.0.0.1:8787/api/catalog?storeId=3330251&diningMode=pickup', { signal: AbortSignal.timeout(70_000) });
-if (!response.ok) throw new Error('NORMALIZED_CATALOG_UNAVAILABLE');
-const snapshot = freezeSnapshot(await response.json(), new Date().toISOString());
+const snapshot = freezeSnapshot(await loadCaptureInput(process.argv.slice(2)), new Date().toISOString());
 if (snapshot.store?.id !== '3330251') throw new Error('UNEXPECTED_STORE');
 const urls = [...new Set(snapshot.items.flatMap(item => [item.imageUrl, ...(item.variants ?? []).map(v => v.imageUrl)]).filter((url): url is string => url !== null))];
 if (urls.length > 160) throw new Error('IMAGE_COUNT_LIMIT');
