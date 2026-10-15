@@ -71,9 +71,9 @@ SDK 实测 schemas：`.private/probe-tools-schema.json`。脱敏门店 fixture�
 
 `server/mcp/catalog.ts` 导出 `createCatalogService(gatewayOrLazyFactory)`，提供 `searchStores({city,keyword})`、`loadCatalog({storeId,diningMode})`、`getContext(contextKey)`、`getDetail(contextKey,officialCode)`。仅支持 `pickup`；未确认的门店须先由门店搜索返回，用户已明确确认的 `3330251` 作为可直接加载的初始门店。没有时段推测或自动停售筛除。
 
-Task 6 将每次加载的随机 contextKey 改为标准化公开菜单语义及门店/自提渠道的稳定 SHA-256 标识；价格、商品/规格身份、分类或营养变化会改变标识，loadedAt、上游trace及凭据字段不进入内容种子。刷新后本人明确加载相同菜单，暂存赛程可以继续，候选与决定仍完整校验。相同内容刷新loadedAt及详情缓存，不绕过核价请求generation。上下文保留 `snapshot/store/diningMode/orderType/beType/rawMeals/candidates/variants`；后三者为只读 Map。原始商品数据仅在服务端；不把 withOrder 会员字段传到前端。contexts 最多保留 20 个，`getContext` 对未知或已淘汰上下文返回 undefined。`getDetail` 仅可查询当前上下文的菜单编码或已确认 variant 编码，并缓存同一上下文的成功详情；失败缓存删除以允许明确重试。
+Task 6 将每次加载的随机 contextKey 改为标准化公开菜单语义及门店/自提渠道的稳定 SHA-256 标识；价格、商品/规格身份、分类或营养变化会改变标识，loadedAt、上游trace及凭据字段不进入内容种子。刷新后本人明确加载相同菜单，暂存挑选记录可以继续，候选与决定仍完整校验。相同内容刷新loadedAt及详情缓存，不绕过核价请求generation。上下文保留 `snapshot/store/diningMode/orderType/beType/rawMeals/candidates/variants`；后三者为只读 Map。原始商品数据仅在服务端；不把 withOrder 会员字段传到前端。contexts 最多保留 20 个，`getContext` 对未知或已淘汰上下文返回 undefined。`getDetail` 仅可查询当前上下文的菜单编码或已确认 variant 编码，并缓存同一上下文的成功详情；失败缓存删除以允许明确重试。
 
-公开 `Candidate` 保留原字段并增加可选 `stageLabel/sourceCategories/variants/defaultVariantId`，`sourceCategory/sourceCategories` 保留官方原分类，stageLabel 为呈现的有内容赛区名。`CatalogSnapshot.rawSkuCount` 表示当次菜单编码数量，items.length 表示擂台候选数。候选覆盖全部编码，没有 Top-N；当前 schema 无商品分页参数，当分类引用与编码映射不一致、结构缺失或无法确认完整时 `complete=false`，UI 与 startSession 均阻止开赛。
+公开 `Candidate` 保留原字段并增加可选 `stageLabel/sourceCategories/variants/defaultVariantId`，`sourceCategory/sourceCategories` 保留官方原分类，stageLabel 为呈现的有内容分类名。`CatalogSnapshot.rawSkuCount` 表示当次菜单编码数量，items.length 表示餐品候选数。候选覆盖全部编码，没有 Top-N；当前 schema 无商品分页参数，当分类引用与编码映射不一致、结构缺失或无法确认完整时 `complete=false`，UI 与 startSession 均阻止开始挑选。
 
 `Variant` 字段为 `id/officialCode/name/sizeLabel/referencePriceCents/nutrition/imageUrl/menuCode?/roundId?`。只归并明确大小杯尺寸、且基础产品名一致的饮料；含糖/无糖、口味和冷热区别保留。菜单已有直接尺寸 SKU 时 menuCode 等于 officialCode，无 roundId。可乐菜单编码 `9900008751` 的详情选择轮次 1 含六个 SKU，标准与无糖分别形成一个候选，各自保留三种尺寸。Variant ID 如 `live:sku:9900008751:3050`，menuCode 为 `9900008751`、roundId 为 1、officialCode 为 `3050`；其中 parent menuCode 与 roundId 供下一任务按真实 schema 组装 roundList，不能把 family ID 当商品编码。
 
@@ -81,7 +81,7 @@ Task 5 的规格选择沿用 BasketLine.optionIds：`variant:<variant.id>`。必
 
 营养 TOON 声明行数、CSV 引号与字段数量均核对；仅在产品名经过 Unicode NFKC/空白规范化，以及明确大小杯尺寸括号规范化后完全一致时匹配。冲突重复记录、缺值或未匹配保持未知；不推导套餐营养、不用部分名称猜测。Arena 卡片逐规格展示参考价及所有已知营养值。
 
-实际 fixture 保留本轮较早返回的 14 个原分类、109 个菜单身份；详情展开为 110 候选。随后 Task 4 经本机 API 工厂进行新一轮真实 MCP 验证：门店 `3330251` 返回 111 个菜单身份、112 候选、8 个非空赛区、18 个规格映射，111 个身份全部可达且 complete=true。数量由官方实时返回变化，fixture 与实时状态分别记录，不硬锁旧数量。较早 fixture 不含 frequent 或任何账户/请求头数据。
+实际 fixture 保留本轮较早返回的 14 个原分类、109 个菜单身份；详情展开为 110 候选。随后 Task 4 经本机 API 工厂进行新一轮真实 MCP 验证：门店 `3330251` 返回 111 个菜单身份、112 候选、8 个非空分类、18 个规格映射，111 个身份全部可达且 complete=true。数量由官方实时返回变化，fixture 与实时状态分别记录，不硬锁旧数量。较早 fixture 不含 frequent 或任何账户/请求头数据。
 
 启动使用 Node 24：`PATH="/opt/homebrew/opt/node@24/bin:$PATH" npm --userconfig=/dev/null run dev:api`。Vite dev:web 固定 127.0.0.1:5173，/api 代理到 127.0.0.1:8787 并启用 changeOrigin，符合本机 Host 限制。凭据仅由运行时 --env-file-if-exists=.env.local 读取，不进入浏览器。
 
@@ -97,6 +97,6 @@ Task 5 的规格选择沿用 BasketLine.optionIds：`variant:<variant.id>`。必
 
 quote 只接受 `success:true,code:200,data.price` 的有效非负安全整数。price 单位按已核实字段证据固定为分，不猜大小、不给缺价填零、不自行累计菜单参考价。仅提取 deliveryPrice/packingPrice/tablewarePrice 中明确存在且有效的分金额；缺少费用明细保持未知，费用不再次叠加到官方 price。失败、MCP isError、业务失败、缺价或畸形金额显示未取得报价。
 
-每次餐盘变化清空有效报价并递增 revision。客户端 tracker 同时检查 contextKey、规范 basketKey、cartRevision 与独立请求 generation；离开页面也取消 generation，晚到的成功或失败均不能恢复旧价格，即使后来再次出现相同 context/revision。重选其他赛区保留未改变冠军的实际规格和数量，已删除餐品不自动回填。复制和下载餐单仅含公开商品名、数量、实际规格/默认子项、门店、来源和核价时间；没有订单创建。
+每次餐盘变化清空有效报价并递增 revision。客户端 tracker 同时检查 contextKey、规范 basketKey、cartRevision 与独立请求 generation；离开页面也取消 generation，晚到的成功或失败均不能恢复旧价格，即使后来再次出现相同 context/revision。重选其他分类保留未改变最终选择的实际规格和数量，已删除餐品不自动回填。复制和下载餐单仅含公开商品名、数量、实际规格/默认子项、门店、来源和核价时间；没有订单创建。
 
 本轮新的运行时注入实测通过：可乐中杯 1000 分、大杯 1200 分、大杯两份 2400 分、巨无霸 2650 分、四件套实际四轮默认内容 5700 分，均返回 official。报价差异以官方返回为准。脱敏证据 `.private/task5-live-evidence.json` 和 `.private/task5-live-probe.log`；公开 `tests/fixtures/quote.json` 只保存必要商品与报价字段，费用/失败/缺价为明确测试案例。
