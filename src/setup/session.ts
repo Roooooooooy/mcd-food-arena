@@ -15,7 +15,7 @@ interface SavedSession {
 }
 
 function validateStages(snapshot: CatalogSnapshot, stages: StageSelection[]): void {
-  if (!snapshot.complete) throw new Error('菜单尚未完整装载，请重新加载后开始挑选。');
+  if (!snapshot.complete) throw new Error('菜单还没加载完整，请重新加载后再开始。');
   if (stages.length === 0) throw new Error('请至少选择一个分类。');
   const seen = new Set<string>();
   const items = new Map(snapshot.items.map(item => [item.id, item]));
@@ -77,15 +77,15 @@ export function restoreSession(snapshot: CatalogSnapshot, serialized: string): {
         !stage.candidateIds.every(id => typeof id === 'string') || !Array.isArray(stage.decisions) ||
         !stage.decisions.every(side => side === 'left' || side === 'right' || side === 'skip') ||
         !Array.isArray(stage.pairs) || !stage.pairs.every(pair => Array.isArray(pair) && pair.length === 2 && pair.every(id => typeof id === 'string'))) {
-      throw new Error('暂存记录中的候选、抽签或决定无效，请重新开始。');
+      throw new Error('记录里的餐品、抽签或选择无效，请重新开始。');
     }
     if (new Set(stage.candidateIds).size !== stage.candidateIds.length || stage.decisions.length > stage.candidateIds.length || stage.pairs.length > Math.max(0, stage.candidateIds.length - 1)) {
-      throw new Error('暂存挑选记录超出候选范围，请重新开始。');
+      throw new Error('保存的记录超出了候选范围，请重新开始。');
     }
     return { id: stage.id, candidateIds: stage.candidateIds as string[], decisions: stage.decisions as Decision[], pairs: stage.pairs as [string, string][] };
   });
   if (!Number.isInteger(value.activeStageIndex) || (value.activeStageIndex as number) < 0 || (value.activeStageIndex as number) >= stages.length) {
-    throw new Error('暂存挑选记录无效，请重新开始。');
+    throw new Error('保存的挑选记录无效，请重新开始。');
   }
   validateStages(snapshot, stages);
   const arenas = stages.map(stage => {
@@ -99,11 +99,11 @@ export function restoreSession(snapshot: CatalogSnapshot, serialized: string): {
         }
         arena = skip(arena);
       } else {
-        if (getMatch(arena) === null) throw new Error('决定记录超出挑选记录，请重新开始。');
+        if (getMatch(arena) === null) throw new Error('选择记录超出了这次的挑选范围，请重新开始。');
         arena = choose(arena, decision, arena.revision, draw);
       }
     }
-    if (drawIndex !== stage.pairs.length) throw new Error('暂存抽签记录超出挑选记录，请重新开始。');
+    if (drawIndex !== stage.pairs.length) throw new Error('抽签记录超出了这次的挑选范围，请重新开始。');
     return arena;
   });
   return { arenas, activeStageIndex: value.activeStageIndex as number };
