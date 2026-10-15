@@ -1,6 +1,6 @@
 {
-  "capturedAt": "2026-10-14T13:26:17.369Z",
-  "loadedAt": "2026-10-14T13:26:13.931Z",
+  "capturedAt": "2026-10-15T07:04:24.696Z",
+  "loadedAt": "2026-10-15T07:01:35.857Z",
   "store": {
     "id": "3330251",
     "name": "麦当劳杭州下城区-凤起路农贸市场餐厅",
@@ -8,13 +8,13 @@
     "address": "杭州建国北路286号"
   },
   "rawSkuCount": 111,
-  "candidates": 112,
-  "categories": 8,
-  "variants": 18,
-  "imageUrls": 111,
-  "imageFiles": 111,
+  "candidates": 119,
+  "categories": 7,
+  "variants": 31,
+  "imageUrls": 118,
+  "imageFiles": 118,
   "failedImages": 0,
-  "imageBytes": 7389938,
+  "imageBytes": 7835811,
   "images": [
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016076_320.png",
@@ -35,6 +35,10 @@
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G521950_320.gif",
       "path": "demo/images/8c1672a5a5ef6e2f1b9712ccbf0e3839c19cd6f6d9ca87038437704743f92845.gif"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_G515945_320.gif",
+      "path": "demo/images/25fd772ccc343287e847c29190f41f84da9bc5b68b61ebde8d0319caab5b2967.gif"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_9900004236_320.gif",
@@ -101,8 +105,12 @@
       "path": "demo/images/a87c7c4b58f3a83638be25328b4cc06618db803c8a87c8a79aa0900776e9e9e0.png"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260624/product/MS_9900008746_320.gif",
-      "path": "demo/images/f7e66789ab202bbafd6268a6c6c18081f1e3d77221689eb20047a177f76657a6.gif"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260520/product/MS_515295_600.png",
+      "path": "demo/images/983728ddc0864ebe9e8a4d482c309015317b442fc894f7be8385d3e94b2f8a3d.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260520/product/MS_521147_600.png",
+      "path": "demo/images/2b34a5f7f08ea59bcd5effc261c9ec126afe1fc49ee264350e040a00d79daf2b.png"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260610/product/MS_9900006332_320.png",
@@ -131,10 +139,6 @@
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015568_320.png",
       "path": "demo/images/786442d8d640352e75e9656f29c4aab87a817c80295a812e76b35621e57e23d4.png"
-    },
-    {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015602_320.png",
-      "path": "demo/images/ea5b4abe407a8fc679fac5200a92aa11abe2021af7b5f0261f8ca177f8d9f915.gif"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_9900000888_320.png",
@@ -185,8 +189,12 @@
       "path": "demo/images/6ee532bcce7541c8240d629cefdee9990e07709bae939f63ceae79364414f100.png"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900003586_320.png",
-      "path": "demo/images/d98a6cb890c4a097a35a6fcea3a59ab8c4963869fba1fabc968419773ebb3b9f.png"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_520312_600.png",
+      "path": "demo/images/8c4942278ca77c42a07cbd1edf9279e6e7f01bfb0a378a53faf09dab2d4fb929.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_8317_600.png",
+      "path": "demo/images/64ece2e3e091ac61d804f40e0f4f9baa4b15b791dc4e323f0d0b545a7d1392d6.png"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_1600_320.png",
@@ -209,8 +217,16 @@
       "path": "demo/images/ef6fbff8f57b5f2154e07b1858556d3b5968d71a73986a64f5eb2f49f0ac237d.png"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260309/product/MS_9900008747_320.gif",
-      "path": "demo/images/8c21d4c2664b226f92b63ac83c8c52a8fddb6837bc78ed70ab4543404f4702b6.gif"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1000_600.png",
+      "path": "demo/images/5c20bde3ce76d945655a5d1c24ddfd98d7218da1205ef8642d1cc9b02ce7c688.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1010_600.png",
+      "path": "demo/images/6432877a991efdf77740073c108b16ec3ccb58986d9f1f4fb42950780799af9a.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20250901/product/MS_520551_600.png",
+      "path": "demo/images/560805c84bb66d21a43a85aa81ddf2ee6ae837a4a0a8372f6a8265ab7b728899.png"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260824/product/MS_9900000881_320.png",
@@ -265,6 +281,10 @@
       "path": "demo/images/eaa5c05e707f987f1b8018bd60fed1cf4da3522808d82a41949370b47294bf69.png"
     },
     {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900015602_320.png",
+      "path": "demo/images/ea5b4abe407a8fc679fac5200a92aa11abe2021af7b5f0261f8ca177f8d9f915.gif"
+    },
+    {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G521986_320.png",
       "path": "demo/images/553e929750206ee829388bc415dbaf893117f6ca2eeabf4c4c21d6da4ec097be.png"
     },
@@ -313,20 +333,32 @@
       "path": "demo/images/adc0cfd8ef3b9bab0bac69df711f4c9350b24758a088f6524e00d3d3eb2d82a0.gif"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008754_320.gif",
-      "path": "demo/images/979df94c1d4591469d8e45e1bc2c427901e1fae2420245d4a94131db541441c9.gif"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_1217_600.png",
+      "path": "demo/images/8da61432299a2a7835233e2b348bcf12fb408ccff2f8673f3ba37f5868a7bd37.png"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900008745_320.gif",
-      "path": "demo/images/b976ac24e2863471f87711ec2ae85155749c54993b265a3766d358b73ad5ab05.gif"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_4900_600.png",
+      "path": "demo/images/f8f226d68e7c1baafdeb727fe7355f52a212625438530eab4ece4dcc22ac3ca7.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_4410_600.png",
+      "path": "demo/images/3c374174b1d384183d5886d1af93b3fe659326623d72d1963447e790bed1eb04.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_4416_600.png",
+      "path": "demo/images/b5f1a73f04a73f35c4b853cbac35820868fe304faa75b79cf22671a21e83d610.png"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_515837_320.png",
       "path": "demo/images/a256413af2039a23d1f85f9284006a0d311f1c6273fea9b71f7a4c439105c3b6.png"
     },
     {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G9900008752_320.gif",
-      "path": "demo/images/1f1f155464758bd2e3051b345f68b7bc876827687cf1c8ad618510747dda82ab.gif"
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_4105_600.png",
+      "path": "demo/images/27f0abfca785adeb38f65a0ba5d4346c896f9f16d99c709fa3a06a2e7c47f430.png"
+    },
+    {
+      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20260101/product/MS_4106_600.png",
+      "path": "demo/images/3b364658df081f0e907e6e57b5428dc22b0eae76e41c8a6b77bdb75c3c92886a.png"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016057_320.png",
@@ -343,10 +375,6 @@
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_9900016055_320.png",
       "path": "demo/images/40338f6e7bc72dfbf865fb4f544d40df21c8ca74b1638e5de2395b9a1ebb65d4.png"
-    },
-    {
-      "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_G515945_320.gif",
-      "path": "demo/images/25fd772ccc343287e847c29190f41f84da9bc5b68b61ebde8d0319caab5b2967.gif"
     },
     {
       "sourceUrl": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_G515954_320.gif",
