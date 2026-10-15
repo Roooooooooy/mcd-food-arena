@@ -5,7 +5,7 @@ import { isRecord } from '../../src/catalog/normalize.ts';
 import { ApiError } from '../app.ts';
 import type { CatalogContext, CatalogService } from './catalog.ts';
 import type { McpGateway } from './gateway.ts';
-interface Product { productCode:string; quantity:number; roundList?:WireRound[]; modification?:WireModification }
+export interface QuoteProduct { productCode:string; quantity:number; roundList?:WireRound[]; modification?:WireModification }
 const fail = (code:string,status=400):never => { throw new ApiError(code,status); };
 const positive = (n:unknown):n is number => Number.isSafeInteger(n) && (n as number)>0;
 function validate(request:QuoteRequest,catalog:CatalogService):{context:CatalogContext;lines:{line:BasketLine;candidate:Candidate;variant?:Variant;code:string}[]} {
@@ -27,28 +27,29 @@ function validate(request:QuoteRequest,catalog:CatalogService):{context:CatalogC
   return {context,lines};
 }
 function price(value:unknown):number { if(typeof value!=='number'||!Number.isSafeInteger(value)||value<0)return fail('QUOTE_INVALID_AMOUNT',502);return value; }
+export function prepareBasket(request:QuoteRequest,catalog:CatalogService,allowRequired=false){
+  // Validate the entire normalized basket before any detail or calculate-price call.
+  const {context,lines}=validate(request,catalog);const items:QuoteProduct[]=[];const selections:BasketSelection[]=[];
+  for(const {line,candidate,code} of lines){
+    try {
+      const {roundList,modification,components}=resolveOptions(candidate,line.optionIds);
+      items.push({productCode:code,quantity:line.quantity,...(roundList.length?{roundList}:{}),...(modification?{modification}:{})});
+      selections.push({candidateId:line.candidateId,components,requiresSelection:false});
+    }catch(error){
+      const code=error instanceof Error?error.message:'SELECTION_REQUIRED';
+      if(!allowRequired || code!=='SELECTION_REQUIRED')return fail(code);
+      selections.push({candidateId:line.candidateId,components:[],requiresSelection:true});
+    }
+  }
+  return {context,items,selections};
+}
 export function createQuoteService(catalog:CatalogService,source:McpGateway|(()=>Promise<McpGateway>)) {
   const gateway=async()=>typeof source==='function'?await source():source;
-  async function resolve(request:QuoteRequest,allowRequired:boolean){
-    // Validate the entire normalized basket before any detail or calculate-price call.
-    const {context,lines}=validate(request,catalog);const items:Product[]=[];const selections:BasketSelection[]=[];
-    for(const {line,candidate,code} of lines){
-      try {
-        const {roundList,modification,components}=resolveOptions(candidate,line.optionIds);
-        items.push({productCode:code,quantity:line.quantity,...(roundList.length?{roundList}:{}),...(modification?{modification}:{})});
-        selections.push({candidateId:line.candidateId,components,requiresSelection:false});
-      }catch(error){
-        const code=error instanceof Error?error.message:'SELECTION_REQUIRED';
-        if(!allowRequired || code!=='SELECTION_REQUIRED')return fail(code);
-        selections.push({candidateId:line.candidateId,components:[],requiresSelection:true});
-      }
-    }
-    return {context,items,selections};
-  }
+
   return {
-    async selection(request:QuoteRequest):Promise<BasketSelection[]> {return (await resolve(request,true)).selections;},
+    async selection(request:QuoteRequest):Promise<BasketSelection[]> {return (prepareBasket(request,catalog,true)).selections;},
     async quoteBasket(request:QuoteRequest):Promise<QuoteResult> {
-      const {context,items}=await resolve(request,false);
+      const {context,items}=prepareBasket(request,catalog);
       const raw=await (await gateway()).call('calculate-price',{storeCode:context.store.id,orderType:context.orderType,beType:context.beType,items,needTableware:false});
       if(!isRecord(raw)||raw.success!==true||raw.code!==200||!isRecord(raw.data))return fail('QUOTE_UNAVAILABLE',502);
       const totalCents=price(raw.data.price);
