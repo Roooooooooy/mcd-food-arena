@@ -2,10 +2,10 @@ import { useId, useState } from 'react';
 import type { Candidate } from '../shared/contracts.ts';
 
 // Original vector illustrations, drawn for this synthetic catalog.
-export function FoodArt({ item, className = '' }: { item: Pick<Candidate, 'id' | 'stageId'> & Partial<Pick<Candidate, 'imageUrl'>>; className?: string }) {
+export function FoodArt({ item, className = '', priority = false }: { item: Pick<Candidate, 'id' | 'stageId'> & Partial<Pick<Candidate, 'imageUrl'>>; className?: string; priority?: boolean }) {
   const uid = useId().replace(/:/g, '');
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
-  if (item.imageUrl && failedUrl !== item.imageUrl) return <img className={`food-art official-food-art ${className}`} src={item.imageUrl} alt="" aria-hidden="true" loading="lazy" onError={() => setFailedUrl(item.imageUrl ?? null)}/>;
+  if (item.imageUrl && failedUrl !== item.imageUrl) return <img className={`food-art official-food-art ${className}`} src={item.imageUrl} alt="" aria-hidden="true" loading={priority ? 'eager' : 'lazy'} onError={() => setFailedUrl(item.imageUrl ?? null)}/>;
   const variation = [...item.id].reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 4;
   const slug = item.id.split(':').at(-1) ?? '';
   const bun = `url(#${uid}-bun)`;
