@@ -1,3 +1,4 @@
+import { availabilityLabel, type AvailabilityItem } from '../commerce/availability-contracts.ts';
 import type { Candidate } from '../shared/contracts.ts';
 
 export function nutritionText(nutrition: Candidate['nutrition']): string {
@@ -5,13 +6,13 @@ export function nutritionText(nutrition: Candidate['nutrition']): string {
   return parts.join(' · ') || '营养数据未知';
 }
 
-export function CandidateDetails({ item, showPrices = true, showNutrition = true }: { item: Candidate; showPrices?: boolean; showNutrition?: boolean }) {
+export function CandidateDetails({ item, showPrices = true, showNutrition = true, availability }: { availability?:AvailabilityItem; item: Candidate; showPrices?: boolean; showNutrition?: boolean }) {
   const variants = item.variants?.length===1&&item.variants[0].sizeLabel==='固定口味'?undefined:item.variants;
   const label = item.sourceKind === 'official-snapshot' ? '采集时营养' : item.mode === 'demo' ? '样例营养' : '菜单营养';
   return <div className="candidate-details">
     {variants && showPrices && <div className="variant-price-list" aria-label={`${item.name}各规格参考价`}>
       <p className="variant-price-caption">{item.sourceKind === 'official-snapshot' ? '快照参考价' : item.mode === 'demo' ? '样例参考价' : '菜单参考价'}</p>
-      {variants.map(variant => <div className="variant-price-row" key={variant.id}><span>{variant.sizeLabel}</span><strong>{variant.referencePriceCents === null ? '价格未知' : `¥${(variant.referencePriceCents / 100).toFixed(2)}`}</strong></div>)}
+      {variants.map(variant => <div className="variant-price-row" key={variant.id}><span>{variant.sizeLabel}{availability?.variants?.find(v=>v.variantId===variant.id)?.state==='not-returned'&&<small> · {availabilityLabel('not-returned')}</small>}</span><strong>{variant.referencePriceCents === null ? '价格未知' : `¥${(variant.referencePriceCents / 100).toFixed(2)}`}</strong></div>)}
       <p className="variant-note">{variants.length} 种规格 · 最后再选</p>
     </div>}
     {showNutrition && <details className="nutrition-disclosure">
