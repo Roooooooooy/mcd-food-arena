@@ -5,7 +5,7 @@ export function nutritionText(nutrition: Candidate['nutrition']): string {
   return parts.join(' · ') || '营养数据未知';
 }
 
-export function CandidateDetails({ item, showPrices = true }: { item: Candidate; showPrices?: boolean }) {
+export function CandidateDetails({ item, showPrices = true, showNutrition = true }: { item: Candidate; showPrices?: boolean; showNutrition?: boolean }) {
   const variants = item.variants;
   const label = item.sourceKind === 'official-snapshot' ? '采集时营养' : item.mode === 'demo' ? '样例营养' : '菜单营养';
   return <div className="candidate-details">
@@ -14,12 +14,12 @@ export function CandidateDetails({ item, showPrices = true }: { item: Candidate;
       {variants.map(variant => <div className="variant-price-row" key={variant.id}><span>{variant.sizeLabel}</span><strong>{variant.referencePriceCents === null ? '价格未知' : `¥${(variant.referencePriceCents / 100).toFixed(2)}`}</strong></div>)}
       <p className="variant-note">{variants.length} 种规格 · 最后再选</p>
     </div>}
-    <details className="nutrition-disclosure">
+    {showNutrition && <details className="nutrition-disclosure">
       <summary aria-label={`${item.name}营养详情`}>营养详情{!variants && <span>{item.nutrition.kcal === undefined ? '未知' : `${item.nutrition.kcal} kcal`}</span>}</summary>
       <div className="nutrition-content">
         {variants ? variants.map(variant => <div className="nutrition-variant" key={variant.id}><strong>{variant.sizeLabel} · {variant.name}</strong><p>{nutritionText(variant.nutrition)}</p></div>) : <p>{nutritionText(item.nutrition)}</p>}
         <p className="nutrition-source">{label}数据，仅供参考</p>
       </div>
-    </details>
+    </details>}
   </div>;
 }
