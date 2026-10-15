@@ -1,0 +1,9 @@
+import { useState } from 'react';
+import type { SessionInfo } from './contracts.ts';
+export function AccountPanel({enabled,session,busy,error,onConnect,onDisconnect}:{enabled:boolean;session:SessionInfo;busy:boolean;error:string|null;onConnect:(token:string)=>Promise<void>;onDisconnect:()=>void}){
+ const [token,setToken]=useState('');
+ if(!enabled)return null;
+ return <details className="account-panel" data-keyboard-isolation aria-label="本人账号" aria-busy={busy}><summary><span className="status-dot" aria-hidden="true"/>{busy?'账号处理中…':session.connected?'已连接本人账号':'连接账号'}{error&&<span className="account-error-dot" aria-label="账号连接有提示">!</span>}</summary><div className="account-panel-content"><p className="account-title">{session.connected?'已连接麦当劳账号':'用自己的优惠券挑这一顿'}</p><p>{session.connected?'菜单、券包和订单仅在这次连接中使用。断开后回到门店快照。':'Token 是麦当劳提供的账号访问凭证，用来读取本人券包、核价和提交已确认的订单。请勿分享给他人。'}</p>
+ {session.connected?<div className="account-actions"><p>连接有效期：{session.expiresAt?new Date(session.expiresAt).toLocaleString('zh-CN'):'以官方状态为准'}</p><button className="button button-outline" disabled={busy} onClick={()=>{setToken('');onDisconnect();}}>断开账号</button></div>:<form className="account-form" onSubmit={event=>{event.preventDefault();const submitted=token.trim();if(!submitted||busy)return;setToken('');void onConnect(submitted);}}><label className="cart-field">账号 Token<input type="password" autoComplete="off" value={token} onChange={e=>setToken(e.target.value)} placeholder="粘贴从官方获取的 Token" disabled={busy} required/></label><div className="account-actions"><a href="https://open.mcd.cn/mcp" target="_blank" rel="noopener noreferrer">去官方获取 Token ↗</a><button type="submit" className="button button-primary" disabled={busy||!token.trim()}>{busy?'正在连接…':'连接本人账号'}</button></div><p className="form-hint">提交后输入框立即清空，Token 不保存在浏览器存储中。订单需另行确认，支付在官方页面完成。</p></form>}
+ {error&&<p className="notice" role="alert">{error}</p>}</div></details>;
+}

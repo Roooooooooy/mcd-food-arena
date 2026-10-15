@@ -10,7 +10,7 @@ export interface McpGateway {
 }
 
 export const READ_TOOLS = ['query-nearby-stores', 'query-meals', 'query-meal-detail', 'list-nutrition-foods', 'calculate-price', 'now-time-info'] as const;
-const allowed = new Set<string>(READ_TOOLS);
+export interface GatewayOptions { allowedTools?: readonly string[] }
 const TIMEOUT_MS = 15_000;
 const knownCodes = new Set(['TOOL_NOT_ALLOWED', 'TOOL_NOT_AVAILABLE', 'INVALID_TOOL_ARGUMENTS', 'MCP_INVALID_SCHEMA', 'MCP_INVALID_RESPONSE', 'MCP_TOOL_FAILED', 'MCP_UNAUTHORIZED', 'MCP_RATE_LIMITED', 'MCP_TIMEOUT', 'MCP_UNAVAILABLE', 'MCP_TOKEN_MISSING']);
 
@@ -58,7 +58,8 @@ function decodeResult(result: unknown): unknown {
   return checkBusinessResult(result);
 }
 
-export function guardGateway(raw: McpGateway): McpGateway {
+export function guardGateway(raw: McpGateway, options: GatewayOptions = {}): McpGateway {
+  const allowed = new Set<string>(options.allowedTools ?? READ_TOOLS);
   const ajv = new Ajv({ strict: false, allErrors: false, coerceTypes: false, useDefaults: false, removeAdditional: false });
   let catalog: Promise<{ tools: { name: string; inputSchema: object }[]; validators: Map<string, ValidateFunction> }> | undefined;
   function loadCatalog() {
@@ -85,7 +86,7 @@ export function guardGateway(raw: McpGateway): McpGateway {
   };
 }
 
-export async function createGateway(token: string): Promise<McpGateway> {
+export async function createGateway(token: string, options: GatewayOptions = {}): Promise<McpGateway> {
   if (!token.trim()) throw new Error('MCP_TOKEN_MISSING');
   const client = new Client({ name: 'mcd-food-arena', version: '0.1.0' }, { capabilities: {} });
   const transport = new StreamableHTTPClientTransport(new URL('https://mcp.mcd.cn'), {
@@ -110,7 +111,7 @@ export async function createGateway(token: string): Promise<McpGateway> {
       },
       call: (name, args) => client.callTool({ name, arguments: args }, undefined, { timeout: TIMEOUT_MS, maxTotalTimeout: TIMEOUT_MS }),
       close: () => client.close(),
-    });
+    }, options);
     await gateway.listTools();
     return gateway;
   } catch (error) {

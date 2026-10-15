@@ -1,0 +1,21 @@
+# Import only after code acceptance and the user's hosting/account authorization.
+services:
+  - type: web
+    name: mcd-food-arena
+    runtime: node
+    plan: free
+    numInstances: 1
+    region: singapore
+    autoDeployTrigger: 'off'
+    buildCommand: npm --userconfig=/dev/null ci --include=dev && npm --userconfig=/dev/null run build:commerce
+    startCommand: npm --userconfig=/dev/null start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24.21.0
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+# PORT and RENDER_EXTERNAL_URL are provided by Render.
+# PUBLIC_ORIGIN may be set explicitly for a custom domain. No Token belongs here.
