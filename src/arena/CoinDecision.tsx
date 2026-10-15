@@ -7,7 +7,7 @@ interface Props {
   disabled: boolean;
   claim: () => boolean;
   onHighlight: (side: Side | null) => void;
-  onResolve: (lock: CoinLock) => void;
+  onResolve: (lock: CoinLock) => boolean | void;
   onRelease: () => void;
 }
 
@@ -40,7 +40,7 @@ export function CoinDecision(props: Props) {
     if (locked.current !== lock) return;
     clearTimers();
     locked.current = null;
-    if (lockMatchesArena(lock, latest.current.state)) latest.current.onResolve(lock);
+    if (!lockMatchesArena(lock, latest.current.state)||latest.current.onResolve(lock)===false) { setPhase('idle');setFinalSide(null);setStopSide(null);setStopIndex(-1);latest.current.onHighlight(null);latest.current.onRelease(); }
   }
   function reveal(lock: CoinLock, immediate = false) {
     if (locked.current !== lock || !lockMatchesArena(lock, latest.current.state)) return;

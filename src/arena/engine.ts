@@ -109,3 +109,13 @@ function frameOf(state: ArenaState): ArenaFrame {
     status: state.status,
   };
 }
+
+/** Preserve the original survivor pool; unavailable candidates can still be eliminated by real choices. */
+export function availabilityDraw(selectable:(id:string)=>boolean,draw:DrawPair=drawRandomPair):DrawPair {
+ return ids=>{const eligible=ids.filter(selectable);if(eligible.length>=2)return draw(eligible);if(eligible.length===1){const blocked=ids.filter(id=>id!==eligible[0]);const other=blocked.length===1?blocked[0]:draw(blocked)[0];return [eligible[0],other];}return draw(ids);};
+}
+export function redrawUnavailablePair(state:ArenaState,selectable:(id:string)=>boolean,draw:DrawPair=drawRandomPair):ArenaState {
+ if(!state.pair||state.status!=='active'||state.pair.some(selectable)||!state.remainingIds.some(selectable))return state;
+ const pair=drawMatch(state.remainingIds,availabilityDraw(selectable,draw));
+ return {...state,pair,revision:state.revision+1};
+}
