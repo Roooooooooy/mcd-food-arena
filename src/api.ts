@@ -18,7 +18,7 @@ function loadCatalog(input:{storeId:string;diningMode:string}):Promise<CatalogSn
 
 const quoteMessages:Record<string,string>={
  CATALOG_CONTEXT_MISSING:'菜单或门店已变化，请重新加载菜单后核价。',
- PRODUCT_NOT_IN_CONTEXT:'餐品不在当前菜单，请返回赛区重新选择。',
+ PRODUCT_NOT_IN_CONTEXT:'餐品不在当前菜单，请返回分类重新选择。',
  OPTION_NOT_IN_CONTEXT:'规格已失效，请重新选择实际杯型。',
  SELECTION_REQUIRED:'套餐缺少可确认的默认选择，请调整餐盘或在官方渠道完成选配。',
  QUOTE_INVALID_AMOUNT:'官方响应未提供有效金额，未取得报价。',
