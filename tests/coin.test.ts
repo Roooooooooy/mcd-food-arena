@@ -2,6 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { coinTimeline, sideFromByte, lockMatchesArena } from '../src/arena/coin-timing.ts';
 import { createArena, choose, undo } from '../src/arena/engine.ts';
+import * as timing from '../src/arena/coin-timing.ts';
+
+test('the visual flight visits each alternating side and reaches its sealed landing when the decision reveals', () => {
+  const flight = (timing as { coinFlightPath?: (side: 'left' | 'right') => { side: 'left' | 'right' | null; atMs: number; height: number }[] }).coinFlightPath;
+  for (const side of ['left', 'right'] as const) {
+    const path = flight?.(side) ?? [];
+    assert.deepEqual(path.map(p => p.atMs), [0, 45, 100, 170, 260, 375, 520, 700, 925, 1205, 1545]);
+    assert.equal(path[0]?.side, null);
+    assert.equal(path.at(-1)?.side, side);
+    assert.equal(path.at(-1)?.height, 0);
+    for (let i = 1; i < path.length; i++) {
+      assert.equal(path[i].side, i % 2 === 0 ? side : side === 'left' ? 'right' : 'left');
+      assert.ok(Number.isFinite(path[i].height) && path[i].height >= 0);
+    }
+  }
+});
 
 test('all 256 bytes give exactly 128 left and 128 right results', () => {
   const sides = Array.from({ length: 256 }, (_, i) => sideFromByte(i));
