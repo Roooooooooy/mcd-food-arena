@@ -1,6 +1,6 @@
 # 麦麦二选一
 
-参赛申请已于 2026-10-16 提交：[查看官方报名记录](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772)。官方校验结果以该 Issue 的回复为准。
+参赛申请已于 2026-10-16 提交，官方已回复作品成功参赛：[报名记录](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772) · [官方成功回复](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772#issuecomment-6197625082)。
 
 在本机连接自己的麦当劳账号，可查本人优惠券、挑餐品、推荐用券方案、核对官方金额，并确认创建待支付订单。无需云端托管或注册 Render。
 
