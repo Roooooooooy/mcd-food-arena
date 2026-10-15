@@ -25,6 +25,9 @@ export interface Candidate {
   sourceCategories?: string[];
   variants?: Variant[];
   defaultVariantId?: string;
+  modificationGroups?: ModificationGroup[];
+  comboRounds?: ComboRound[];
+  optionsStatus?: 'ready' | 'unavailable';
 }
 
 export interface Variant {
@@ -38,6 +41,45 @@ export interface Variant {
   /** Menu parent and round identify a verified selectable child SKU. */
   menuCode?: string;
   roundId?: number;
+  modificationGroups?: ModificationGroup[];
+  optionsStatus?: 'ready' | 'unavailable';
+}
+
+export interface ModificationValue {
+  id: string;
+  code: string;
+  name: string;
+  minQuantity: number | null;
+  maxQuantity: number | null;
+  defaultQuantity: number | null;
+  selectedKey: string;
+  unselectedKey?: string;
+  referenceDeltaCents: number | null;
+}
+export interface ModificationGroup {
+  id: string;
+  kind: 'single' | 'toggles' | 'unavailable';
+  minValues: number | null;
+  maxValues: number | null;
+  values: ModificationValue[];
+}
+export interface ComboChoice {
+  id: string;
+  officialCode: string;
+  name: string;
+  maxQuantity: number | null;
+  defaultQuantity: number | null;
+  referenceDeltaCents: number | null;
+  modificationGroups: ModificationGroup[];
+}
+export interface ComboRound {
+  id: string;
+  roundId: number | null;
+  name: string;
+  minQuantity: number | null;
+  maxQuantity: number | null;
+  defaultQuantity: number | null;
+  choices: ComboChoice[];
 }
 
 export interface CatalogSnapshot {
