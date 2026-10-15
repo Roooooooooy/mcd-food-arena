@@ -15,7 +15,7 @@
 | calculate-price | storeCode, orderType, beType | items, beCode, reservationDate, needTableware, gmServiceCode, withOrder |
 | now-time-info | 无 | 无 |
 
-到店自提使用 `beType: 1, orderType: 1`，不传 beCode。门店按位置搜索使用 `searchType: 2`；`searchType: 1` 是收藏餐厅。其余渠道的参数组合以实际 schema 描述为准，本轮验证的是到店自提。创建订单、支付、优惠券绑定、积分和抽奖工具不在白名单。HTTP 只提供 `/api/stores`、`/api/catalog`、`/api/quote` 三个标准化接口。
+到店自提使用 `beType: 1, orderType: 1`，不传 beCode。门店按位置搜索使用 `searchType: 2`；`searchType: 1` 是收藏餐厅。其余渠道的参数组合以实际 schema 描述为准，本轮验证的是到店自提。创建订单、支付、优惠券绑定、积分和抽奖工具不在白名单。当前HTTP提供 `/api/stores`、`/api/catalog`、`/api/selection`、`/api/quote` 四个标准化接口，选配接口只核对当前餐盘的默认内容。
 
 ## 门店查询
 

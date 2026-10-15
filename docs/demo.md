@@ -6,11 +6,11 @@
 
 更新前的2026-10-14快照另存于本机忽略目录。此次刷新使用同一轮规范菜单与详情，118张原图保存成功，0张失败；旧版不再引用的6张图已从当前目录移出，历史备份仍完整。选项字段逐层经过公开白名单，未保存账号、请求头或凭据。口味拆分、选配与实际核价验证见 [口味与定制记录](menu-options-verification.md)。
 
-111个唯一图片 URL 全部来自 `https://menu-img.mcd.cn/`，下载为111个原始图片文件，共7,389,938字节。文件按内容哈希命名，保存在 `public/demo/images/`；没有生成、改绘或压缩商品照片。有一个官方 `.png` URL 与 `image/png` 响应实际包含 GIF 字节，按真实字节保存为 `.gif`。图片来源和文件对应关系记录于 `public/demo/manifest.json`。下载失败或页面图片读取失败时使用 `src/arena/FoodArt.tsx` 既有原创 SVG，不伪造商品照片。
+118个唯一图片 URL 全部来自 `https://menu-img.mcd.cn/`，下载为118个原始图片文件，共7,835,811字节。文件按内容哈希命名，保存在 `public/demo/images/`；没有生成、改绘或压缩商品照片。有一个官方 `.png` URL 与 `image/png` 响应实际包含 GIF 字节，按真实字节保存为 `.gif`。图片来源和文件对应关系记录于 `public/demo/manifest.json`。下载失败或页面图片读取失败时使用 `src/arena/FoodArt.tsx` 既有原创 SVG，不伪造商品照片。
 
 所有快照候选保持 `mode=demo`，并标记 `sourceKind=official-snapshot`。独立的 `demo:snapshot:` 上下文可暂存和恢复本次试玩，不会转换成实时门店核价上下文。规格、价格、营养参考采集时数据，可能变化；条件价不保证适用。餐盘金额是已知参考价相加的“快照参考合计”，不校验实时费用、优惠或套餐选配，不是实时官方购买报价。未知价、未选规格或失效规格拒绝计算，修改餐盘后合计失效；复制和下载餐单保留快照时间、来源和条件价说明。
 
-公开模式用 `VITE_PUBLIC_DEMO=true` 构建，隐藏真实菜单控件，并在 API 客户端拦截门店搜索、实时菜单、选配和核价请求。本页只加载本站归档 JSON 与图片，资源路径跟随 `import.meta.env.BASE_URL`，支持 `/mcd-food-arena/` 子路径。本人本地开发仍可切换真实菜单，明确读取与核价；前端没有凭据输入，归档和构建不加载认证文件。
+公开模式用 `VITE_PUBLIC_DEMO=true VITE_PUBLIC_COMMERCE=false` 构建，隐藏真实菜单控件，并在 API 客户端拦截门店搜索、实时菜单、选配和核价请求。本页只加载本站归档 JSON 与图片，资源路径跟随 `import.meta.env.BASE_URL`，支持 `/mcd-food-arena/` 子路径。本机账号版通过 `build:commerce` 启用页头本人Token连接，真实请求由本机服务处理；归档和公开构建不读取认证文件。
 
 可重复采集（先运行本人本地 API）：
 
