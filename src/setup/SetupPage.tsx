@@ -1,3 +1,4 @@
+import { isSelectable, type AvailabilityResult } from '../commerce/availability-contracts.ts';
 import { StageLineup } from './StageLineup.tsx';
 import { mcdMemes } from '../copy/MemeSources.tsx';
 import { FoodArt } from '../arena/FoodArt.tsx';
@@ -6,6 +7,7 @@ import type { CatalogSnapshot } from '../shared/contracts.ts';
 import type { StageSelection } from './session.ts';
 
 interface Props {
+  availability?:AvailabilityResult|null;
   snapshot: CatalogSnapshot;
   selection: StageSelection[];
   onSelectionChange: (selection: StageSelection[]) => void;
@@ -15,17 +17,17 @@ interface Props {
   message: string | null;
 }
 
-export function SetupPage({ snapshot, selection, onSelectionChange, onStart, onResume, hasSaved, message }: Props) {
+export function SetupPage({ availability, snapshot, selection, onSelectionChange, onStart, onResume, hasSaved, message }: Props) {
   const stages = [...new Set(snapshot.items.map(item => item.stageId))].map(id => ({
     id, items: snapshot.items.filter(item => item.stageId === id),
   }));
   const totalDecisions = selection.reduce((sum, stage) => sum + Math.max(0, stage.candidateIds.length - 1), 0);
-  const canStart = snapshot.complete && selection.length > 0 && selection.every(stage => stage.candidateIds.length > 0);
+  const canStart = snapshot.complete && selection.length > 0 && selection.every(stage => stage.candidateIds.some(id=>isSelectable(availability?.items.find(i=>i.candidateId===id))));
 
   function toggleStage(id: string) {
     onSelectionChange(selection.some(stage => stage.id === id)
       ? selection.filter(stage => stage.id !== id)
-      : [...selection, { id, candidateIds: snapshot.items.filter(item => item.stageId === id).map(item => item.id) }]);
+      : [...selection, { id, candidateIds: snapshot.items.filter(item => item.stageId === id&&isSelectable(availability?.items.find(i=>i.candidateId===item.id))).map(item => item.id) }]);
   }
 
   return <div className="setup-page" data-page="setup">
@@ -43,7 +45,7 @@ export function SetupPage({ snapshot, selection, onSelectionChange, onStart, onR
       })}</div>
     </section>
     <section aria-labelledby="lineup-title" className="lineup-section"><details className="lineup-main lineup-disclosure"><summary><div><h2 id="lineup-title">调整餐品与顺序</h2><p>{selection.length ? selection.map(stage => stageName(stages.find(value => value.id === stage.id)!.items[0])).join(' / ') : '先选上方分类'}</p></div><span>可选</span></summary>
-      <StageLineup key={snapshot.contextKey} snapshot={snapshot} selection={selection} onSelectionChange={onSelectionChange}/></details>
+      <StageLineup availability={availability} key={snapshot.contextKey} snapshot={snapshot} selection={selection} onSelectionChange={onSelectionChange}/></details>
       <aside className="start-panel"><div className="start-panel-mark" aria-hidden="true">✦</div><p className="eyebrow">挑一挑，今天吃什么</p><h3>选好分类，就开始</h3><div className="setup-stats"><div><strong>{selection.length}</strong><span>类餐品</span></div><div><strong>{totalDecisions}</strong><span>次选择</span></div></div><button className="button button-primary start-button" disabled={!canStart} onClick={onStart}>{canStart ? '开始挑选' : selection.length ? '至少留一份' : '先选一类'} <span aria-hidden="true">→</span></button><p className="start-note">{canStart ? '每类留一份，组成这顿的餐单' : '每个所选分类至少保留一份餐品'}</p></aside>
     </section></div>
   </div>;

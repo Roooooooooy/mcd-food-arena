@@ -1,3 +1,4 @@
+import { isSelectable, type AvailabilityResult } from '../commerce/availability-contracts.ts';
 import { useRef, useState } from 'react';
 import { DndContext, DragOverlay, KeyboardSensor, MeasuringStrategy, PointerSensor, closestCenter, useSensor, useSensors, type CollisionDetection, type DragEndEvent, type DragStartEvent, type Modifier } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -7,17 +8,18 @@ import { beginStageDrag, commitStageDrag, type StageDrag } from './stage-order.t
 import type { StageSelection } from './session.ts';
 import type { Candidate, CatalogSnapshot } from '../shared/contracts.ts';
 
-interface Props { snapshot: CatalogSnapshot; selection: StageSelection[]; onSelectionChange: (selection: StageSelection[]) => void }
+interface Props { availability?:AvailabilityResult|null;snapshot: CatalogSnapshot; selection: StageSelection[]; onSelectionChange: (selection: StageSelection[]) => void }
 const verticalOnly: Modifier = ({ transform }) => ({ ...transform, x: 0 });
 function Grip() {
   return <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">{[7, 12, 17].flatMap(y => [9, 15].map(x => <circle key={`${x}:${y}`} cx={x} cy={y} r="1.6" fill="currentColor"/>))}</svg>;
 }
 
 interface RowProps {
+  availability?:AvailabilityResult|null;
   stage: StageSelection; items: Candidate[]; index: number; count: number; expanded: boolean; dragging: boolean;
   onMove: (id: string, offset: number) => void; onExpand: () => void; onCandidate: (id: string) => void;
 }
-function SortableStage({ stage, items, index, count, expanded, dragging, onMove, onExpand, onCandidate }: RowProps) {
+function SortableStage({ availability, stage, items, index, count, expanded, dragging, onMove, onExpand, onCandidate }: RowProps) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id: stage.id, disabled: count < 2 });
   const name = stageName(items[0]);
   const visibleExpanded = expanded && !dragging;
@@ -28,11 +30,11 @@ function SortableStage({ stage, items, index, count, expanded, dragging, onMove,
       <div className="reorder-controls"><button type="button" className="icon-button" disabled={dragging || index === 0} onClick={() => onMove(stage.id, -1)} aria-label={`${name}分类上移`}>↑</button><button type="button" className="icon-button" disabled={dragging || index === count - 1} onClick={() => onMove(stage.id, 1)} aria-label={`${name}分类下移`}>↓</button></div>
       <button type="button" className="picker-toggle" disabled={dragging} aria-expanded={visibleExpanded} aria-controls={`picker-${stage.id}`} onClick={onExpand}>圈选餐品 <span aria-hidden="true">{visibleExpanded ? '−' : '+'}</span></button>
     </div>
-    {visibleExpanded && <fieldset className="candidate-picker" id={`picker-${stage.id}`}><legend className="sr-only">{name}分类候选餐品</legend>{items.map(item => <label key={item.id} className={`candidate-option ${stage.candidateIds.includes(item.id) ? 'checked' : ''}`}><input type="checkbox" checked={stage.candidateIds.includes(item.id)} onChange={() => onCandidate(item.id)}/><FoodArt item={item}/><span>{item.name}</span></label>)}</fieldset>}
+    {visibleExpanded && <fieldset className="candidate-picker" id={`picker-${stage.id}`}><legend className="sr-only">{name}分类候选餐品</legend>{items.map(item => <label key={item.id} className={`candidate-option ${stage.candidateIds.includes(item.id) ? 'checked' : ''}`}><input type="checkbox" disabled={!stage.candidateIds.includes(item.id)&&!isSelectable(availability?.items.find(i=>i.candidateId===item.id))} checked={stage.candidateIds.includes(item.id)} onChange={() => onCandidate(item.id)}/><span className={!isSelectable(availability?.items.find(i=>i.candidateId===item.id))?'availability-image-unavailable':undefined}><FoodArt item={item}/></span><span>{item.name}{!isSelectable(availability?.items.find(i=>i.candidateId===item.id))&&<small>当前菜单未返回</small>}</span></label>)}</fieldset>}
   </div>;
 }
 
-export function StageLineup({ snapshot, selection, onSelectionChange }: Props) {
+export function StageLineup({ availability, snapshot, selection, onSelectionChange }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const drag = useRef<StageDrag | null>(null);
@@ -72,6 +74,7 @@ export function StageLineup({ snapshot, selection, onSelectionChange }: Props) {
     if (next !== selection) onSelectionChange(next);
   }
   function toggleCandidate(stageId: string, id: string) {
+    if(!selection.find(s=>s.id===stageId)?.candidateIds.includes(id)&&!isSelectable(availability?.items.find(i=>i.candidateId===id)))return;
     onSelectionChange(selection.map(stage => stage.id !== stageId ? stage : { ...stage, candidateIds: stage.candidateIds.includes(id) ? stage.candidateIds.filter(candidateId => candidateId !== id) : itemsFor(stageId).filter(item => item.id === id || stage.candidateIds.includes(item.id)).map(item => item.id) }));
   }
   const activeStage = selection.find(stage => stage.id === activeId);
@@ -84,7 +87,7 @@ export function StageLineup({ snapshot, selection, onSelectionChange }: Props) {
       onDragCancel: () => '已取消，保留原顺序。',
     } }}>
       <SortableContext items={selection.map(stage => stage.id)} strategy={verticalListSortingStrategy}>
-        <div ref={list} className="stage-list" role="list" aria-label="已选餐品分类顺序">{selection.length === 0 && <div className="empty-selection">先选上方的餐品分类，再来挑具体餐品。</div>}{selection.map((stage, index) => <SortableStage key={stage.id} stage={stage} items={itemsFor(stage.id)} index={index} count={selection.length} expanded={expanded === stage.id} dragging={activeId !== null} onMove={moveStage} onExpand={() => setExpanded(expanded === stage.id ? null : stage.id)} onCandidate={id => toggleCandidate(stage.id, id)}/>)}</div>
+        <div ref={list} className="stage-list" role="list" aria-label="已选餐品分类顺序">{selection.length === 0 && <div className="empty-selection">先选上方的餐品分类，再来挑具体餐品。</div>}{selection.map((stage, index) => <SortableStage availability={availability} key={stage.id} stage={stage} items={itemsFor(stage.id)} index={index} count={selection.length} expanded={expanded === stage.id} dragging={activeId !== null} onMove={moveStage} onExpand={() => setExpanded(expanded === stage.id ? null : stage.id)} onCandidate={id => toggleCandidate(stage.id, id)}/>)}</div>
       </SortableContext>
       <DragOverlay dropAnimation={null} zIndex={60}>{activeStage && <div className="drag-stage-overlay" aria-hidden="true"><Grip/><div><strong>{nameFor(activeStage.id)}</strong><span>{activeStage.candidateIds.length} 份候选 · 松手放下</span></div></div>}</DragOverlay>
     </DndContext>
