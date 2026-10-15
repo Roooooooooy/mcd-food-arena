@@ -1,6 +1,6 @@
 # 参赛材料核对
 
-本次准备主赛材料，未选择 WorkBuddy 专项，没有 `workbuddy.md` 或 WorkBuddy 开发经历的主张。报名正文保存在 [submission.md](submission.md)，仅包含官方要求的四行，尚未发布报名 Issue。
+本次准备主赛材料，未选择 WorkBuddy 专项，没有 `workbuddy.md` 或 WorkBuddy 开发经历的主张。报名正文保存在 [submission.md](submission.md)，仅包含官方要求的四行。用户已核对正文并确认阅读、同意活动规则，2026-10-16 已提交[正式报名申请](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772)；官方校验结果以该 Issue 的回复为准。
 
 ## 官方来源
 
