@@ -333,3 +333,8 @@
 .ui-enhanced .meme-sources li a { color: var(--mcd-red); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
 .ui-enhanced .meme-sources > p { font-size: 12px; line-height: 1.8; color: var(--muted); }
 @media (max-width:760px) { .ui-enhanced .meme-sources > ul { grid-template-columns: minmax(0,1fr); } }
+/* The newly added footer disclosure must remain above the fixed start bar. */
+@media (max-width: 760px) {
+  .ui-enhanced:has(.setup-page) .site-footer { padding-bottom: calc(124px + env(safe-area-inset-bottom)); }
+  .ui-enhanced:has(.setup-page) .meme-sources :is(summary, a) { scroll-margin-bottom: 112px; }
+}
