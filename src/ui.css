@@ -400,3 +400,80 @@
 }
 /* A 320px viewport can lose 15px to a scrollbar; let the content use its client width. */
 body:has(.ui-enhanced) { min-width: 0; }
+
+/* Red/yellow arcade motion. Outgoing cards are inert presentation copies;
+   the actual choice is committed immediately, independently of animation. */
+.ui-enhanced { --motion-snap: cubic-bezier(.2,.8,.2,1); --motion-spring: cubic-bezier(.2,1.3,.4,1); }
+.ui-enhanced .arena-heading { margin: 22px auto 18px; }
+.ui-enhanced .arena-heading h1 { margin-bottom: 8px; }
+.ui-enhanced .arena-progress { margin-bottom: 16px; }
+.ui-enhanced .whole-card-choice { transition: background 160ms, box-shadow 160ms, transform 180ms var(--motion-spring); }
+.ui-enhanced .whole-card-choice:has(.card-choice-target:disabled) .card-content { opacity: 1; }
+.ui-enhanced .choice-dealt { animation: choiceDeal 320ms var(--motion-spring) backwards; }
+.ui-enhanced .choice-flight-layer { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; z-index: 4; pointer-events: none; align-items: start; }
+.ui-enhanced .choice-flight-layer .whole-card-choice { min-width: 0; pointer-events: none; }
+.ui-enhanced .flight-picked { animation: choiceKeep 300ms var(--motion-snap) both; border-color: var(--mcd-yellow); background: #fff4c8; }
+.ui-enhanced .flight-dismissed { animation: choiceLeave 150ms var(--motion-snap) both; }
+.ui-enhanced .flight-picked::after { content: ''; position: absolute; inset: 0; border: 3px solid var(--mcd-yellow); border-radius: inherit; animation: selectionRipple 320ms ease-out both; pointer-events: none; }
+.ui-enhanced .selection-stamp { position: absolute; z-index: 5; top: 18px; right: 18px; display: grid; gap: 2px; padding: 7px 13px; border-radius: 8px; background: var(--mcd-red); color: #fff; font-size: 19px; font-weight: 850; transform: rotate(-7deg); box-shadow: 0 3px 0 #b40006; }
+.ui-enhanced .selection-stamp small { font-size: 11px; font-weight: 600; }
+.ui-enhanced .arena-page:has([data-coin-phase="spinning"]) .food-card.coin-selected { background: var(--surface); border-color: #d8cfc3; box-shadow: 0 5px 24px #2d2d2d04; }
+.ui-enhanced .arena-page:has([data-coin-phase="revealed"]) .food-card.coin-selected { animation: coinCardLand 250ms var(--motion-spring) both; }
+.ui-enhanced .motion-coin-control { position: relative; max-width: 850px; margin: 0 auto 22px; min-height: 79px; }
+.ui-enhanced .motion-coin-control .coin-button { min-height: 48px; width: auto; min-width: 204px; padding: 10px 20px; font-size: 14px; background: var(--surface); color: var(--ink); border: 1px solid var(--border); box-shadow: 0 3px 0 #e0d8cb; }
+.ui-enhanced .motion-coin-control .coin-button:not(:disabled):hover { background: #fff2c4; border-color: var(--mcd-yellow); transform: translateY(-1px); }
+.ui-enhanced .motion-coin-control .coin-icon { width: 25px; height: 25px; background: var(--mcd-yellow); border-color: #d2a224; }
+.ui-enhanced .motion-coin-control .coin-caption { margin: 9px 0 0; min-height: 22px; font-size: 12px; }
+.ui-enhanced .coin-scene { position: absolute; inset: 0 0 auto; height: 48px; pointer-events: none; opacity: 0; --coin-travel: 140px; perspective: 700px; }
+.ui-enhanced .motion-coin-control:not([data-coin-phase="idle"]) .coin-scene { opacity: 1; }
+.ui-enhanced .motion-coin-control:not([data-coin-phase="idle"]) .coin-button { opacity: 0; }
+.ui-enhanced .coin-side { position: absolute; top: 14px; font-size: 12px; font-weight: 800; color: var(--muted); }
+.ui-enhanced .coin-side-left { left: calc(50% - var(--coin-travel) - 24px); }
+.ui-enhanced .coin-side-right { right: calc(50% - var(--coin-travel) - 24px); }
+.ui-enhanced .coin-rail { position: absolute; top: 27px; left: 50%; width: calc(var(--coin-travel) * 2); height: 2px; background: #ebdfc4; transform: translateX(-50%); }
+.ui-enhanced .coin-flight { position: absolute; left: 50%; top: 0; width: 48px; height: 48px; margin-left: -24px; transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(calc(-1 * var(--coin-height))); transition: transform var(--coin-gap) cubic-bezier(.3,.6,.35,1); }
+.ui-enhanced .coin-body { position: absolute; inset: 0; transform-style: preserve-3d; }
+.ui-enhanced [data-coin-phase="spinning"] .coin-body { animation: arcadeCoinSpin var(--coin-duration) cubic-bezier(.08,.5,.4,1) both; }
+.ui-enhanced .coin-face { position: absolute; inset: 0; display: grid; place-items: center; border: 3px solid #e5ad28; border-radius: 50%; backface-visibility: hidden; background: linear-gradient(135deg,#fff1a5 0%,#ffc72c 43%,#e3a113 72%,#ffe692 100%); color: #624218; font-size: 20px; font-weight: 900; box-shadow: inset 0 0 0 3px #ffdf69, 0 2px 0 #b97b13; }
+.ui-enhanced .coin-front { transform: translateZ(2px); }
+.ui-enhanced .coin-back { transform: rotateY(180deg) translateZ(2px); }
+.ui-enhanced [data-coin-phase="revealed"][data-final-side="right"] .coin-body { transform: rotateY(180deg); }
+.ui-enhanced [data-coin-phase="revealed"] .coin-flight { animation: coinLand 250ms var(--motion-snap) both; }
+.ui-enhanced .coin-shadow { position: absolute; inset: auto 2px -6px; height: 6px; border-radius: 50%; background: #50341322; transform: translateY(var(--coin-height)) scaleX(.8); transition: transform var(--coin-gap); }
+.ui-enhanced .coin-landing-ring { position: absolute; inset: -3px; border: 2px solid var(--mcd-yellow); border-radius: 50%; opacity: 0; }
+.ui-enhanced [data-coin-phase="revealed"] .coin-landing-ring { animation: selectionRipple 250ms ease-out both; }
+.ui-enhanced .stage-finished { position: relative; overflow: hidden; animation: stageArrival 400ms var(--motion-spring) both; }
+.ui-enhanced .stage-meme { color: var(--mcd-red); font-weight: 800; margin: 4px 0 10px; }
+.ui-enhanced .stage-confetti { position: absolute; inset: 0; pointer-events: none; }
+.ui-enhanced .stage-confetti i { position: absolute; left: calc(15% + var(--confetti-index) * 10%); top: 25px; width: 7px; height: 13px; border-radius: 2px; background: var(--mcd-yellow); animation: stageConfetti 650ms calc(var(--confetti-index) * 18ms) var(--motion-snap) both; }
+.ui-enhanced .stage-confetti i:nth-child(odd) { background: var(--mcd-red); }
+.ui-enhanced .cart-food-meme { margin: 2px 0 8px; color: var(--mcd-red); font-size: 13px; font-weight: 750; }
+.ui-enhanced .cart-page .champion-grid { animation: receiptArrival 350ms var(--motion-snap) both; }
+@keyframes choiceDeal { from { opacity: 0; transform: translateY(12px) scale(.98); } 35% { opacity: .8; } to { opacity: 1; transform: none; } }
+@keyframes choiceKeep { 0%,25% { opacity: 1; transform: scale(1.015); } to { opacity: 0; transform: translateY(-24px) scale(.95); } }
+@keyframes choiceLeave { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(.98); } }
+@keyframes selectionRipple { from { opacity: .8; transform: scale(.98); } to { opacity: 0; transform: scale(1.08); } }
+@keyframes arcadeCoinSpin { from { transform: rotateY(0); } to { transform: rotateY(var(--coin-turns)); } }
+@keyframes coinLand { 0% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(0); } 40% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(2px); } 68% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(-3px); } to { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(0); } }
+@keyframes coinCardLand { from { transform: scale(1.02); } to { transform: none; } }
+@keyframes stageArrival { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes stageConfetti { from { opacity: 0; transform: translateY(-15px) rotate(0deg); } 15% { opacity: 1; } to { opacity: 0; transform: translateY(130px) rotate(160deg); } }
+@keyframes receiptArrival { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (max-width: 760px) {
+  .ui-enhanced .arena-heading { margin: 18px auto 12px; }
+  .ui-enhanced .arena-heading h1 { font-size: 25px; }
+  .ui-enhanced .arena-progress { margin-bottom: 12px; }
+  .ui-enhanced .motion-coin-control { margin: 0 auto 16px; }
+  .ui-enhanced .motion-coin-control .coin-button { min-height: 44px; font-size: 13px; }
+  .ui-enhanced .coin-scene { --coin-travel: 82px; }
+  .ui-enhanced .choice-flight-layer { gap: 12px; }
+  .ui-enhanced .selection-stamp { top: 8px; right: 8px; font-size: 14px; padding: 5px 8px; }
+  .ui-enhanced .selection-stamp small { font-size: 10px; }
+  .ui-enhanced .meme-food-tag { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-enhanced .choice-dealt, .ui-enhanced .choice-ghost, .ui-enhanced .stage-finished, .ui-enhanced .champion-grid, .ui-enhanced .coin-selected { animation: none !important; }
+  .ui-enhanced .choice-flight-layer, .ui-enhanced .stage-confetti, .ui-enhanced .coin-scene { display: none; }
+  .ui-enhanced .motion-coin-control .coin-button { opacity: 1 !important; transform: none !important; }
+  .ui-enhanced .coin-flight, .ui-enhanced .coin-shadow { transition: none; }
+}

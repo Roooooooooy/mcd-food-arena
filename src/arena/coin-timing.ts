@@ -21,6 +21,11 @@ export function coinTimeline(finalSide: Side): { side: Side; atMs: number }[] {
   });
 }
 
+export function coinFlightPath(finalSide: Side): { side: Side | null; atMs: number; height: number }[] {
+  const heights = [12, 20, 24, 20, 16, 12, 8, 6, 3, 0];
+  return [{ side: null, atMs: 0, height: 0 }, ...coinTimeline(finalSide).map((stop, index) => ({ ...stop, height: heights[index] }))];
+}
+
 export function lockMatchesArena(lock: CoinLock, state: ArenaState): boolean {
   return lock.arenaId === state.arenaId && lock.revision === state.revision && getMatch(state) !== null;
 }
