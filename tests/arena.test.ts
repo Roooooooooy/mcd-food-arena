@@ -1,188 +1,184 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { choose, createArena, getMatch, skip, undo } from '../src/arena/engine.ts';
+import { choose, completedChoices, createArena, drawRandomPair, getMatch, skip, undo } from '../src/arena/engine.ts';
 
-test('胜者守擂，每轮只面对下一位候选，四个候选恰好比较三次', () => {
-  let state = createArena(['a', 'b', 'c', 'd'], 'run-1', 'burger');
-  assert.deepEqual(getMatch(state), { leftId: 'a', rightId: 'b', revision: 0 });
-  state = choose(state, 'right', 0);
-  assert.deepEqual(getMatch(state), { leftId: 'b', rightId: 'c', revision: 1 });
-  state = choose(state, 'left', 1);
-  assert.deepEqual(getMatch(state), { leftId: 'b', rightId: 'd', revision: 2 });
-  state = choose(state, 'right', 2);
-  assert.equal(state.championId, 'd');
+const edges = (ids: readonly string[]): [string, string] => [ids.at(-1)!, ids[0]];
+
+// Catches a winner being forced into the next match, or a loser re-entering the pool.
+test('每轮从存活池抽两份，胜者留池，下一轮可以完全不包含上一轮胜者', () => {
+  const pairs: [string, string][] = [['b', 'd'], ['a', 'c'], ['d', 'c']];
+  const draw = () => pairs.shift()!;
+  let state = createArena(['a', 'b', 'c', 'd'], 'run-1', 'burger', draw);
+  assert.deepEqual(getMatch(state), { leftId: 'b', rightId: 'd', revision: 0 });
+  assert.equal(state.championId, null);
+  state = choose(state, 'right', 0, draw);
+  assert.deepEqual(state.remainingIds, ['a', 'c', 'd']);
+  assert.deepEqual(getMatch(state), { leftId: 'a', rightId: 'c', revision: 1 });
+  state = choose(state, 'right', 1, draw);
+  assert.deepEqual(state.remainingIds, ['c', 'd']);
+  assert.deepEqual(getMatch(state), { leftId: 'd', rightId: 'c', revision: 2 });
+  state = choose(state, 'right', 2, draw);
+  assert.equal(state.championId, 'c');
   assert.equal(state.status, 'complete');
+  assert.deepEqual(state.remainingIds, ['c']);
   assert.equal(state.history.length, 3);
   assert.equal(getMatch(state), null);
 });
 
-test('零候选为 empty，无冠军，无比赛，无需比较', () => {
-  const state = createArena([], 'run-empty', 'drink');
-  assert.equal(state.status, 'empty');
-  assert.equal(state.championId, null);
-  assert.equal(state.challengerIndex, 0);
-  assert.equal(state.revision, 0);
-  assert.deepEqual(state.history, []);
-  assert.equal(getMatch(state), null);
-  assert.equal(choose(state, 'left', 0), state);
+test('读取同一轮对阵不会重抽，左右不能是同一候选或池外候选', () => {
+  let draws = 0;
+  const state = createArena(['a', 'b', 'c'], 'run-1', 'burger', ids => { draws++; return edges(ids); });
+  for (let i = 0; i < 5; i++) assert.deepEqual(getMatch(state), { leftId: 'c', rightId: 'a', revision: 0 });
+  assert.equal(draws, 1);
+  for (const pair of [['a', 'a'], ['a', 'gone']] as [string, string][]) {
+    assert.throws(() => createArena(['a', 'b'], 'run-1', 'burger', () => pair));
+  }
 });
 
-test('单个候选直接成为冠军，无需比较', () => {
-  const state = createArena(['a'], 'run-single', 'coffee');
-  assert.equal(state.championId, 'a');
-  assert.equal(state.challengerIndex, 1);
-  assert.equal(state.status, 'complete');
-  assert.deepEqual(state.history, []);
-  assert.equal(getMatch(state), null);
-});
+for (const ids of [[], ['a'], ['a', 'a']]) {
+  test(`${ids.length}项输入只剩零或一份时不抽签，不产生伪比赛`, () => {
+    let draws = 0;
+    const state = createArena(ids, 'run-empty', 'drink', () => { draws++; throw new Error('must not draw'); });
+    assert.equal(state.status, ids.length === 0 ? 'empty' : 'complete');
+    assert.equal(state.championId, ids.length === 0 ? null : 'a');
+    assert.deepEqual(state.remainingIds, [...new Set(ids)]);
+    assert.equal(state.revision, 0);
+    assert.deepEqual(state.history, []);
+    assert.equal(getMatch(state), null);
+    assert.equal(choose(state, 'left', 0), state);
+    assert.equal(undo(state), state);
+    assert.equal(draws, 0);
+  });
+}
 
-test('重复身份只出场一次，保留第一次出现的顺序', () => {
-  const state = createArena(['b', 'a', 'b', 'c', 'a', 'c'], 'run-1', 'burger');
-  assert.deepEqual(state.orderedIds, ['b', 'a', 'c']);
-  assert.deepEqual(getMatch(state), { leftId: 'b', rightId: 'a', revision: 0 });
-  const second = choose(state, 'right', 0);
-  assert.deepEqual(getMatch(second), { leftId: 'a', rightId: 'c', revision: 1 });
-  const complete = choose(second, 'left', 1);
-  assert.equal(complete.history.length, 2);
-  assert.equal(complete.status, 'complete');
-});
-
-test('所有输入身份相同只产生一个直接冠军', () => {
-  const state = createArena(['a', 'a', 'a'], 'run-1', 'burger');
-  assert.deepEqual(state.orderedIds, ['a']);
-  assert.equal(state.championId, 'a');
-  assert.equal(state.status, 'complete');
-  assert.equal(getMatch(state), null);
-});
-
-test('创建不保留调用方的候选数组引用，且携带擂台与赛区身份', () => {
-  const ids = ['a', 'b', 'c'];
-  const state = createArena(ids, 'run-42', 'breakfast');
+test('候选去重，原输入与已返回状态不会被后续选择修改', () => {
+  const ids = ['b', 'a', 'b', 'c', 'a'];
+  const first = createArena(ids, 'run-42', 'breakfast', edges);
   ids.reverse();
-  assert.deepEqual(state.orderedIds, ['a', 'b', 'c']);
-  assert.equal(state.arenaId, 'run-42');
-  assert.equal(state.stageId, 'breakfast');
+  assert.deepEqual(first.orderedIds, ['b', 'a', 'c']);
+  assert.equal(first.arenaId, 'run-42');
+  assert.equal(first.stageId, 'breakfast');
+  const snapshot = structuredClone(first);
+  const next = choose(first, 'right', 0, edges);
+  assert.notEqual(next, first);
+  assert.deepEqual(first, snapshot);
+  assert.equal(next.history.length, 1);
+  assert.deepEqual(next.history[0].remainingIds, ['b', 'a', 'c']);
 });
 
-for (let count = 2; count <= 100; count += 1) {
-  test(`${count} 个候选全部出场，恰好 ${count - 1} 次选择后完成`, () => {
-    const ids = Array.from({ length: count }, (_, index) => `candidate-${index}`);
-    let state = createArena(ids, `run-${count}`, 'burger');
-    for (let challenger = 1; challenger < count; challenger += 1) {
-      assert.deepEqual(getMatch(state), {
-        leftId: 'candidate-0',
-        rightId: `candidate-${challenger}`,
-        revision: challenger - 1,
-      });
-      state = choose(state, 'left', state.revision);
+for (let count = 2; count <= 100; count++) {
+  test(`${count}份随机淘汰中，败者不回池，全员参与且恰好${count - 1}次决出唯一冠军`, () => {
+    const ids = Array.from({ length: count }, (_, i) => `candidate-${i}`);
+    const appeared = new Set<string>();
+    const eliminated = new Set<string>();
+    let state = createArena(ids, `run-${count}`, 'burger', edges);
+    for (let round = 0; round < count - 1; round++) {
+      const match = getMatch(state)!;
+      assert.ok(match);
+      assert.notEqual(match.leftId, match.rightId);
+      assert.equal(eliminated.has(match.leftId), false);
+      assert.equal(eliminated.has(match.rightId), false);
+      appeared.add(match.leftId); appeared.add(match.rightId);
+      eliminated.add(match.leftId);
+      state = choose(state, 'right', state.revision, edges);
+      assert.equal(state.remainingIds.length, count - round - 1);
+      assert.ok(state.remainingIds.includes(match.rightId));
+      assert.equal(state.remainingIds.includes(match.leftId), false);
     }
     assert.equal(state.status, 'complete');
     assert.equal(state.championId, 'candidate-0');
     assert.equal(state.history.length, count - 1);
     assert.equal(state.revision, count - 1);
+    assert.equal(appeared.size, count);
     assert.equal(getMatch(state), null);
+    assert.equal(choose(state, 'left', state.revision), state);
   });
 }
 
-test('一直选右，上一轮右侧冠军在下一轮出现在左侧，末位成为冠军', () => {
-  let state = createArena(['a', 'b', 'c', 'd', 'e'], 'run-1', 'burger');
-  for (const [index, champion] of ['b', 'c', 'd', 'e'].entries()) {
-    state = choose(state, 'right', state.revision);
-    assert.equal(state.championId, champion);
-    assert.equal(state.history.length, index + 1);
-  }
-  assert.equal(state.status, 'complete');
-  assert.equal(state.championId, 'e');
+test('重复提交、无效选边、旧和未来revision均不推进或再抽签', () => {
+  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger', edges);
+  const next = choose(first, 'right', 0, edges);
+  const mustNotDraw = () => { throw new Error('must not redraw'); };
+  assert.equal(choose(next, 'left', 0, mustNotDraw), next);
+  assert.equal(choose(next, 'right', 0, mustNotDraw), next);
+  assert.equal(choose(next, 'left', 2, mustNotDraw), next);
+  assert.equal(choose(next, 'unknown' as 'left', 1, mustNotDraw), next);
 });
 
-test('重复提交、旧 revision 和未来 revision 都不推进下一轮', () => {
-  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger');
-  const next = choose(first, 'right', 0);
-  assert.deepEqual(getMatch(next), { leftId: 'b', rightId: 'c', revision: 1 });
-  assert.equal(choose(next, 'left', 0), next);
-  assert.equal(choose(next, 'right', 0), next);
-  assert.equal(choose(next, 'left', 2), next);
-});
-
-test('选择返回新状态，不修改上一轮状态或历史', () => {
-  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger');
-  const snapshot = structuredClone(first);
-  const next = choose(first, 'right', 0);
-  assert.notEqual(next, first);
-  assert.deepEqual(first, snapshot);
-  assert.deepEqual(next.history, [{ championId: 'a', challengerIndex: 1, status: 'active' }]);
-});
-
-test('上一步恢复餐品但 revision 继续递增，旧回调拒绝', () => {
-  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger');
-  const advanced = choose(first, 'right', 0);
-  const restored = undo(advanced);
-  assert.equal(restored.championId, 'a');
-  assert.equal(restored.challengerIndex, 1);
-  assert.equal(restored.revision, 2);
+test('撤回恢复原候选池和原对阵，revision递增以拒绝旧硬币回调', () => {
+  const initial = createArena(['a', 'b', 'c'], 'run-1', 'burger', edges);
+  const next = choose(initial, 'right', 0, edges);
+  const nextSnapshot = structuredClone(next);
+  const restored = undo(next);
+  assert.deepEqual(restored.remainingIds, ['a', 'b', 'c']);
+  assert.deepEqual(getMatch(restored), { leftId: 'c', rightId: 'a', revision: 2 });
+  assert.equal(restored.championId, null);
   assert.equal(restored.history.length, 0);
-  assert.deepEqual(getMatch(restored), { leftId: 'a', rightId: 'b', revision: 2 });
+  assert.deepEqual(next, nextSnapshot);
   assert.equal(choose(restored, 'right', 0), restored);
   assert.equal(choose(restored, 'right', 1), restored);
-  assert.equal(choose(restored, 'right', 2).championId, 'b');
+  assert.deepEqual(choose(restored, 'left', 2, edges).remainingIds, ['b', 'c']);
 });
 
-test('完成后可以连续撤回到起始比赛，revision 始终递增', () => {
-  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger');
-  const second = choose(first, 'right', 0);
-  const complete = choose(second, 'right', 1);
+test('决出冠军后仍能逐次撤回到最初随机对阵', () => {
+  const initial = createArena(['a', 'b', 'c'], 'run-1', 'burger', edges);
+  const second = choose(initial, 'right', 0, edges);
+  const complete = choose(second, 'right', 1, edges);
+  assert.equal(complete.championId, 'a');
   const restored = undo(complete);
-  assert.deepEqual(getMatch(restored), { leftId: 'b', rightId: 'c', revision: 3 });
-  const originalMatch = undo(restored);
-  assert.deepEqual(getMatch(originalMatch), { leftId: 'a', rightId: 'b', revision: 4 });
-  assert.equal(undo(originalMatch), originalMatch);
-  assert.equal(choose(complete, 'left', complete.revision), complete);
+  assert.deepEqual(getMatch(restored), { leftId: 'b', rightId: 'a', revision: 3 });
+  const original = undo(restored);
+  assert.deepEqual(getMatch(original), { leftId: 'c', rightId: 'a', revision: 4 });
+  assert.equal(undo(original), original);
 });
 
-test('撤回不修改原状态和原历史', () => {
-  const advanced = choose(createArena(['a', 'b'], 'run-1', 'burger'), 'right', 0);
-  const snapshot = structuredClone(advanced);
-  const restored = undo(advanced);
-  assert.notEqual(restored, advanced);
-  assert.deepEqual(advanced, snapshot);
-  assert.equal(restored.status, 'active');
-});
-
-test('没有历史时撤回为无操作，空赛区和直接冠军也不产生伪比赛', () => {
-  for (const ids of [[], ['a'], ['a', 'b']]) {
-    const state = createArena(ids, 'run-1', 'burger');
-    assert.equal(undo(state), state);
-  }
-});
-
-test('跳过清空冠军并停止比赛，重复跳过与选择为无操作', () => {
-  const active = choose(createArena(['a', 'b', 'c'], 'run-1', 'burger'), 'right', 0);
-  const skipped = skip(active);
-  assert.equal(skipped.status, 'skipped');
-  assert.equal(skipped.championId, null);
-  assert.equal(skipped.revision, 2);
-  assert.equal(getMatch(skipped), null);
-  assert.equal(skip(skipped), skipped);
-  assert.equal(choose(skipped, 'left', skipped.revision), skipped);
-  assert.equal(active.championId, 'b');
-  assert.equal(active.status, 'active');
-});
-
-test('跳过可撤回到原比赛，旧回调仍被拒绝', () => {
-  const first = createArena(['a', 'b', 'c'], 'run-1', 'burger');
-  const restored = undo(skip(first));
-  assert.deepEqual(getMatch(restored), { leftId: 'a', rightId: 'b', revision: 2 });
-  assert.equal(restored.history.length, 0);
-  assert.equal(choose(restored, 'right', 0), restored);
-});
-
-test('空赛区和直接冠军均可跳过，结果无冠军', () => {
-  for (const ids of [[], ['a']]) {
-    const state = createArena(ids, 'run-1', 'burger');
-    const skipped = skip(state);
-    assert.equal(skipped.championId, null);
+for (const ids of [[], ['a'], ['a', 'b', 'c']]) {
+  test(`跳过${ids.length}份候选不产生冠军，撤回仍恢复跳过前池和对阵`, () => {
+    const initial = createArena(ids, 'run-1', 'burger', edges);
+    const skipped = skip(initial);
     assert.equal(skipped.status, 'skipped');
-    assert.equal(skipped.revision, 1);
+    assert.equal(skipped.championId, null);
+    assert.deepEqual(skipped.remainingIds, initial.remainingIds);
     assert.equal(getMatch(skipped), null);
+    assert.equal(skip(skipped), skipped);
+    assert.equal(choose(skipped, 'left', skipped.revision), skipped);
+    const restored = undo(skipped);
+    assert.deepEqual(restored.remainingIds, initial.remainingIds);
+    assert.equal(restored.status, initial.status);
+    assert.equal(restored.championId, initial.championId);
+    const match = getMatch(initial);
+    assert.deepEqual(getMatch(restored), match ? { ...match, revision: 2 } : null);
+  });
+}
+
+
+test('三份候选的六种有序对阵均可等概率抽到，右侧不会重复左侧', () => {
+  const fixtures: [number, number, [string, string]][] = [
+    [0, 0, ['a', 'b']], [0, 1, ['a', 'c']],
+    [1, 0, ['b', 'a']], [1, 1, ['b', 'c']],
+    [2, 0, ['c', 'a']], [2, 1, ['c', 'b']],
+  ];
+  for (const [left, right, expected] of fixtures) {
+    const words = [left, right];
+    assert.deepEqual(drawRandomPair(['a', 'b', 'c'], () => words.shift()!), expected);
   }
+});
+
+test('抽签拒绝不能均分的随机尾部，避免候选偏重', () => {
+  const words = [0xffffffff, 2, 0xffffffff];
+  assert.deepEqual(drawRandomPair(['a', 'b', 'c'], () => words.shift()!), ['c', 'b']);
+  assert.equal(words.length, 0);
+  for (const invalid of [-1, 0x100000000, 0.5, NaN]) {
+    assert.throws(() => drawRandomPair(['a', 'b'], () => invalid));
+  }
+});
+
+test('完成选择数量由淘汰数计算，跳过不加一，撤回会减一', () => {
+  const initial = createArena(['a', 'b', 'c'], 'run-1', 'burger', edges);
+  const chosen = choose(initial, 'left', 0, edges);
+  assert.equal(completedChoices(initial), 0);
+  assert.equal(completedChoices(chosen), 1);
+  assert.equal(completedChoices(skip(chosen)), 1);
+  assert.equal(completedChoices(undo(chosen)), 0);
+  assert.equal(completedChoices(choose(chosen, 'right', 1)), 2);
 });
