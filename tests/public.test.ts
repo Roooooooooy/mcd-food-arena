@@ -17,7 +17,7 @@ async function fixture() {
     await writeFile(resolve(root, path), content);
   }
   await mkdir(resolve(root, 'docs/screenshots'), { recursive: true });
-  for (const path of ['demo-home-current.png', 'demo-pk-current.png', 'meme-list-removed-published.png', 'task7-public-mobile.png']) await writeFile(resolve(root, 'docs/screenshots', path), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+  for (const path of ['demo-home-current.png', 'demo-pk-current.png', 'demo-result-current.png', 'meme-list-removed-published.png', 'task7-public-mobile.png']) await writeFile(resolve(root, 'docs/screenshots', path), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
   const image = Buffer.from([0x89, 0x50, 0x4e, 0x47, 1]);
   const hash = createHash('sha256').update(image).digest('hex');
   const imagePath = `demo/images/${hash}.png`;
