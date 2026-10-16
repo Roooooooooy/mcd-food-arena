@@ -465,8 +465,9 @@ body:has(.ui-enhanced) { min-width: 0; }
 .ui-enhanced .choice-dealt { animation: choiceDeal 320ms var(--motion-spring) backwards; }
 .ui-enhanced .choice-flight-layer { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; z-index: 4; pointer-events: none; align-items: start; }
 .ui-enhanced .choice-flight-layer .whole-card-choice { min-width: 0; pointer-events: none; }
-.ui-enhanced .flight-picked { animation: choiceKeep 300ms var(--motion-snap) both; border-color: var(--mcd-yellow); background: #fff4c8; }
-.ui-enhanced .flight-dismissed { animation: choiceLeave 150ms var(--motion-snap) both; }
+.ui-enhanced .flight-picked { animation: choiceKeep var(--choice-feedback-duration) var(--motion-snap) both; border-color: var(--mcd-yellow); background: #fff4c8; }
+.ui-enhanced .flight-dismissed { animation: choiceLeave var(--choice-feedback-duration) var(--motion-snap) both; }
+.ui-enhanced .flight-dismissed .card-content { opacity: .55; }
 .ui-enhanced .flight-picked::after { content: ''; position: absolute; inset: 0; border: 3px solid var(--mcd-yellow); border-radius: inherit; animation: selectionRipple 320ms ease-out both; pointer-events: none; }
 .ui-enhanced .selection-stamp { position: absolute; z-index: 5; top: 18px; right: 18px; display: grid; gap: 2px; padding: 7px 13px; border-radius: 8px; background: var(--mcd-red); color: #fff; font-size: 19px; font-weight: 850; transform: rotate(-7deg); box-shadow: 0 3px 0 #b40006; }
 .ui-enhanced .selection-stamp small { font-size: 11px; font-weight: 600; }
@@ -503,8 +504,8 @@ body:has(.ui-enhanced) { min-width: 0; }
 .ui-enhanced .cart-food-meme { margin: 2px 0 8px; color: var(--mcd-red); font-size: 13px; font-weight: 750; }
 .ui-enhanced .cart-page .champion-grid { animation: receiptArrival 350ms var(--motion-snap) both; }
 @keyframes choiceDeal { from { opacity: 0; transform: translateY(12px) scale(.98); } 35% { opacity: .8; } to { opacity: 1; transform: none; } }
-@keyframes choiceKeep { 0%,25% { opacity: 1; transform: scale(1.015); } to { opacity: 0; transform: translateY(-24px) scale(.95); } }
-@keyframes choiceLeave { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(.98); } }
+@keyframes choiceKeep { 0%,85% { opacity: 1; transform: scale(1.015); } to { opacity: 0; transform: translateY(-24px) scale(.95); } }
+@keyframes choiceLeave { 0%,85% { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(.98); } }
 @keyframes selectionRipple { from { opacity: .8; transform: scale(.98); } to { opacity: 0; transform: scale(1.08); } }
 @keyframes arcadeCoinSpin { from { transform: rotateY(0); } to { transform: rotateY(var(--coin-turns)); } }
 @keyframes coinLand { 0% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(0); } 40% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(2px); } 68% { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(-3px); } to { transform: translateX(calc(var(--coin-direction) * var(--coin-travel))) translateY(0); } }
@@ -526,7 +527,8 @@ body:has(.ui-enhanced) { min-width: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ui-enhanced .choice-dealt, .ui-enhanced .choice-ghost, .ui-enhanced .stage-finished, .ui-enhanced .champion-grid, .ui-enhanced .coin-selected { animation: none !important; }
-  .ui-enhanced .choice-flight-layer, .ui-enhanced .stage-confetti, .ui-enhanced .coin-scene { display: none; }
+  .ui-enhanced .stage-confetti, .ui-enhanced .coin-scene { display: none; }
+  .ui-enhanced .flight-picked::after { animation: none; }
   .ui-enhanced .motion-coin-control .coin-button { opacity: 1 !important; transform: none !important; }
   .ui-enhanced .coin-flight, .ui-enhanced .coin-shadow { transition: none; }
 }
