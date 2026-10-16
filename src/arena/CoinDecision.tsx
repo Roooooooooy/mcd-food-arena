@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ArenaState, Side } from '../shared/contracts.ts';
-import { coinTimeline, coinFlightPath, lockMatchesArena, sideFromByte, type CoinLock } from './coin-timing.ts';
+import { coinTimeline, coinFlightPath, lockMatchesArena, sideFromByte, coinRevealMs, type CoinLock } from './coin-timing.ts';
 
 interface Props {
   state: ArenaState;
@@ -49,7 +49,7 @@ export function CoinDecision(props: Props) {
     setFinalSide(lock.finalSide);
     setPhase('revealed');
     if (immediate) finish(lock);
-    else schedule(() => finish(lock), 250);
+    else schedule(() => finish(lock), coinRevealMs);
   }
 
   useEffect(() => {

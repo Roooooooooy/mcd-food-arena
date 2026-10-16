@@ -1,6 +1,11 @@
 import { getMatch } from './engine.ts';
 import type { ArenaState, Side } from '../shared/contracts.ts';
 
+// Reading time is separate from the movement speed.
+export const selectionFeedbackMs = 2000;
+export const coinRevealMs = 1000;
+export const roundTransitionMs = 340;
+
 export interface CoinLock {
   arenaId: string;
   revision: number;
