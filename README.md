@@ -2,6 +2,13 @@
 
 # 麦麦二选一
 
+[![checks](https://img.shields.io/github/actions/workflow/status/Roooooooooy/mcd-food-arena/deploy-pages.yml?branch=main&label=checks&style=flat-square&logo=github)](https://github.com/Roooooooooy/mcd-food-arena/actions/workflows/deploy-pages.yml)
+[![运行依赖 7 项](https://img.shields.io/badge/runtime_deps-7-3FB950?style=flat-square)](package.json)
+[![Node.js 24](https://img.shields.io/badge/Node.js-24-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)](#本机启动)
+[![门店快照试玩无需 Token](https://img.shields.io/badge/demo_Token-%E4%B8%8D%E9%9C%80%E8%A6%81-007EC6?style=flat-square)](https://roooooooooy.github.io/mcd-food-arena/)
+[![MCP mcp.mcd.cn](https://img.shields.io/badge/MCP-mcp.mcd.cn-DA291C?style=flat-square)](MCP_INTEGRATION.md)
+[![官方已确认成功参赛](https://img.shields.io/badge/%E5%8F%82%E8%B5%9B-%E5%B7%B2%E7%A1%AE%E8%AE%A4-FFC72C?style=flat-square)](https://github.com/M-China/mcd-developer-innovation-challenge/issues/772#issuecomment-6197625082)
+
 **每轮两份，选你更想吃的。先选餐品，再看这顿多少钱。**
 
 [免 Token 试玩](https://roooooooooy.github.io/mcd-food-arena/) · [看看怎么玩](#怎么玩) · [本人优惠券与核价](#本人优惠券与官方核价) · [本机启动](#本机启动)
