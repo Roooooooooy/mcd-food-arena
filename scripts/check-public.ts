@@ -128,6 +128,7 @@ export const SOURCE_FILES: string[] = [
 ];
 const SCREENSHOTS = new Set([
   'docs/screenshots/demo-home-current.png', 'docs/screenshots/demo-pk-current.png',
+  'docs/screenshots/demo-result-current.png',
   'docs/screenshots/menu-customization-mobile.png',
   'docs/screenshots/menu-customization.png',
   'docs/screenshots/pie-flavors-mobile.png',
