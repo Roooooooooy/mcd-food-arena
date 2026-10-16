@@ -10,7 +10,7 @@ import type { CouponCollection } from '../commerce/contracts.ts';
 import { CandidateDetails } from '../catalog/CandidateDetails.tsx';
 import { stageName } from '../catalog/normalize.ts';
 import { CoinDecision } from './CoinDecision.tsx';
-import type { CoinLock } from './coin-timing.ts';
+import { selectionFeedbackMs, roundTransitionMs, type CoinLock } from './coin-timing.ts';
 import type { ArenaState, Candidate, CatalogSnapshot, Side } from '../shared/contracts.ts';
 
 interface Props {
@@ -91,7 +91,7 @@ export function ArenaPage(props: Props) {
   function resolveCoin(lock:CoinLock){return commit(lock);}
   function rememberFlight(current: ArenaState, side: Side) {
     const pair = getMatch(current);
-    if (!pair || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!pair) return;
     setFlight({ arenaId: current.arenaId, revision: current.revision + 1, side, left: items.get(pair.leftId)!, right: items.get(pair.rightId)! });
   }
 
@@ -103,7 +103,9 @@ export function ArenaPage(props: Props) {
       previousIdentity.current = identity;
       guard.current = true;
       setBusy(true);
-      const timer = window.setTimeout(() => { timers.current.delete(timer); setFlight(null); release(); }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 340);
+      const selected = flight?.arenaId === state.arenaId && flight.revision === state.revision;
+      const waitMs = selected ? selectionFeedbackMs : window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : roundTransitionMs;
+      const timer = window.setTimeout(() => { timers.current.delete(timer); setFlight(null); release(); }, waitMs);
       timers.current.add(timer);
     }
     return () => { for (const timer of timers.current) window.clearTimeout(timer); timers.current.clear(); };
@@ -157,7 +159,7 @@ export function ArenaPage(props: Props) {
         {renderCard('left', items.get(match.leftId)!)}
         <div className="vs-badge" aria-hidden="true"><span>OR</span><small>二选一</small></div>
         {renderCard('right', items.get(match.rightId)!)}
-        {flight && flight.arenaId === state.arenaId && flight.revision === state.revision && <div className="choice-flight-layer" aria-hidden="true" inert key={identity}>{renderCard('left', flight.left, true)}{renderCard('right', flight.right, true)}</div>}
+        {flight && flight.arenaId === state.arenaId && flight.revision === state.revision && <div className="choice-flight-layer" aria-hidden="true" inert key={identity} style={{ '--choice-feedback-duration': `${selectionFeedbackMs}ms` } as React.CSSProperties}>{renderCard('left', flight.left, true)}{renderCard('right', flight.right, true)}</div>}
       </div>
       {!coinAllowed&&<p className="notice">当前有餐品未返回，硬币暂时不可用。可选另一份、跳过或调整分类。</p>}
       {match&&!selectable(match.leftId)&&!selectable(match.rightId)&&props.onRedraw&&<button className="button button-outline" disabled={busy} onClick={props.onRedraw}>换一组可选餐品</button>}

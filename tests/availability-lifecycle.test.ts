@@ -162,3 +162,36 @@ test('actual App paused old request cannot release a new manual setup refresh',a
  const old=h.pendingAvailability.shift()!;old.reply(h.response(h.result(old.body)));await h.flush();assert.equal(button(h.app.tree,'刷新可用状态').props.disabled,true);
  const current=h.pendingAvailability.shift()!;current.reply(h.response(h.result(current.body)));await h.flush();assert.equal(button(h.app.tree,'刷新可用状态').props.disabled,false);
 });
+
+async function readableChoiceHarness(t:TestContext,reduced=false){
+ const server=await createServer({server:{middlewareMode:true,hmr:false},appType:'custom'});t.after(()=>server.close());
+ const {ArenaPage}=await server.ssrLoadModule('/src/arena/ArenaPage.tsx');const {CoinDecision}=await server.ssrLoadModule('/src/arena/CoinDecision.tsx');
+ const engine=await import('../src/arena/engine.ts'),snapshot=demoCatalog();const ids=snapshot.items.filter(i=>i.stageId==='burger').slice(0,3).map(i=>i.id);assert.equal(ids.length,3);
+ let current=engine.createArena(ids,'readable','burger',ids=>[ids[0],ids[1]]),now=0,timerId=0,accepted=0,available=true;
+ const timers=new Map<number,{at:number;callback:()=>void}>(),visibilityListeners=new Set<()=>void>();
+ const globals={window:(globalThis as any).window,document:(globalThis as any).document};
+ const doc={visibilityState:'visible',addEventListener:(_name:string,fn:()=>void)=>visibilityListeners.add(fn),removeEventListener:(_name:string,fn:()=>void)=>visibilityListeners.delete(fn)};
+ (globalThis as any).window={matchMedia:()=>({matches:reduced,addEventListener:()=>{},removeEventListener:()=>{}}),addEventListener:()=>{},removeEventListener:()=>{},setTimeout:(callback:()=>void,ms:number)=>{const id=++timerId;timers.set(id,{at:now+ms,callback});return id;},clearTimeout:(id:number)=>timers.delete(id)};(globalThis as any).document=doc;
+ t.mock.method(globalThis.crypto,'getRandomValues',((bytes:Uint8Array)=>{bytes.fill(0);return bytes;}) as any);
+ const arena=componentHooks(ArenaPage);let coin:ReturnType<typeof componentHooks>|null=null;
+ t.after(()=>{arena.unmount();coin?.unmount();for(const [key,value] of Object.entries(globals))if(value===undefined)delete (globalThis as any)[key];else (globalThis as any)[key]=value;});
+ function flush(){for(let i=0;i<8;i++){arena.render({state:current,snapshot,arenas:[current],activeIndex:0,availability:{contextKey:snapshot.contextKey,checkedAt:'now',items:ids.map(candidateId=>({candidateId,state:available?'listed':'not-returned',label:'状态',checkedAt:'now'}))},onChoose:(lock:any)=>{current=engine.choose(current,lock.finalSide,lock.revision,ids=>[ids[0],ids[1]]);accepted++;return true;},onUndo:()=>{},onSkip:()=>{},onPause:()=>{},onNext:()=>{},onStageSelect:()=>{}});const child=component(arena.tree,'CoinDecision');if(child){coin??=componentHooks(CoinDecision);coin.render(child.props);}else if(coin){coin.unmount();coin=null;}if(!arena.dirty&&!coin?.dirty)break;}}
+ flush();
+ return {arena,get coin(){return coin;},get accepted(){return accepted;},flush,choose(){nodes(arena.tree).find(n=>n.props?.['data-choice-button']==='left').props.onClick();flush();},toss(){button(coin!.tree,'抛硬币').props.onClick();flush();},advance(ms:number){const target=now+ms;while(true){const due=[...timers.entries()].filter(([,v])=>v.at<=target).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;now=due[1].at;timers.delete(due[0]);due[1].callback();flush();}now=target;flush();},hide(){doc.visibilityState='hidden';for(const fn of visibilityListeners)fn();flush();},block(){available=false;flush();}};
+}
+function selectionLayer(root:any){return nodes(root).find(n=>n.props?.className==='choice-flight-layer');}
+for(const reduced of [false,true])test(`actual selected card remains readable for two seconds and rejects duplicate choice (reduced=${reduced})`,async t=>{
+ const h=await readableChoiceHarness(t,reduced);h.choose();assert.equal(h.accepted,1);assert.ok(selectionLayer(h.arena.tree));
+ h.advance(1500);assert.ok(selectionLayer(h.arena.tree),'selected name and stamp must still be present');assert.equal(h.arena.tree.props['aria-busy'],true);
+ h.choose();assert.equal(h.accepted,1,'reading interval must reject another choice');h.advance(499);assert.ok(selectionLayer(h.arena.tree));h.advance(1);assert.equal(selectionLayer(h.arena.tree),undefined);assert.equal(h.arena.tree.props['aria-busy'],false);
+});
+test('actual coin holds its sealed result for one second before committing once',async t=>{
+ const h=await readableChoiceHarness(t);h.toss();h.advance(1545);assert.equal(h.coin!.tree.props['data-coin-phase'],'revealed');assert.equal(h.accepted,0);
+ h.advance(999);assert.equal(h.coin!.tree.props['data-coin-phase'],'revealed');assert.equal(h.accepted,0);h.advance(1);assert.equal(h.accepted,1);assert.ok(selectionLayer(h.arena.tree));h.advance(2000);assert.equal(h.accepted,1);assert.equal(h.arena.tree.props['aria-busy'],false);
+});
+test('actual coin rejects a food that becomes unavailable during its longer result display',async t=>{
+ const h=await readableChoiceHarness(t);h.toss();h.advance(1545);h.block();h.advance(1000);assert.equal(h.accepted,0);assert.equal(h.coin!.tree.props['data-coin-phase'],'idle');assert.equal(h.arena.tree.props['aria-busy'],false);
+});
+test('hidden-page coin settles immediately without waiting for the reading interval or duplicating a choice',async t=>{
+ const h=await readableChoiceHarness(t);h.toss();h.advance(1545);h.hide();assert.equal(h.accepted,1);h.advance(4000);assert.equal(h.accepted,1);
+});
